@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Positron | Garantias</title>
+{% endblock %}
+
+{% block main %}
+<main>
+    <aside>
+        <div class="logo-container">
+            <img class="logo" src="{% static 'orders/img/logo-blanco.png' %}" alt="Logo Positron">
+        </div>
+        <div>
+            <div class="welcome">
+                Hola Usuario
+            </div>
+            <nav class="navbar">
+                <ul>
+                    <li>Dashboard</li>
+                    <li>Ordenes</li>
+                    <li><a href="{% url 'users' %}">Usuarios</a></li>
+                    <li>Productos</li>
+                    <li><a href="{% url 'motivo' %}">Motivo</a></li>
+                    <li>Estado</li>
+                    <li>Exportar</li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <section>
+        <div class="section-header">            
+                <h3>USUARIOS</h3>
+                <button class="regular-button">Crear Usuario</button>
+        </div>
+        <div class="main-container">
+            <div class="table-users">
+                <table class="table table-hover">
+                    <thead>
+                        <tr class="table-success">
+                            <th scope="col">Motivo</th>
+                            <th scope="col">Familia</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% if motivos %}
+                        {% for motivo in motivos %}
+                        <tr>
+                            <td scope="row">{{motivo.reason}}</td>
+                            <td>{{motivo.family}}</td>                            
+                            <td><i class="bi bi-x-square-fill red"></i></td>
+                            <td><i class="bi bi-pencil"></i></td>
+                        </tr>
+                        {% endfor %}
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <section>
+
+        </section>
+
+        {% endblock %}

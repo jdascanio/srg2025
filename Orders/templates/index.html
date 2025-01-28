@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block title %}
-    <title>Positron | Garantias</title>
+<title>Positron | Garantias</title>
 {% endblock %}
 
 {% block main %}
@@ -15,13 +15,13 @@
             <div class="welcome">
                 Hola Usuario
             </div>
-            <nav class="navbar" >
-                <ul >
+            <nav class="navbar">
+                <ul>
                     <li>Dashboard</li>
                     <li>Ordenes</li>
-                    <li>Usuarios</li>
+                    <li><a href="{% url 'users' %}">Usuarios</a></li>
                     <li>Productos</li>
-                    <li>Motivo</li>
+                    <li><a href="{% url 'motivo' %}">Motivo</a></li>
                     <li>Estado</li>
                     <li>Exportar</li>
                     <li><a href="{% url 'logout' %}">Logout</a></li>
@@ -30,6 +30,224 @@
         </div>
     </aside>
     <section>
+        <div class="section-header">            
+                <h3>ORDENES - F721-03 R2</h3>
+                <button class="regular-button">Crear Orden</button>            
+        </div>
+        <div class="main-container">
+            <section class="orders-section">
+                <div class="order-container">
+                    <div class="order-top recepcion"></div>
+                    <div class="order-bottom">
+                        <table class="table-order">
+                            <thead>
+                                <tr>
+                                    <th><h3>00001</h3></th>
+                                    <th>F. Envio</th>
+                                    <th>F. Recepción</th>
+                                    <th>F. Revisión</th>
+                                    <th>F. Finalización</th>
+                                    <th>F. Devolución</th>
+                                    <th>Seguimiento</th>
+                                </tr>
+                            </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Macars</td>
+                                    <td>02/01/2025</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-container">
+                    <div class="order-top envio"></div>
+                    <div class="order-bottom">
+                        <table class="table-order">
+                            <thead>
+                                <tr>
+                                    <th><h3>00001</h3></th>
+                                    <th>F. Envio</th>
+                                    <th>F. Recepción</th>
+                                    <th>F. Revisión</th>
+                                    <th>F. Finalización</th>
+                                    <th>F. Devolución</th>
+                                    <th>Seguimiento</th>
+                                </tr>
+                            </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Macars</td>
+                                    <td>02/01/2025</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-container">
+                    <div class="order-top finalizado"></div>
+                    <div class="order-bottom">
+                        <table class="table-order">
+                            <thead>
+                                <tr>
+                                    <th><h3>00001</h3></th>
+                                    <th>F. Envio</th>
+                                    <th>F. Recepción</th>
+                                    <th>F. Revisión</th>
+                                    <th>F. Finalización</th>
+                                    <th>F. Devolución</th>
+                                    <th>Seguimiento</th>
+                                </tr>
+                            </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Macars</td>
+                                    <td>02/01/2025</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-container">
+                    <div class="order-top devuelto"></div>
+                    <div class="order-bottom">
+                        <table class="table-order">
+                            <thead>
+                                <tr>
+                                    <th><h3>00001</h3></th>
+                                    <th>F. Envio</th>
+                                    <th>F. Recepción</th>
+                                    <th>F. Revisión</th>
+                                    <th>F. Finalización</th>
+                                    <th>F. Devolución</th>
+                                    <th>Seguimiento</th>
+                                </tr>
+                            </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Macars</td>
+                                    <td>02/01/2025</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-container">
+                    <div class="order-top devuelto"></div>
+                    <div class="order-bottom">
+                        <table class="table-order">
+                            <thead>
+                                <tr>
+                                    <th><h3>00001</h3></th>
+                                    <th>F. Envio</th>
+                                    <th>F. Recepción</th>
+                                    <th>F. Revisión</th>
+                                    <th>F. Finalización</th>
+                                    <th>F. Devolución</th>
+                                    <th>Seguimiento</th>
+                                </tr>
+                            </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Macars</td>
+                                    <td>02/01/2025</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-container">
+                    <div class="order-top devuelto"></div>
+                    <div class="order-bottom">
+                        <table class="table-order">
+                            <thead>
+                                <tr>
+                                    <th><h3>00001</h3></th>
+                                    <th>F. Envio</th>
+                                    <th>F. Recepción</th>
+                                    <th>F. Revisión</th>
+                                    <th>F. Finalización</th>
+                                    <th>F. Devolución</th>
+                                    <th>Seguimiento</th>
+                                </tr>
+                            </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Macars</td>
+                                    <td>02/01/2025</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="order-container">
+                    <div class="order-top devuelto"></div>
+                    <div class="order-bottom">
+                        <table class="table-order">
+                            <thead>
+                                <tr>
+                                    <th><h3>00001</h3></th>
+                                    <th>F. Envio</th>
+                                    <th>F. Recepción</th>
+                                    <th>F. Revisión</th>
+                                    <th>F. Finalización</th>
+                                    <th>F. Devolución</th>
+                                    <th>Seguimiento</th>
+                                </tr>
+                            </th>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Macars</td>
+                                    <td>02/01/2025</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </section>
+        </div>
 
     </section>
 </main>

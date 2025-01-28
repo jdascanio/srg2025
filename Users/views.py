@@ -94,3 +94,8 @@ def register (request):
             return render(request, 'register.html', {"form1":form1,"form2":form2})    
 
     return render(request, 'register.html', {"form1":form1,"form2":form2})
+
+def users (request):
+    usuario = Profile.objects.all().order_by('user_name')
+    
+    return render (request, 'users.html', {"usuario":usuario})

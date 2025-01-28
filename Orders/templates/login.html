@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+
+{% block main %}
+<form method="POST">
+    {% csrf_token %}
+    {{formulario.as_p}}
+    {% if mensaje %}
+    <p>{{mensaje.mensaje}}</p>
+    {% endif %}
+    <input type="submit">
+</form>
+{% endblock %}

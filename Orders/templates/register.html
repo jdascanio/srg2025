@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Registro</title>
+{% endblock %}
+
+
+{% block main %}
+    <main>
+        <div>
+            <form method="POST">
+                {% csrf_token %}
+                {{ form1.as_p }}
+                <label for="distribuidor">Distribuidor</label>
+                <input type="text" id="distribuidor" name="distribuidor">
+                {% if form2.distribuidor.errors %}
+                <div class="requerido">
+                    {% for error in form2.distribuidor.errors %}
+                    <p>{{error}}</p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <label for="distribuidor">Administrador</label>
+                <input type="checkbox" id="administrador" name="administrador">
+                <input type="submit">
+            </form>
+        </div>
+    </main>
+{% endblock %}

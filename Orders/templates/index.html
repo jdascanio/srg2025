@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Positron | Garantias</title>
+{% endblock %}
+
+{% block main %}
+<main>
+    <aside>
+        <div class="logo-container">
+            <img class="logo" src="{% static 'orders/img/logo-blanco.png' %}" alt="Logo Positron">
+        </div>
+        <div>
+            <div class="welcome">
+                Hola Usuario
+            </div>
+            <nav class="navbar" >
+                <ul >
+                    <li>Dashboard</li>
+                    <li>Ordenes</li>
+                    <li>Usuarios</li>
+                    <li>Productos</li>
+                    <li>Motivo</li>
+                    <li>Estado</li>
+                    <li>Exportar</li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+    </aside>
+    <section>
+
+    </section>
+</main>
+{% endblock %}

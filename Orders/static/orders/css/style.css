@@ -1,0 +1,54 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+p{
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+/* .helptext{
+    display: none;
+} */
+aside{
+    width: 200px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    background: #202B46;
+
+}
+.logo-container, .welcome{
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logo-container{
+    height: 70px;
+    background-color: #202B46;
+}
+.logo{
+    width: 150px;
+}
+li, .helptext{
+    font-size: 11px ;
+}
+.navbar li{
+    font-size: 14px !important;
+    
+    margin: 5px 0px;
+    color: #fafafa;
+}
+.navbar a{
+    color: #fafafa;
+    text-decoration: none !important;
+}
+.navbar ul{
+    list-style-type: none !important;
+    padding-inline-start: 15px !important;
+}
+.welcome{
+
+}

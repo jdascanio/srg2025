@@ -6,39 +6,28 @@
 {% endblock %}
 
 {% block main %}
-
 <section>
     <div class="section-header">
-        <h3>USUARIOS</h3>
-        <button class="regular-button">Crear Usuario</button>
+        <h3>ESTADOS</h3>
+        <button class="regular-button">Agregar estado</button>
     </div>
     <div class="main-container">
         <div class="table-users">
             <table class="table table-hover">
                 <thead>
                     <tr class="table-success">
-                        <th scope="col">Usuario</th>
-                        <th scope="col">Mail</th>
-                        <th scope="col">Contraseña</th>
-                        <th scope="col">Distribuidor</th>
-                        <th scope="col">Privilegio</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Familia</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% if usuario %}
-                    {% for usuario in usuario %}
+                    {% if estados %}
+                    {% for estado in estados %}
                     <tr>
-                        <td scope="row">{{usuario.user_name}}</td>
-                        <td>{{usuario.email}}</td>
-                        <td>{{usuario.passwrd}}</td>
-                        <td>{{usuario.distributor}}</td>
-                        {% if usuario.is_admin %}
-                        <td>Administrador</td>
-                        {% else %}
-                        <td>Usuario</td>
-                        {% endif %}
+                        <td scope="row">{{estado.status}}</td>
+                        <td>{{estado.family}}</td>
                         <td><i class="bi bi-x-square-fill red"></i></td>
                         <td><i class="bi bi-pencil"></i></td>
                     </tr>

@@ -8,26 +8,28 @@
 {% block main %}
 <section>
     <div class="section-header">
-        <h3>MOTIVOS</h3>
-        <button class="regular-button">Agregar motivo</button>
+        <h3>PRODUCTOS</h3>
+        <button class="regular-button">Agregar Producto</button>
     </div>
     <div class="main-container">
         <div class="table-users">
             <table class="table table-hover">
                 <thead>
                     <tr class="table-success">
-                        <th scope="col">Motivo</th>
+                        <th scope="col">Producto</th>
                         <th scope="col">Familia</th>
+                        <th scope="col">Subcategoria</th>
                         <th scope="col"></th>
                         <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% if motivos %}
-                    {% for motivo in motivos %}
+                    {% if productos %}
+                    {% for producto in productos %}
                     <tr>
-                        <td scope="row">{{motivo.reason}}</td>
-                        <td>{{motivo.family}}</td>
+                        <td scope="row">{{producto.name}}</td>
+                        <td>{{producto.family}}</td>
+                        <td>{{producto.subcat}}</td>
                         <td><i class="bi bi-x-square-fill red"></i></td>
                         <td><i class="bi bi-pencil"></i></td>
                     </tr>
@@ -38,8 +40,7 @@
         </div>
     </div>
 </section>
-    <section>
+<section>
+</section>
 
-    </section>
-
-    {% endblock %}
+{% endblock %}

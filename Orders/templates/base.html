@@ -19,8 +19,34 @@
 </head>
 
 <body>
-    {% block main %}
-    {% endblock %}
+    <main>
+        {% if request.user.is_authenticated %}
+            <aside>
+                <div class="logo-container">
+                    <img class="logo" src="{% static 'orders/img/logo-blanco.png' %}" alt="Logo Positron">
+                </div>
+                <div>
+                    <div class="welcome">
+                        Hola Usuario
+                    </div>
+                    <nav class="navbar">
+                        <ul>
+                            <li>Dashboard</li>
+                            <li>Ordenes</li>
+                            <li><a href="{% url 'users' %}">Usuarios</a></li>
+                            <li><a href="{% url 'producto' %}">Producto</a></li>
+                            <li><a href="{% url 'motivo' %}">Motivo</a></li>
+                            <li><a href="{% url 'estado' %}">Estado</a></li>
+                            <li>Exportar</li>
+                            <li><a href="{% url 'logout' %}">Logout</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </aside>
+        {% endif %}
+        {% block main %}
+        {% endblock %}
+    </main>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>

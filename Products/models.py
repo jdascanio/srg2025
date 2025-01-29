@@ -4,14 +4,21 @@ from django.db import models
 class Products (models.Model):
     name = models.CharField(max_length=60)
     family = models.CharField(max_length=20)
+    subcat = models.CharField(max_length=20)
 
     def __str__(self):
-        return f'{self.family} - {self.name}'
+        return f'{self.family} - {self.subcat} - {self.name}'
 class Family (models.Model):
     family = models.CharField(max_length=20)
 
     def __str__(self):
         return f'{self.family}'
+
+class Subcat(models.Model):
+    subcat = models.CharField(max_length=20)
+
+    def __str__(self):
+        return f'{self.subcat}'
 
 class Reason (models.Model):
     reason = models.CharField(max_length=60)

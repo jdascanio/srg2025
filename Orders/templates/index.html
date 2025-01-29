@@ -6,249 +6,240 @@
 {% endblock %}
 
 {% block main %}
-<main>
-    <aside>
-        <div class="logo-container">
-            <img class="logo" src="{% static 'orders/img/logo-blanco.png' %}" alt="Logo Positron">
-        </div>
-        <div>
-            <div class="welcome">
-                Hola Usuario
+<section>
+    <div class="section-header">
+        <h3>ORDENES - F721-03 R2</h3>
+        <button class="regular-button">Crear Orden</button>
+    </div>
+    <div class="main-container">
+        <section class="orders-section">
+            <div class="order-container">
+                <div class="order-top inprogress"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h3>00001</h3>
+                                </th>
+                                <th>F. Envio</th>
+                                <th>F. Recepción</th>
+                                <th>F. Revisión</th>
+                                <th>F. Finalización</th>
+                                <th>F. Devolución</th>
+                                <th>Seguimiento</th>
+                            </tr>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Macars</td>
+                                <td>02/01/2025</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <nav class="navbar">
-                <ul>
-                    <li>Dashboard</li>
-                    <li>Ordenes</li>
-                    <li><a href="{% url 'users' %}">Usuarios</a></li>
-                    <li>Productos</li>
-                    <li><a href="{% url 'motivo' %}">Motivo</a></li>
-                    <li>Estado</li>
-                    <li>Exportar</li>
-                    <li><a href="{% url 'logout' %}">Logout</a></li>
-                </ul>
-            </nav>
-        </div>
-    </aside>
-    <section>
-        <div class="section-header">            
-                <h3>ORDENES - F721-03 R2</h3>
-                <button class="regular-button">Crear Orden</button>            
-        </div>
-        <div class="main-container">
-            <section class="orders-section">
-                <div class="order-container">
-                    <div class="order-top recepcion"></div>
-                    <div class="order-bottom">
-                        <table class="table-order">
-                            <thead>
-                                <tr>
-                                    <th><h3>00001</h3></th>
-                                    <th>F. Envio</th>
-                                    <th>F. Recepción</th>
-                                    <th>F. Revisión</th>
-                                    <th>F. Finalización</th>
-                                    <th>F. Devolución</th>
-                                    <th>Seguimiento</th>
-                                </tr>
+            <div class="order-container">
+                <div class="order-top envio"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h3>00001</h3>
+                                </th>
+                                <th>F. Envio</th>
+                                <th>F. Recepción</th>
+                                <th>F. Revisión</th>
+                                <th>F. Finalización</th>
+                                <th>F. Devolución</th>
+                                <th>Seguimiento</th>
+                            </tr>
                             </th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Macars</td>
-                                    <td>02/01/2025</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Macars</td>
+                                <td>02/01/2025</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="order-container">
-                    <div class="order-top envio"></div>
-                    <div class="order-bottom">
-                        <table class="table-order">
-                            <thead>
-                                <tr>
-                                    <th><h3>00001</h3></th>
-                                    <th>F. Envio</th>
-                                    <th>F. Recepción</th>
-                                    <th>F. Revisión</th>
-                                    <th>F. Finalización</th>
-                                    <th>F. Devolución</th>
-                                    <th>Seguimiento</th>
-                                </tr>
+            </div>
+            <div class="order-container">
+                <div class="order-top finalizado"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h3>00001</h3>
+                                </th>
+                                <th>F. Envio</th>
+                                <th>F. Recepción</th>
+                                <th>F. Revisión</th>
+                                <th>F. Finalización</th>
+                                <th>F. Devolución</th>
+                                <th>Seguimiento</th>
+                            </tr>
                             </th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Macars</td>
-                                    <td>02/01/2025</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Macars</td>
+                                <td>02/01/2025</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="order-container">
-                    <div class="order-top finalizado"></div>
-                    <div class="order-bottom">
-                        <table class="table-order">
-                            <thead>
-                                <tr>
-                                    <th><h3>00001</h3></th>
-                                    <th>F. Envio</th>
-                                    <th>F. Recepción</th>
-                                    <th>F. Revisión</th>
-                                    <th>F. Finalización</th>
-                                    <th>F. Devolución</th>
-                                    <th>Seguimiento</th>
-                                </tr>
+            </div>
+            <div class="order-container">
+                <div class="order-top devuelto"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h3>00001</h3>
+                                </th>
+                                <th>F. Envio</th>
+                                <th>F. Recepción</th>
+                                <th>F. Revisión</th>
+                                <th>F. Finalización</th>
+                                <th>F. Devolución</th>
+                                <th>Seguimiento</th>
+                            </tr>
                             </th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Macars</td>
-                                    <td>02/01/2025</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Macars</td>
+                                <td>02/01/2025</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="order-container">
-                    <div class="order-top devuelto"></div>
-                    <div class="order-bottom">
-                        <table class="table-order">
-                            <thead>
-                                <tr>
-                                    <th><h3>00001</h3></th>
-                                    <th>F. Envio</th>
-                                    <th>F. Recepción</th>
-                                    <th>F. Revisión</th>
-                                    <th>F. Finalización</th>
-                                    <th>F. Devolución</th>
-                                    <th>Seguimiento</th>
-                                </tr>
+            </div>
+            <div class="order-container">
+                <div class="order-top recepcion"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">
+                                    <h3>00003</h3>
+                                </th>
+                                <th style="width: 10%">F. Envio</th>
+                                <th style="width: 10%">F. Recepción</th>
+                                <th style="width: 10%">F. Revisión</th>
+                                <th style="width: 10%">F. Finalización</th>
+                                <th style="width: 10%">F. Devolución</th>
+                                <th style="width: 20%">Seguimiento</th>
+                            </tr>
                             </th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Macars</td>
-                                    <td>02/01/2025</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Macars</td>
+                                <td>02/01/2025</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="order-container">
-                    <div class="order-top devuelto"></div>
-                    <div class="order-bottom">
-                        <table class="table-order">
-                            <thead>
-                                <tr>
-                                    <th><h3>00001</h3></th>
-                                    <th>F. Envio</th>
-                                    <th>F. Recepción</th>
-                                    <th>F. Revisión</th>
-                                    <th>F. Finalización</th>
-                                    <th>F. Devolución</th>
-                                    <th>Seguimiento</th>
-                                </tr>
+            </div>
+            <div class="order-container">
+                <div class="order-top devuelto"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">
+                                    <h3>00002</h3>
+                                </th>
+                                <th style="width: 10%">F. Envio</th>
+                                <th style="width: 10%">F. Recepción</th>
+                                <th style="width: 10%">F. Revisión</th>
+                                <th style="width: 10%">F. Finalización</th>
+                                <th style="width: 10%">F. Devolución</th>
+                                <th style="width: 20%">Seguimiento</th>
+                            </tr>
                             </th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Macars</td>
-                                    <td>02/01/2025</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Cartronic</td>
+                                <td>02/01/2025</td>
+                                <td>02/01/2025</td>
+                                <td>02/01/2025</td>
+                                <td>02/01/2025</td>
+                                <td>02/01/2025</td>
+                                <td>R0002 00020926 / 00009335481AX10I9IAC301</td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="order-container">
-                    <div class="order-top devuelto"></div>
-                    <div class="order-bottom">
-                        <table class="table-order">
-                            <thead>
-                                <tr>
-                                    <th><h3>00001</h3></th>
-                                    <th>F. Envio</th>
-                                    <th>F. Recepción</th>
-                                    <th>F. Revisión</th>
-                                    <th>F. Finalización</th>
-                                    <th>F. Devolución</th>
-                                    <th>Seguimiento</th>
-                                </tr>
+            </div>
+            <div class="order-container">
+                <div class="order-top devuelto"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <h3>00001</h3>
+                                </th>
+                                <th>F. Envio</th>
+                                <th>F. Recepción</th>
+                                <th>F. Revisión</th>
+                                <th>F. Finalización</th>
+                                <th>F. Devolución</th>
+                                <th>Seguimiento</th>
+                            </tr>
                             </th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Macars</td>
-                                    <td>02/01/2025</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Macars</td>
+                                <td>02/01/2025</td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="order-container">
-                    <div class="order-top devuelto"></div>
-                    <div class="order-bottom">
-                        <table class="table-order">
-                            <thead>
-                                <tr>
-                                    <th><h3>00001</h3></th>
-                                    <th>F. Envio</th>
-                                    <th>F. Recepción</th>
-                                    <th>F. Revisión</th>
-                                    <th>F. Finalización</th>
-                                    <th>F. Devolución</th>
-                                    <th>Seguimiento</th>
-                                </tr>
-                            </th>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Macars</td>
-                                    <td>02/01/2025</td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
-        </div>
+            </div>
+        </section>
+    </div>
 
-    </section>
-</main>
+</section>
+
 {% endblock %}

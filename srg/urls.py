@@ -23,6 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',users_views.login_request, name='login_request'),
     path('Users/', include('Users.urls')),
-    path('Products/', include('Products.urls'))
-    # path('Orders/', include('Orders.urls')),
+    path('Products/', include('Products.urls')),
+    path('Orders/', include('Orders.urls')),
 ]

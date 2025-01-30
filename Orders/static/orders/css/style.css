@@ -8,7 +8,7 @@
     --sent-color: #e1a500; /* Gray */
     --inprogress-color: #0093bb; /* Blue */
     --notreturned-color: #009113; /* Gray */
-    --finished-color: #dfdfdf; /* Gray */
+    --finished-color: #d2d2d2; /* Gray */
 }
 p{
     display: flex;
@@ -69,7 +69,8 @@ aside{
     background: linear-gradient(to bottom, #136a8a, #278079); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 .main-container{
-    background-color:#F1F1F4;
+    /* background-color:#f3f3f3; */
+    background-color:#e8e8e8;
     width: calc(100vw - 200px);
     /* height: 1500px; */
     display: flex;
@@ -182,4 +183,49 @@ th, td{
     color: yellowgreen;
     font-size: 14px;
     font-style: italic;
+}
+/* NEWORDER CSS */
+.detail-order-container{
+    margin-top: 30px;
+    width: calc(100vw - 300px);
+    background-color: yellow;
+}
+.neworder-row-two{
+    width: 100%;
+    text-align: end;
+    margin-top: 10px;
+}
+.neworder-row-three{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px
+}
+.neworder-row-four{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px
+}
+.neworder-input{
+    width: 150px;
+}
+.user-field-container{
+    display: flex;
+    align-items: center;
+    width: 300px;
+    height: 30px;
+    border: #1c2539 1px solid;
+    background: #fafafa;
+    border-radius: 3px;
+    font-size: 14px;
+}
+.user-field-label{
+    box-sizing: border-box;
+    padding: 3px 0px 0px 5px;
+    height: 30px;
+    vertical-align:middle;
+    border-radius: 3px 0px 0px 3px;
+    min-width: 50%;
+    max-width: 90%;
+    background: #1c2539 ;
+    color: #fafafa; 
 }

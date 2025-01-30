@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Positron | Nueva Orden</title>
+{% endblock %}
+
+{% block main %}
+<section>
+    <div class="section-header">
+        <!-- <h3>ORDENES - F721-03 R2</h3>
+        <button class="regular-button">Crear Orden</button> -->
+    </div>
+    <div class="main-container">
+        <div class="detail-order-container">
+            <!-- HEADER SECTION -->
+            <section>
+                <div>
+                    <h1>Orden de Reparación</h1>
+                </div>
+                <div class="neworder-row-two">F721-01 R1</div>
+                <div class="neworder-row-three">
+                    <input class="neworder-input" type="submit" value="Enviar" disabled>
+                    <input class="neworder-input" type="submit" value="Guardar" disabled>
+                    <i class="bi bi-printer"></i>
+                    <input class="neworder-input" type="submit" value="Cancelar">
+                    <input class="neworder-input" type="submit" value="Cerrar">
+                    <input class="neworder-input" type="submit" value="finalizar">
+                    
+                </div>
+                <div class="neworder-row-four">
+                    <div class="user-field-container">
+                        <div class="user-field-label">Usuario</div>
+                        <div class="user-field-value"></div>
+                    </div>
+                    <div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </section>
+            <!-- PRODUCT LIST SECTION -->
+            <section>
+
+            </section>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -20,26 +20,51 @@
                 </div>
                 <div class="neworder-row-two">F721-01 R1</div>
                 <div class="neworder-row-three">
-                    <input class="neworder-input" type="submit" value="Enviar" disabled>
-                    <input class="neworder-input" type="submit" value="Guardar" disabled>
+                    <input class="neworder-input green-btn" type="submit" value="Enviar">
+                    <input class="neworder-input blue-btn" type="submit" value="Guardar">
+                    <input class="neworder-input red-btn" type="submit" value="Cancelar">
+                    <input class="neworder-input green-btn" type="submit" value="Cerrar">
+                    <input class="neworder-input blue-btn" type="submit" value="finalizar">
                     <i class="bi bi-printer"></i>
-                    <input class="neworder-input" type="submit" value="Cancelar">
-                    <input class="neworder-input" type="submit" value="Cerrar">
-                    <input class="neworder-input" type="submit" value="finalizar">
-                    
                 </div>
                 <div class="neworder-row-four">
                     <div class="user-field-container">
-                        <div class="user-field-label">Usuario</div>
-                        <div class="user-field-value"></div>
+                        <label for="user-field">Usuario</label>
+                        <div class="user-field-value" id="user-field">Macars</div>
                     </div>
-                    <div>
-                        <div></div>
-                        <div></div>
+                    <div class="rw5-field-container">
+                        <label for="order-field">Nro Orden</label>
+                        <div class="rw5-field-value" id="order-field">000001</div>
                     </div>
                 </div>
-                <div></div>
-                <div></div>
+                <div class="neworder-row-five">
+                    <div class="rw5-field-container">
+                        <label for="total-product-field">Cantidad de productos</label>
+                        <div class="rw5-field-value" id="total-product-field">1</div>
+                    </div>
+                    <div class="rw5-field-container">
+                        <label for="tracking-field">Código de seguimiento</label>
+                        <div class="rw5-field-value" id="tracking-field">R0002 00020659 TN00009335485A9030LEG1501</div>
+                    </div>
+                </div>
+                <div>
+                    <table class="dates-table">
+                        <tbody>
+                            <tr>
+                               <td>Fecha de Envio</td>
+                               <td class="table-date-field"><input type="date"></td>
+                               <td>Fecha de Recepción</td>
+                               <td class="table-date-field"><input type="date"></td>
+                               <td>Fecha de revisión</td>
+                               <td class="table-date-field"><input type="date"></td>
+                               <td>Fecha de Finalización</td>
+                               <td class="table-date-field"><input type="date"></td>
+                               <td>Fecha de devolución</td>
+                               <td class="table-date-field"><input type="date"></td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
                 <div></div>
                 <div></div>
             </section>

@@ -9,9 +9,11 @@
     --inprogress-color: #0093bb; /* Blue */
     --notreturned-color: #009113; /* Green */
     --finished-color: #d2d2d2; /* Grey */
-    --green-btn: #00ac5c; 
-    --blue-btn: #008ae6;
-    --red-btn: #ac0243;
+    --green-btn: #5dbea3; 
+    --blue-btn: #5783db;
+    --dark-blue: #2a5ec5;
+    --red-btn: #aa315f;
+    --add-product-button: rgba(70, 129, 244,0.4);
     
 }
 .green-btn{
@@ -212,6 +214,7 @@ th, td{
 }
 .neworder-row-three{
     display: flex;
+    align-items: center;
     margin-top: 10px
 }
 .neworder-row-four{
@@ -226,8 +229,9 @@ th, td{
     align-items: end;
 }
 .neworder-row-three i{
-    font-size: 22px;
-    font-weight: 800;
+    vertical-align: middle;
+    font-size: 40px;
+    font-style: bold;
     margin-left: 40px;
 }
 .neworder-input{
@@ -247,7 +251,7 @@ th, td{
     flex-direction: column;
     justify-content: end;
     align-items: start;
-    width: 300px;
+    /* width: 300px; */
     height: 70px;    
 }
 .rw5-field-container{
@@ -272,27 +276,87 @@ th, td{
     font-size: 11px;
 } */
 .user-field-value{
-    min-width: 50%;
-    max-width: 100%;
-    background: #f6f6f6 ;
-    font-size: 18px;
-    font-weight: 800;
+    background: #f6f6f6 ;    
     border-radius: 2px;
     padding-left: 10px;
-    width: 200px;
     margin-bottom: 10px;
+    height: 28px;
     /* margin-bottom: 2px; */
 }
+.usuario{
+    width: 200px;
+    font-size: 18px;
+    font-weight: 800;
+}
+.tracking-field, .nro-orden, .total-product{
+    font-size: 14px;
+    padding-top: 3px;
+}
+.tracking-field{
+    box-sizing: border-box;
+    max-width: 370px;
+    padding-right: 5px;
+    text-align: center;
+}
+.centered{
+    align-items: center !important;
+}
+.total-product{
+    width: 100px;
+    text-align: center;
+    padding-left: 0 !important;
+}
+.centered label{
+    padding-left: 0 !important;
+}
+.nro-orden{
+    width: 80px;
+    font-weight: 800; 
+    
+}
+.add-product-button{
+    width: 140px;
+    height: 30px;
+    background: var(--add-product-button);
+    border: transparent;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    transition: ease-in-out;
+    transition-duration: 200ms;
+    color: #fafafa;
+    font-size: 14px;
+}
+.add-product-button:hover{
+    background-color: rgba(70, 129, 244,0.9);
+    box-shadow: 0px 5px 10px -3px rgba(0,0,0,0.3);
+}
+.offcanvas{
+    --bs-offcanvas-width: 600px !important;
+}
+.offcanvas-body{
+    font-size: 14px !important;
+}
+.input-group{
+    height: 34px;
+}
+.input-group-text{
+    background-color: #0b3970 !important;
+    color: #fafafa;
+    width: 100px;
+    font-size: 14px !important;
+}
+
 .rw5-field-value{
     min-width: 30%;
     padding: 2px 5px 2px 10px;
-    height: 50px;
+    height: 28px;
     background: #f6f6f6 ;
     font-size: 14px;
     font-weight: 600;
     border-radius: 2px;
     padding-left: 10px;
     text-align: right;
+    
 }
 .dates-table{
     background:#202B46;
@@ -305,7 +369,9 @@ th, td{
     padding: 2px 2px 2px 5px;
 }
 .table-date-field{
-    width: 10%;
-    background: #f6f6f6;
+    min-width: 10%;
+    max-width: 100%;
+    text-align: center;
+    /* background: #f6f6f6; */
     color: black;
 }

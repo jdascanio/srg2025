@@ -30,42 +30,89 @@
                 <div class="neworder-row-four">
                     <div class="user-field-container">
                         <label for="user-field">Usuario</label>
-                        <div class="user-field-value" id="user-field">Macars</div>
+                        <div class="user-field-value usuario" id="user-field">Macars</div>
                     </div>
-                    <div class="rw5-field-container">
+                    <div class="user-field-container">
                         <label for="order-field">Nro Orden</label>
-                        <div class="rw5-field-value" id="order-field">000001</div>
+                        <div class="user-field-value nro-orden" id="order-field">000001</div>
+                    </div>
+                    <div class="user-field-container centered">
+                        <label for="total-product-field">Cant. de productos</label>
+                        <div class="user-field-value total-product" id="total-product-field">1</div>
+                    </div>
+                    <div class="user-field-container">
+                        <label for="tracking-field">Código de seguimiento</label>
+                        <div class="user-field-value tracking-field" id="tracking-field">R0002 00020659
+                            TN00009335485A9030LEG1501</div>
                     </div>
                 </div>
                 <div class="neworder-row-five">
-                    <div class="rw5-field-container">
-                        <label for="total-product-field">Cantidad de productos</label>
-                        <div class="rw5-field-value" id="total-product-field">1</div>
-                    </div>
-                    <div class="rw5-field-container">
-                        <label for="tracking-field">Código de seguimiento</label>
-                        <div class="rw5-field-value" id="tracking-field">R0002 00020659 TN00009335485A9030LEG1501</div>
-                    </div>
                 </div>
                 <div>
                     <table class="dates-table">
                         <tbody>
                             <tr>
-                               <td>Fecha de Envio</td>
-                               <td class="table-date-field"><input type="date"></td>
-                               <td>Fecha de Recepción</td>
-                               <td class="table-date-field"><input type="date"></td>
-                               <td>Fecha de revisión</td>
-                               <td class="table-date-field"><input type="date"></td>
-                               <td>Fecha de Finalización</td>
-                               <td class="table-date-field"><input type="date"></td>
-                               <td>Fecha de devolución</td>
-                               <td class="table-date-field"><input type="date"></td> 
+                                <td>Fecha de Envio</td>
+                                <td class="table-date-field"><input type="date"></td>
+                                <td>Fecha de Recepción</td>
+                                <td class="table-date-field"><input type="date"></td>
+                                <td>Fecha de revisión</td>
+                                <td class="table-date-field"><input type="date"></td>
+                                <td>Fecha de Finalización</td>
+                                <td class="table-date-field"><input type="date"></td>
+                                <td>Fecha de devolución</td>
+                                <td class="table-date-field"><input type="date"></td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-                <div></div>
+                <!-- ADD PRODUCTS BUTTONS -->
+                <div class="add-product-container">
+                    <input class="add-product-button" type="button" value="Alarmas y otros" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample"
+                        aria-labelledby="offcanvasExampleLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasExampleLabel">Agregar Alarmas y otros</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <form action="">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-status">Estado</label>
+                                    <select class="form-select" id="off-canvas-status" name="status">
+                                        <option selected>Seleccione una opción</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="faltantes">Faltantes</span>
+                                    <input type="text" class="form-control" aria-label="Sizing example input"
+                                        aria-describedby="faltantes">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-product">Producto</label>
+                                    <select class="form-select" id="off-canvas-product" name="product">
+                                        <option selected>Seleccione una opción</option>
+                                        <option value="1">One</option>
+                                        <option value="2">Two</option>
+                                        <option value="3">Three</option>
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="in_sn">Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="in_sn input"
+                                        aria-describedby="in_sn" name="in_sn">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <input class="add-product-button" type="submit" value="Audio +">
+                    <input class="add-product-button" type="submit" value="Tacógrafos +">
+                </div>
                 <div></div>
             </section>
             <!-- PRODUCT LIST SECTION -->

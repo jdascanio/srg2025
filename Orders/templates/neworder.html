@@ -45,6 +45,7 @@
                         <div class="user-field-value tracking-field" id="tracking-field">R0002 00020659
                             TN00009335485A9030LEG1501</div>
                     </div>
+                    <input type="hidden" name="order_stage" value="Order Stage">
                 </div>
                 <div class="neworder-row-five">
                 </div>
@@ -96,8 +97,8 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="off-canvas-product">Producto</label>
-                                    <select class="form-select" id="off-canvas-product" name="product">
-                                        <option selected>Seleccione una opción</option>
+                                    <select class="form-select" id="off-canvas-product" name="product" required>
+                                        <option value="">Seleccione una opción</option>
                                         {% for p in alm_products%}
                                         <option value="{{p.name}}">{{p.name}}</option>
                                         {% endfor %}
@@ -121,8 +122,8 @@
                                 </div>
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="off-canvas-reason">Motivo</label>
-                                    <select class="form-select" id="off-canvas-reason" name="reason">
-                                        <option selected>Seleccione una opción</option>
+                                    <select class="form-select" id="off-canvas-reason" name="reason" required>
+                                        <option value="">Seleccione una opción</option>
                                         {% for r in alm_reason %}
                                         <option value="{{r.reason}}">{{r.reason}}</option>
                                         {% endfor %}
@@ -152,6 +153,7 @@
                                     <input type="text" class="form-control" aria-label="observations input"
                                         aria-describedby="observations" name="observations">
                                 </div>
+                                <input type="hidden" value="" name="prov_order_number">
                                 <div class="offcanvas-btn-container">
                                     <button class="add-product-button" type="submit" name="add-alarm">Agregar</button>
                                 </div>

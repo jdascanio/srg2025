@@ -70,6 +70,7 @@
                 <div class="add-product-container">
                     <input class="add-product-button" type="button" value="Alarmas y otros" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                        <!-- OFFCANVAS ALARMAS -->
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample"
                         aria-labelledby="offcanvasExampleLabel">
                         <div class="offcanvas-header">
@@ -83,9 +84,9 @@
                                     <label class="input-group-text" for="off-canvas-status">Estado</label>
                                     <select class="form-select" id="off-canvas-status" name="status">
                                         <option selected>Seleccione una opción</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {% for e in alm_status %}
+                                        <option value="{{e.status}}">{{e.status}}</option>
+                                        {% endfor %}
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-3">
@@ -97,15 +98,62 @@
                                     <label class="input-group-text" for="off-canvas-product">Producto</label>
                                     <select class="form-select" id="off-canvas-product" name="product">
                                         <option selected>Seleccione una opción</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        {% for p in alm_products%}
+                                        <option value="{{p.name}}">{{p.name}}</option>
+                                        {% endfor %}
+                                        
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-3">
                                     <span class="input-group-text" id="in_sn">Nro Serie</span>
                                     <input type="text" class="form-control" aria-label="in_sn input"
                                         aria-describedby="in_sn" name="in_sn">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="client">Cliente</span>
+                                    <input type="text" class="form-control" aria-label="client input"
+                                        aria-describedby="client" name="client">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="seller">Vendedor</span>
+                                    <input type="text" class="form-control" aria-label="seller input"
+                                        aria-describedby="seller" name="seller">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-reason">Motivo</label>
+                                    <select class="form-select" id="off-canvas-reason" name="reason">
+                                        <option selected>Seleccione una opción</option>
+                                        {% for r in alm_reason %}
+                                        <option value="{{r.reason}}">{{r.reason}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-reason">C.I.G.</label>
+                                    <select class="form-select" id="off-canvas-cig" name="cig">
+                                        <option selected>Seleccione una opción</option>
+                                        {% for n in cig%}
+                                        <option value="{{n.cig}}">{{n.cig}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="out_sn input"
+                                        aria-describedby="out_sn" name="out_sn">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="invoice">Nro Factura</span>
+                                    <input type="text" class="form-control" aria-label="invoice input"
+                                        aria-describedby="invoice" name="invoice">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="observations">Observaciones</span>
+                                    <input type="text" class="form-control" aria-label="observations input"
+                                        aria-describedby="observations" name="observations">
+                                </div>
+                                <div class="offcanvas-btn-container">
+                                    <button class="add-product-button" type="submit" name="add-alarm">Agregar</button>
                                 </div>
                             </form>
                         </div>

@@ -331,18 +331,24 @@ th, td{
     box-shadow: 0px 5px 10px -3px rgba(0,0,0,0.3);
 }
 .offcanvas{
-    --bs-offcanvas-width: 600px !important;
+    background: rgba(255, 255, 255, 0.9);
+    --bs-offcanvas-width: 500px !important;
 }
 .offcanvas-body{
     font-size: 14px !important;
 }
+.offcanvas-btn-container{
+    display: flex;
+    justify-content: end;
+}
+
 .input-group{
     height: 34px;
 }
 .input-group-text{
     background-color: #0b3970 !important;
     color: #fafafa;
-    width: 100px;
+    width: 130px;
     font-size: 14px !important;
 }
 

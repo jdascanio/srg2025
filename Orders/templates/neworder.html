@@ -80,20 +80,21 @@
                                 aria-label="Close"></button>
                         </div>
                         <div class="offcanvas-body">
-                            <form action="">
+                            <form action="" method="POST">
+                                {% csrf_token %}
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="off-canvas-status">Estado</label>
                                     <select class="form-select" id="off-canvas-status" name="status">
-                                        <option selected>Seleccione una opción</option>
+                                        <option value="">Seleccione una opción</option>
                                         {% for e in alm_status %}
                                         <option value="{{e.status}}">{{e.status}}</option>
                                         {% endfor %}
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-3">
-                                    <span class="input-group-text" id="faltantes">Faltantes</span>
+                                    <span class="input-group-text" id="missing_elem">Faltantes</span>
                                     <input type="text" class="form-control" aria-label="Sizing example input"
-                                        aria-describedby="faltantes">
+                                        aria-describedby="faltantes" name="missing_elem">
                                 </div>
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="off-canvas-product">Producto</label>
@@ -102,7 +103,6 @@
                                         {% for p in alm_products%}
                                         <option value="{{p.name}}">{{p.name}}</option>
                                         {% endfor %}
-                                        
                                     </select>
                                 </div>
                                 <div class="input-group input-group-sm mb-3">
@@ -132,8 +132,8 @@
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="off-canvas-reason">C.I.G.</label>
                                     <select class="form-select" id="off-canvas-cig" name="cig">
-                                        <option selected>Seleccione una opción</option>
-                                        {% for n in cig%}
+                                        <option value="">Seleccione una opción</option>
+                                        {% for n in cig %}
                                         <option value="{{n.cig}}">{{n.cig}}</option>
                                         {% endfor %}
                                     </select>
@@ -153,15 +153,17 @@
                                     <input type="text" class="form-control" aria-label="observations input"
                                         aria-describedby="observations" name="observations">
                                 </div>
-                                <input type="hidden" value="" name="prov_order_number">
+                                <input type="text" value="{{new_order_nr}}" name="prov_order_number">
+                                <input type="hidden" value="alarma" name="family">
+
                                 <div class="offcanvas-btn-container">
-                                    <button class="add-product-button" type="submit" name="add-alarm">Agregar</button>
+                                    <button class="add-product-button" type="submit" name="add-product">Agregar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <input class="add-product-button" type="submit" value="Audio +">
-                    <input class="add-product-button" type="submit" value="Tacógrafos +">
+                    <input class="add-product-button" type="submit" value="Audio">
+                    <input class="add-product-button" type="submit" value="Tacógrafos">
                 </div>
                 <div></div>
             </section>

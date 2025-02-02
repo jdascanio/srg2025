@@ -3,6 +3,7 @@ from Orders.models import *
 from Products.models import *
 from Users.models import *
 from django.contrib.auth.models import User
+from Orders.forms import *
 import datetime
 import random
 import string
@@ -21,12 +22,8 @@ def nro_orden ():
 
 def neworder (request):
     #LOADS CONTENT AND CREATES PROV_ORDER_NR
-    new_order_nr = nro_orden()
-    new_order_hd = OrderHeader(
-        user = request.user,
-        prov_order_number = new_order_nr
-    )
     
+
     alm_products = Products.objects.filter(family='alarma').order_by('name')
     audio_products = Products.objects.filter(family='audio').order_by('name')
     taco_products = Products.objects.filter(family='tacografo').order_by('name')
@@ -37,9 +34,62 @@ def neworder (request):
     audio_status = Status.objects.filter(family='audio').order_by('status')
     taco_status = Status.objects.filter(family='tacografo').order_by('status')
     cig = Cig.objects.all().order_by('cig')
+    
+    usuario = Profile.objects.filter(id=request.user.id).first()
+    
 
-    print({"new_order_hd":new_order_hd})
+    if request.method == "POST":
+        if 'add-product' in request.POST:
+            form = AddProductLine(request.POST)            
+            if form.is_valid():
+                data = form.cleaned_data
+                order_hd = OrderHeader.objects.filter(prov_order_number=data['prov_order_number']).first()
+                new_line = OrderContent(
+                    user = request.user,
+                    order_header = order_hd,
+                    user_name = usuario.distributor,
+                    prov_order_number = data['prov_order_number'],
+                    family = data['family'],
+                    status = data['status'],
+                    missing_elem = data['missing_elem'],
+                    product = data['product'],
+                    in_sn = data['in_sn'],
+                    client = data['client'],
+                    seller = data['seller'],
+                    reason = data['reason'],
+                    cig = data['cig'],
+                    observations = data['observations'],
+                    out_sn = data['out_sn'],
+                    invoice = data['invoice']
+                )
+                new_line.save()
 
+                new_order_nr = data['prov_order_number']
+
+                return render (request, 'neworder.html',
+                   {
+                       "alm_products":alm_products,
+                        "audio_products":audio_products,
+                        "taco_products":taco_products,
+                        "alm_reason":alm_reason,
+                        "audio_reason":audio_reason,
+                        "taco_reason":taco_reason,
+                        "alm_status":alm_status,
+                        "audio_status":audio_status,
+                        "taco_status":taco_status,
+                        "cig":cig,
+                        "new_order_nr":new_order_nr
+                   })
+            else:
+                print('Form no valido')
+    new_order_nr = nro_orden()
+    new_order_hd = OrderHeader(
+        user = request.user,
+        prov_order_number = new_order_nr
+    )
+    
+    new_order_hd.save()
+    order_hd = OrderHeader.objects.filter(prov_order_number=new_order_hd.prov_order_number).first()
     return render (request, 'neworder.html',
                    {
                        "alm_products":alm_products,

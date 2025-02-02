@@ -27,6 +27,7 @@ class OrderHeader (models.Model):
 
 class OrderContent (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    order_header = models.ForeignKey(OrderHeader, on_delete=models.CASCADE)
     user_name = models.CharField(max_length=20, null=True, blank=True)
     order_number = models.CharField(max_length=10, null=True, blank=True)
     prov_order_number = models.CharField(max_length=25)

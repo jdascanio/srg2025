@@ -9,6 +9,21 @@ import random
 import string
 
 # Create your views here.
+def lector ():
+    lineas = OrderContent.objects.all()
+    total = str(lineas.count()).zfill(8)
+    letras = ''.join(random.choices(string.ascii_uppercase, k=2))
+    return letras+total
+
+def add_line_number(queryset):
+    result = []
+    for index, obj in enumerate(queryset):
+        result.append({
+            **obj.__dict__,
+            'line': index + 1 
+        })
+    return result
+
 def nro_orden ():
     
     dia = datetime.datetime.now().strftime('%m%d')
@@ -65,6 +80,8 @@ def neworder (request):
                 new_line.save()
 
                 new_order_nr = data['prov_order_number']
+                data = OrderContent.objects.filter(prov_order_number=data['prov_order_number'])
+                products = add_line_number(data)
 
                 return render (request, 'neworder.html',
                    {
@@ -78,7 +95,8 @@ def neworder (request):
                         "audio_status":audio_status,
                         "taco_status":taco_status,
                         "cig":cig,
-                        "new_order_nr":new_order_nr
+                        "new_order_nr":new_order_nr,
+                        "products": products
                    })
             else:
                 print('Form no valido')
@@ -104,3 +122,11 @@ def neworder (request):
                         "cig":cig,
                         "new_order_nr":new_order_nr
                    })
+
+def test (request):
+    
+    if request.method == "GET":
+        form = request.GET
+        print(form)
+        
+    return render (request, 'test.html')

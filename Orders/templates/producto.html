@@ -9,9 +9,53 @@
 <section>
     <div class="section-header">
         <h3>PRODUCTOS</h3>
-        <button class="regular-button">Agregar Producto</button>
+        <button class="regular-button" type="button" data-bs-toggle="modal" data-bs-target="#AddProductModal">Agregar
+            Producto</button>
     </div>
     <div class="main-container">
+        <!-- Modal -->
+        <div class="modal fade" id="AddProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="AddProductModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="AddProductModalLabel">Editar Producto
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="name">Producto</span>
+                                <input type="text" class="form-control" aria-label="name input" aria-describedby="name"
+                                    name="name" value="" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="modal-family">Familia</label>
+                                <select class="form-select" id="modal-family" name="family" required>
+                                    <option value="">Seleccione una opción</option>
+                                    {% for n in family %}
+                                    <option value="{{n.family}}">{{n.family}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="modal-subcat">Subcategoria</label>
+                                <select class="form-select" id="modal-subcat" name="subcat" required>
+                                    <option value="">Seleccione una opción</option>
+                                    {% for n in subcat %}
+                                    <option value="{{n.subcat}}">{{n.subcat}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="add-product-button" name="create-product">Crear</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END MODAL -->
         <div class="table-users">
             <table class="table table-hover">
                 <thead>
@@ -30,13 +74,93 @@
                         <td scope="row">{{producto.name}}</td>
                         <td>{{producto.family}}</td>
                         <td>{{producto.subcat}}</td>
-                        <td><i class="bi bi-x-square-fill red"></i></td>
-                        <td><i class="bi bi-pencil"></i></td>
+                        <td><a href="" data-bs-toggle="modal"
+                            data-bs-target="#DeleteModal{{producto.id}}"><i class="bi bi-x-square-fill red"></i></a></td>
+                        <td class="edit-icon"><a href="" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop{{producto.id}}"><i class="bi bi-pencil"></i></a></td>
                     </tr>
+                    <!-- Modal Edit -->
+                    <div class="modal fade" id="staticBackdrop{{producto.id}}" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{producto.id}}Label"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdrop{{producto.id}}Label">Editar Producto
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{producto.id}}">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <span class="input-group-text" id="name">Producto</span>
+                                            <input type="text" class="form-control" aria-label="name input"
+                                                aria-describedby="name" name="name" value="{{producto.name}}">
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="modal-family">Familia</label>
+                                            <select class="form-select" id="modal-family" name="family">
+                                                <option value="{{producto.family}}">{{producto.family}}</option>
+                                                {% for n in family %}
+                                                <option value="{{n.family}}">{{n.family}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="modal-subcat">Subcategoria</label>
+                                            <select class="form-select" id="modal-subcat" name="subcat">
+                                                <option value="{{producto.subcat}}">{{producto.subcat}}</option>
+                                                {% for n in subcat %}
+                                                <option value="{{n.subcat}}">{{n.subcat}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="add-product-button"
+                                            name="edit-product">Guardar</button>
+                                        <button type="button" class="btn btn-danger"
+                                            data-bs-dismiss="modal">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal Delete -->
+                    <div class="modal fade" id="DeleteModal{{producto.id}}" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="DeleteModal{{producto.id}}Label"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="DeleteModal{{producto.id}}Label">Borrar Producto
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="product_id" value="{{producto.id}}">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <p>¿Seguro desea borrar producto {{producto.name}}?</p>
+                                        </div>
+                                        <button type="submit" class="add-product-button"
+                                            name="delete-product">Borrar</button>
+                                        <button type="button" class="btn btn-danger"
+                                            data-bs-dismiss="modal">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                     {% endif %}
                 </tbody>
             </table>
+
+
         </div>
     </div>
 </section>

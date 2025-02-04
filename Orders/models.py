@@ -45,4 +45,4 @@ class OrderContent (models.Model):
     invoice = models.CharField(max_length=20, null=True, blank=True)
 
     def __str__(self):
-        return f'{self.user_name} - {self.order_number}'
+        return f'{self.user_name} - {self.order_header}'

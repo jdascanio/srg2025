@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from Products.models import *
+from Products.forms import *
 
 # Create your views here.
 
@@ -8,8 +9,47 @@ def motivo (request):
     return render (request, 'motivo.html', {"motivos":motivos})
 
 def producto (request):
+    family = Family.objects.all().order_by('family')
+    subcat = Subcat.objects.all().order_by('subcat')
     productos = Products.objects.all().order_by('family','subcat','name')
-    return render(request, 'producto.html', {"productos":productos})
+
+    if request.method == "POST":
+        if 'create-product' in request.POST:
+            form = AddProduct(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                new_product = Products(
+                    name = data['name'],
+                    family = data['family'],
+                    subcat = data['subcat']
+                )
+                new_product.save()
+                productos = Products.objects.all().order_by('family','subcat','name')
+                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
+        elif 'edit-product' in request.POST:
+            form = EditProduct(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+
+                producto = Products.objects.get(id=int(data['product_id']))
+                producto.name = data['name']
+                producto.family = data['family']
+                producto.subcat = data['subcat']
+                producto.save()
+
+                productos = Products.objects.all().order_by('family','subcat','name')
+                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
+        elif 'delete-product' in request.POST:
+            form = DeleteProduct(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                producto = Products.objects.get(id=int(data['product_id']))
+                producto.delete()
+
+                productos = Products.objects.all().order_by('family','subcat','name')
+                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
+
+    return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
 
 def estado (request):
     estados = Status.objects.all().order_by('family','status')

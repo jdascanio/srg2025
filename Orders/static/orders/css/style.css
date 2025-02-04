@@ -74,14 +74,13 @@ aside{
     width: 130px;
     height: 36px;
     border-radius: 3px;
-    background: #136a8a;
+    background: #0f71a6;
     border: transparent;
     font-size: 12.5px;
     color: #fafafa;
 }
 .regular-button:hover{
-    background: -webkit-linear-gradient(to bottom, #136a8a, #278079); /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #136a8a, #278079); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: #0d5983;
 }
 .main-container{
     /* background-color:#f3f3f3; */
@@ -198,6 +197,10 @@ th, td{
     color: yellowgreen;
     font-size: 14px;
     font-style: italic;
+}
+.edit-icon a{
+    color: black !important;
+    text-decoration: none !important;
 }
 
 /* NEWORDER CSS */
@@ -380,4 +383,9 @@ th, td{
     text-align: center;
     /* background: #f6f6f6; */
     color: black;
+}
+
+.offcanvas-top-custom{
+    width: 400px !important;
+    height: 400px !important;
 }

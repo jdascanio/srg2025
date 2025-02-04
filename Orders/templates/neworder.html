@@ -130,7 +130,7 @@
                                     </select>
                                 </div>
                                 <div class="input-group mb-3">
-                                    <label class="input-group-text" for="off-canvas-reason">C.I.G.</label>
+                                    <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
                                     <select class="form-select" id="off-canvas-cig" name="cig">
                                         <option value="">Seleccione una opción</option>
                                         {% for n in cig %}
@@ -168,6 +168,42 @@
                 <div></div>
             </section>
             <!-- PRODUCT LIST SECTION -->
+             {% if products%}
+             <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Estado</th>
+                        <th scope="col">Faltantes</th>
+                        <th scope="col">Producto</th>
+                        <th scope="col">S/N</th>
+                        <th scope="col">Cliente</th>
+                        <th scope="col">Vendedor</th>
+                        <th scope="col">Motivo</th>
+                        <th scope="col">C.I.G</th>
+                        <th scope="col">Egresa S/N</th>
+                        <th scope="col">Nro Factura</th>
+                        <th scope="col">Obs</th>
+                    </tr>
+                </thead>
+                {% for product in products %}
+                <tr>
+                    <td scope="row">{{product.line}}</td>
+                    <td>{{product.status}}</td>
+                    <td>{{product.missing_elem}}</td>
+                    <td>{{product.product}}</td>
+                    <td>{{product.in_sn}}</td>
+                    <td>{{product.client}}</td>
+                    <td>{{product.seller}}</td>
+                    <td>{{product.reason}}</td>
+                    <td>{{product.cig}}</td>
+                    <td>{{product.out_sn}}</td>
+                    <td>{{product.invoice}}</td>
+                    <td>{{product.observations}}</td>
+                </tr>
+                {% endfor %}
+             </table>
+             {% endif %}
             <section>
 
             </section>

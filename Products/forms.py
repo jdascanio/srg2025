@@ -13,3 +13,15 @@ class EditProduct(forms.Form):
 
 class DeleteProduct(forms.Form):
     product_id = forms.IntegerField()
+
+class AddStatus(forms.Form):
+    status = forms.CharField(max_length=30)
+    family = forms.CharField(max_length=20)
+
+class EditStatus(forms.Form):
+    status_id = forms.IntegerField()
+    status = forms.CharField(max_length=30)
+    family = forms.CharField(max_length=20)
+
+class DeleteStatus(forms.Form):
+    status_id = forms.IntegerField()

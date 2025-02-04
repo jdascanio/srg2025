@@ -52,5 +52,44 @@ def producto (request):
     return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
 
 def estado (request):
+    family = Family.objects.all().order_by('family')
     estados = Status.objects.all().order_by('family','status')
-    return render (request, 'estado.html', {"estados":estados})
+
+    if request.method == "POST":
+        if 'create-status' in request.POST:
+            form = AddStatus(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                new_status = Status(
+                    status = data['status'],
+                    family = data['family']
+                )
+                new_status.save()
+                estados = Status.objects.all().order_by('family','status')
+                return render(request, 'estado.html', {"estados":estados,"family":family})
+        
+        elif 'edit-status' in request.POST:
+            form = EditStatus(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+
+                estado = Status.objects.get(id=int(data['status_id']))
+                estado.status = data['status']
+                estado.family = data['family']
+                
+                estado.save()
+
+                estados = Status.objects.all().order_by('family','status')
+                return render(request, 'estado.html', {"estados":estados,"family":family})
+        
+        elif 'delete-status' in request.POST:
+            form = DeleteStatus(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                estado = Status.objects.get(id=int(data['status_id']))
+                estado.delete()
+
+                estados = Status.objects.all().order_by('family','status')
+                return render(request, 'estado.html', {"estados":estados,"family":family})
+
+    return render (request, 'estado.html', {"estados":estados,"family":family})

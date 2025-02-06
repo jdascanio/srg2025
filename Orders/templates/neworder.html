@@ -19,59 +19,66 @@
                     <h1>Orden de Reparación</h1>
                 </div>
                 <div class="neworder-row-two">F721-01 R1</div>
-                <div class="neworder-row-three">
-                    <input class="neworder-input green-btn" type="submit" value="Enviar">
-                    <input class="neworder-input blue-btn" type="submit" value="Guardar">
-                    <input class="neworder-input red-btn" type="submit" value="Cancelar">
-                    <input class="neworder-input green-btn" type="submit" value="Cerrar">
-                    <input class="neworder-input blue-btn" type="submit" value="finalizar">
-                    <i class="bi bi-printer"></i>
-                </div>
-                <div class="neworder-row-four">
-                    <div class="user-field-container">
-                        <label for="user-field">Usuario</label>
-                        <div class="user-field-value usuario" id="user-field">Macars</div>
+                <form action="">
+                    <div class="neworder-row-three">
+                        <input class="neworder-input green-btn" type="submit" value="Enviar" name="order_send">
+                        <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save">
+                        <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
+                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
+                        <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
+                        <i class="bi bi-printer"></i>
                     </div>
-                    <div class="user-field-container">
-                        <label for="order-field">Nro Orden</label>
-                        <div class="user-field-value nro-orden" id="order-field">000001</div>
+                    <div class="neworder-row-four">
+                        <div class="user-field-container">
+                            <label for="user-field">Usuario</label>
+                            <select class="user-field-value usuario" name="user_name" id="user-field" required>
+                                <option value=""></option>
+                                {% for usuario in usuarios %}
+                                <option value="{{usuario.distributor}}">{{usuario.distributor}}</option>
+                                {% endfor %}
+                            </select>
+                            <!-- <div class="user-field-value usuario" id="user-field">Macars</div> -->
+                        </div>
+                        <div class="user-field-container">
+                            <label for="order-field">Nro Orden</label>
+                            <div class="user-field-value nro-orden" id="order-field">0000001</div>
+                        </div>
+                        <div class="user-field-container centered">
+                            <label for="total-product-field">Cant. de productos</label>
+                            <div class="user-field-value total-product" id="total-product-field" name="total_products">{{total}}</div>
+                        </div>
+                        <div class="user-field-container">
+                            <label for="tracking-field">Código de seguimiento</label>
+                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="">
+                        </div>
+                        <input type="hidden" name="order_stage" value="Order Stage">
                     </div>
-                    <div class="user-field-container centered">
-                        <label for="total-product-field">Cant. de productos</label>
-                        <div class="user-field-value total-product" id="total-product-field">1</div>
+                    <div class="neworder-row-five">
                     </div>
-                    <div class="user-field-container">
-                        <label for="tracking-field">Código de seguimiento</label>
-                        <div class="user-field-value tracking-field" id="tracking-field">R0002 00020659
-                            TN00009335485A9030LEG1501</div>
+                    <div>
+                        <table class="dates-table">
+                            <tbody>
+                                <tr>
+                                    <td>Fecha de Envio</td>
+                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td>Fecha de Recepción</td>
+                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td>Fecha de revisión</td>
+                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td>Fecha de Finalización</td>
+                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td>Fecha de devolución</td>
+                                    <td class="table-date-field"><input type="date" name=""></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
-                    <input type="hidden" name="order_stage" value="Order Stage">
-                </div>
-                <div class="neworder-row-five">
-                </div>
-                <div>
-                    <table class="dates-table">
-                        <tbody>
-                            <tr>
-                                <td>Fecha de Envio</td>
-                                <td class="table-date-field"><input type="date"></td>
-                                <td>Fecha de Recepción</td>
-                                <td class="table-date-field"><input type="date"></td>
-                                <td>Fecha de revisión</td>
-                                <td class="table-date-field"><input type="date"></td>
-                                <td>Fecha de Finalización</td>
-                                <td class="table-date-field"><input type="date"></td>
-                                <td>Fecha de devolución</td>
-                                <td class="table-date-field"><input type="date"></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                </form>
                 <!-- ADD PRODUCTS BUTTONS -->
                 <div class="add-product-container">
                     <input class="add-product-button" type="button" value="Alarmas y otros" data-bs-toggle="offcanvas"
                         data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                        <!-- OFFCANVAS ALARMAS -->
+                    <!-- OFFCANVAS ALARMAS -->
                     <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasExample"
                         aria-labelledby="offcanvasExampleLabel">
                         <div class="offcanvas-header">
@@ -129,6 +136,17 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                                {% if not usuario.is_admin %}
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
+                                    <select class="form-select" id="off-canvas-cig" name="cig" disabled>
+                                        <option value="">Seleccione una opción</option>
+                                        {% for n in cig %}
+                                        <option value="{{n.cig}}">{{n.cig}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% else %}
                                 <div class="input-group mb-3">
                                     <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
                                     <select class="form-select" id="off-canvas-cig" name="cig">
@@ -138,6 +156,7 @@
                                         {% endfor %}
                                     </select>
                                 </div>
+                                {% endif%}
                                 <div class="input-group input-group-sm mb-3">
                                     <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
                                     <input type="text" class="form-control" aria-label="out_sn input"
@@ -153,23 +172,248 @@
                                     <input type="text" class="form-control" aria-label="observations input"
                                         aria-describedby="observations" name="observations">
                                 </div>
-                                <input type="text" value="{{new_order_nr}}" name="prov_order_number">
+                                <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
                                 <input type="hidden" value="alarma" name="family">
 
                                 <div class="offcanvas-btn-container">
-                                    <button class="add-product-button" type="submit" name="add-product">Agregar</button>
+                                    <button class="modal-button" type="submit" name="add-product">Agregar</button>
                                 </div>
                             </form>
                         </div>
                     </div>
-                    <input class="add-product-button" type="submit" value="Audio">
-                    <input class="add-product-button" type="submit" value="Tacógrafos">
+                    <input class="add-product-button" type="submit" value="Audio" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasAudio" aria-controls="offcanvasAudio">
+                    <!-- OFFCANVAS AUDIO -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasAudio"
+                        aria-labelledby="offcanvasAudioLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasAudioLabel">Agregar Audio</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-status">Estado</label>
+                                    <select class="form-select" id="off-canvas-status" name="status">
+                                        <option value="">Seleccione una opción</option>
+                                        {% for e in audio_status %}
+                                        <option value="{{e.status}}">{{e.status}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="missing_elem">Faltantes</span>
+                                    <input type="text" class="form-control" aria-label="Sizing example input"
+                                        aria-describedby="faltantes" name="missing_elem">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-product">Producto</label>
+                                    <select class="form-select" id="off-canvas-product" name="product" required>
+                                        <option value="">Seleccione una opción</option>
+                                        {% for p in audio_products%}
+                                        <option value="{{p.name}}">{{p.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="in_sn">Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="in_sn input"
+                                        aria-describedby="in_sn" name="in_sn">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="client">Cliente</span>
+                                    <input type="text" class="form-control" aria-label="client input"
+                                        aria-describedby="client" name="client">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="seller">Vendedor</span>
+                                    <input type="text" class="form-control" aria-label="seller input"
+                                        aria-describedby="seller" name="seller">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-reason">Motivo</label>
+                                    <select class="form-select" id="off-canvas-reason" name="reason" required>
+                                        <option value="">Seleccione una opción</option>
+                                        {% for r in audio_reason %}
+                                        <option value="{{r.reason}}">{{r.reason}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% if not usuario.is_admin %}
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
+                                    <select class="form-select" id="off-canvas-cig" name="cig" disabled>
+                                        <option value="">Seleccione una opción</option>
+                                        {% for n in cig %}
+                                        <option value="{{n.cig}}">{{n.cig}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% else %}
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
+                                    <select class="form-select" id="off-canvas-cig" name="cig">
+                                        <option value="">Seleccione una opción</option>
+                                        {% for n in cig %}
+                                        <option value="{{n.cig}}">{{n.cig}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% endif%}
+                                {% if not usuario.is_admin %}
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="out_sn input"
+                                        aria-describedby="out_sn" name="out_sn" disabled>
+                                </div>
+                                {% else %}
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="out_sn input"
+                                        aria-describedby="out_sn" name="out_sn">
+                                </div>
+                                {% endif%}
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="invoice">Nro Factura</span>
+                                    <input type="text" class="form-control" aria-label="invoice input"
+                                        aria-describedby="invoice" name="invoice">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="observations">Observaciones</span>
+                                    <input type="text" class="form-control" aria-label="observations input"
+                                        aria-describedby="observations" name="observations">
+                                </div>
+                                <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
+                                <input type="hidden" value="audio" name="family">
+
+                                <div class="offcanvas-btn-container">
+                                    <button class="modal-button" type="submit" name="add-product">Agregar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <input class="add-product-button" type="submit" value="Tacógrafos" data-bs-toggle="offcanvas"
+                        data-bs-target="#offcanvasTaco" aria-controls="offcanvasTaco">
+                    <!-- OFFCANVAS TACOGRAFO -->
+                    <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasTaco"
+                        aria-labelledby="offcanvasTacoLabel">
+                        <div class="offcanvas-header">
+                            <h5 class="offcanvas-title" id="offcanvasTacoLabel">Agregar Tacografo</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="offcanvas-body">
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-status">Estado</label>
+                                    <select class="form-select" id="off-canvas-status" name="status">
+                                        <option value="">Seleccione una opción</option>
+                                        {% for e in taco_status %}
+                                        <option value="{{e.status}}">{{e.status}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="missing_elem">Faltantes</span>
+                                    <input type="text" class="form-control" aria-label="Sizing example input"
+                                        aria-describedby="faltantes" name="missing_elem">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-product">Producto</label>
+                                    <select class="form-select" id="off-canvas-product" name="product" required>
+                                        <option value="">Seleccione una opción</option>
+                                        {% for p in taco_products%}
+                                        <option value="{{p.name}}">{{p.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="in_sn">Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="in_sn input"
+                                        aria-describedby="in_sn" name="in_sn">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="client">Cliente</span>
+                                    <input type="text" class="form-control" aria-label="client input"
+                                        aria-describedby="client" name="client">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="seller">Vendedor</span>
+                                    <input type="text" class="form-control" aria-label="seller input"
+                                        aria-describedby="seller" name="seller">
+                                </div>
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-reason">Motivo</label>
+                                    <select class="form-select" id="off-canvas-reason" name="reason" required>
+                                        <option value="">Seleccione una opción</option>
+                                        {% for r in taco_reason %}
+                                        <option value="{{r.reason}}">{{r.reason}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% if not usuario.is_admin %}
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
+                                    <select class="form-select" id="off-canvas-cig" name="cig" disabled>
+                                        <option value="">Seleccione una opción</option>
+                                        {% for n in cig %}
+                                        <option value="{{n.cig}}">{{n.cig}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% else %}
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
+                                    <select class="form-select" id="off-canvas-cig" name="cig">
+                                        <option value="">Seleccione una opción</option>
+                                        {% for n in cig %}
+                                        <option value="{{n.cig}}">{{n.cig}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                {% endif%}
+                                {% if not usuario.is_admin %}
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="out_sn input"
+                                        aria-describedby="out_sn" name="out_sn" disabled>
+                                </div>
+                                {% else %}
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="out_sn input"
+                                        aria-describedby="out_sn" name="out_sn">
+                                </div>
+                                {% endif%}
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="invoice">Nro Factura</span>
+                                    <input type="text" class="form-control" aria-label="invoice input"
+                                        aria-describedby="invoice" name="invoice">
+                                </div>
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="observations">Observaciones</span>
+                                    <input type="text" class="form-control" aria-label="observations input"
+                                        aria-describedby="observations" name="observations">
+                                </div>
+                                <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
+                                <input type="hidden" value="tacografo" name="family">
+
+                                <div class="offcanvas-btn-container">
+                                    <button class="modal-button" type="submit" name="add-product">Agregar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
                 </div>
                 <div></div>
             </section>
             <!-- PRODUCT LIST SECTION -->
-             {% if products%}
-             <table class="table table-striped table-hover">
+            {% if products%}
+            <table class="table table-striped table-hover">
                 <thead class="table-dark">
                     <tr>
                         <th scope="col">#</th>
@@ -202,8 +446,8 @@
                     <td>{{product.observations}}</td>
                 </tr>
                 {% endfor %}
-             </table>
-             {% endif %}
+            </table>
+            {% endif %}
             <section>
 
             </section>

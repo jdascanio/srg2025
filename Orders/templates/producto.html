@@ -49,7 +49,7 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <button type="submit" class="add-product-button" name="create-product">Crear</button>
+                            <button type="submit" class="modal-button" name="create-product">Crear</button>
                         </form>
                     </div>
                 </div>
@@ -118,9 +118,9 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <button type="submit" class="add-product-button"
+                                        <button type="submit" class="modal-button"
                                             name="edit-product">Guardar</button>
-                                        <button type="button" class="btn btn-danger"
+                                        <button type="button" class="modal-button red-btn"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </form>
                                 </div>
@@ -146,9 +146,9 @@
                                         <div class="input-group input-group-sm mb-3">
                                             <p>¿Seguro desea borrar producto {{producto.name}}?</p>
                                         </div>
-                                        <button type="submit" class="add-product-button"
+                                        <button type="submit" class="modal-button"
                                             name="delete-product">Borrar</button>
-                                        <button type="button" class="btn btn-danger"
+                                        <button type="button" class="modal-button red-btn"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </form>
                                 </div>

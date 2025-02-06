@@ -49,9 +49,10 @@ def neworder (request):
     audio_status = Status.objects.filter(family='audio').order_by('status')
     taco_status = Status.objects.filter(family='tacografo').order_by('status')
     cig = Cig.objects.all().order_by('cig')
+    total = 0
+    usuarios = Profile.objects.all()
     
-    usuario = Profile.objects.filter(id=request.user.id).first()
-    
+    usuario = Profile.objects.get(user=request.user.id)    
 
     if request.method == "POST":
         if 'add-product' in request.POST:
@@ -82,6 +83,7 @@ def neworder (request):
                 new_order_nr = data['prov_order_number']
                 data = OrderContent.objects.filter(prov_order_number=data['prov_order_number'])
                 products = add_line_number(data)
+                total = data.count()                
 
                 return render (request, 'neworder.html',
                    {
@@ -96,7 +98,10 @@ def neworder (request):
                         "taco_status":taco_status,
                         "cig":cig,
                         "new_order_nr":new_order_nr,
-                        "products": products
+                        "products": products,
+                        "usuario":usuario,
+                        "usuarios":usuarios,
+                        "total":total
                    })
             else:
                 print('Form no valido')
@@ -120,7 +125,10 @@ def neworder (request):
                         "audio_status":audio_status,
                         "taco_status":taco_status,
                         "cig":cig,
-                        "new_order_nr":new_order_nr
+                        "new_order_nr":new_order_nr,
+                        "usuarios":usuarios,
+                        "usuario":usuario,
+                        "total":total
                    })
 
 def test (request):

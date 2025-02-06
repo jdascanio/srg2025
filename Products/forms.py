@@ -25,3 +25,15 @@ class EditStatus(forms.Form):
 
 class DeleteStatus(forms.Form):
     status_id = forms.IntegerField()
+
+class AddReason(forms.Form):
+    reason = forms.CharField(max_length=60)
+    family = forms.CharField(max_length=20)
+
+class EditReason(forms.Form):
+    reason_id = forms.IntegerField()
+    reason = forms.CharField(max_length=60)
+    family = forms.CharField(max_length=20)
+
+class DeleteReason(forms.Form):
+    reason_id = forms.IntegerField()

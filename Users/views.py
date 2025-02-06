@@ -31,11 +31,11 @@ def login_request(request):
                     login(request, user)
                     if request.user.is_staff:
                         #accion si el usuario es admin (cargar perfil)
-                        print('es administrador')
+                        print('es staff')
                     else:
                         #accion si el usuario NO es admin (cargar perfil)
                         print('no es staff')
-                    print('etapa4')
+                    
                     return render(request, 'index.html')
                 else:
                     print('etapa3')

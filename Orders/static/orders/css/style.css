@@ -23,7 +23,7 @@
     background: var(--blue-btn);
 }
 .red-btn{
-    background: var(--red-btn);
+    background: var(--red-btn) !important;
 }
 p{
     display: flex;
@@ -78,6 +78,14 @@ aside{
     border: transparent;
     font-size: 12.5px;
     color: #fafafa;
+}
+.section-header a{
+    text-decoration: none;
+    font-size: 12.5px;
+    text-align: center;
+    line-height: 36px;
+    
+    
 }
 .regular-button:hover{
     background: #0d5983;
@@ -169,7 +177,9 @@ li, .helptext{
 }
 .table{
     margin-top: 20px !important;
+    
 }
+
 .table-success{
     --bs-table-bg: #202B46 !important;
     --bs-table-color: #fafafa !important
@@ -192,6 +202,13 @@ th h3{
 th, td{
     font-size: 12px;
     font-weight: 400;
+}
+.copyright p{
+    position: fixed;
+    bottom: 10px;
+    left: 60px;
+    font-size: 10px;
+    color: #374f8c;
 }
 .welcome{
     color: yellowgreen;
@@ -257,6 +274,11 @@ th, td{
     /* width: 300px; */
     height: 70px;    
 }
+.user-field-container select{
+    border: transparent !important;
+    outline: transparent !important;
+    font-size: 14px;
+}
 .rw5-field-container{
     display: flex;
     flex-direction: column;
@@ -284,6 +306,8 @@ th, td{
     padding-left: 10px;
     margin-bottom: 10px;
     height: 28px;
+    outline: transparent !important;
+    border: transparent !important;
     /* margin-bottom: 2px; */
 }
 .usuario{
@@ -297,7 +321,7 @@ th, td{
 }
 .tracking-field{
     box-sizing: border-box;
-    max-width: 370px;
+    width: 370px;
     padding-right: 5px;
     text-align: center;
 }
@@ -313,14 +337,26 @@ th, td{
     padding-left: 0 !important;
 }
 .nro-orden{
-    width: 80px;
+    width: 100px;
     font-weight: 800; 
     
 }
 .add-product-button{
     width: 140px;
     height: 30px;
-    background: var(--add-product-button);
+}
+.modal-button{
+    width: 100px;
+    height: 40px;
+}
+.modal-header{
+    background-color: #ededed !important;
+}
+.form-select:disabled, .form-control:disabled{
+    cursor: not-allowed !important;
+}
+.add-product-button, .modal-button{
+    background: rgba(15, 113, 166,0.8);
     border: transparent;
     border-radius: 5px;
     margin-bottom: 10px;
@@ -329,8 +365,12 @@ th, td{
     color: #fafafa;
     font-size: 14px;
 }
-.add-product-button:hover{
-    background-color: rgba(70, 129, 244,0.9);
+.add-product-button:hover, .modal-button:hover{
+    background: rgba(15, 113, 166, 1);
+    box-shadow: 0px 5px 10px -3px rgba(0,0,0,0.3);
+}
+.red-btn:hover{
+    background: #822549 !important;
     box-shadow: 0px 5px 10px -3px rgba(0,0,0,0.3);
 }
 .offcanvas{

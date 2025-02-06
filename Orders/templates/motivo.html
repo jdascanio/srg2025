@@ -9,9 +9,44 @@
 <section>
     <div class="section-header">
         <h3>MOTIVOS</h3>
-        <button class="regular-button">Agregar motivo</button>
+        <button class="regular-button" type="button" data-bs-toggle="modal" data-bs-target="#AddReasonModal">Agregar
+            motivo</button>
     </div>
+
     <div class="main-container">
+        <!-- Modal -->
+        <div class="modal fade" id="AddReasonModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+            aria-labelledby="AddReasonModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="AddReasonModalLabel">Crear Estado
+                        </h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form action="" method="POST">
+                            {% csrf_token %}
+                            <div class="input-group input-group-sm mb-3">
+                                <span class="input-group-text" id="reason">Motivo</span>
+                                <input type="text" class="form-control" aria-label="reason input"
+                                    aria-describedby="reason" name="reason" value="" required>
+                            </div>
+                            <div class="input-group mb-3">
+                                <label class="input-group-text" for="modal-family">Familia</label>
+                                <select class="form-select" id="modal-family" name="family" required>
+                                    <option value="">Seleccione una opción</option>
+                                    {% for n in family %}
+                                    <option value="{{n.family}}">{{n.family}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <button type="submit" class="modal-button" name="create-reason">Crear</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="table-users">
             <table class="table table-hover">
                 <thead>
@@ -28,9 +63,79 @@
                     <tr>
                         <td scope="row">{{motivo.reason}}</td>
                         <td>{{motivo.family}}</td>
-                        <td><i class="bi bi-x-square-fill red"></i></td>
-                        <td><i class="bi bi-pencil"></i></td>
+                        <td><a href="" data-bs-toggle="modal" data-bs-target="#DeleteModal{{motivo.id}}"><i
+                                    class="bi bi-x-square-fill red"></i></a></td>
+                        <td class="edit-icon"><a href="" data-bs-toggle="modal"
+                                data-bs-target="#staticBackdrop{{motivo.id}}"><i class="bi bi-pencil"></i></a></td>
                     </tr>
+                    <!-- Modal Edit -->
+                    <div class="modal fade" id="staticBackdrop{{motivo.id}}" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdrop{{motivo.id}}Label"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="staticBackdrop{{motivo.id}}Label">Editar Motivo
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="reason_id" value="{{motivo.id}}">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <span class="input-group-text" id="reason">Motivo</span>
+                                            <input type="text" class="form-control" aria-label="reason input"
+                                                aria-describedby="reason" name="reason" value="{{motivo.reason}}"
+                                                required>
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <label class="input-group-text" for="modal-family">Familia</label>
+                                            <select class="form-select" id="modal-family" name="family">
+                                                <option value="{{motivo.family}}">{{motivo.family}}</option>
+                                                {% for n in family %}
+                                                <option value="{{n.family}}">{{n.family}}</option>
+                                                {% endfor %}
+                                            </select>
+                                        </div>
+                                        <button type="submit" class="modal-button"
+                                            name="edit-reason">Guardar</button>
+                                        <button type="button" class="modal-button red-btn"
+                                            data-bs-dismiss="modal">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Modal Delete -->
+                    <div class="modal fade" id="DeleteModal{{motivo.id}}" data-bs-backdrop="static"
+                        data-bs-keyboard="false" tabindex="-1" aria-labelledby="DeleteModal{{motivo.id}}Label"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="DeleteModal{{motivo.id}}Label">Borrar Motivo
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="reason_id" value="{{motivo.id}}">
+                                        <div class="input-group input-group-sm mb-3">
+                                            <p>¿Seguro desea borrar motivo {{motivo.reason}}?</p>
+                                        </div>
+                                        <button type="submit" class="modal-button"
+                                            name="delete-reason">Borrar</button>
+                                        <button type="button" class="modal-button red-btn"
+                                            data-bs-dismiss="modal">Cancelar</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                     {% endif %}
                 </tbody>
@@ -38,8 +143,8 @@
         </div>
     </div>
 </section>
-    <section>
+<section>
 
-    </section>
+</section>
 
-    {% endblock %}
+{% endblock %}

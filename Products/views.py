@@ -5,8 +5,44 @@ from Products.forms import *
 # Create your views here.
 
 def motivo (request):
+    family = Family.objects.all().order_by('family')
     motivos = Reason.objects.all().order_by('family','reason')
-    return render (request, 'motivo.html', {"motivos":motivos})
+
+    if request.method == "POST":
+        if 'create-reason' in request.POST:
+            form = AddReason(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                new_reason = Reason(
+                    reason = data['reason'],
+                    family = data['family']
+                )
+                new_reason.save()
+                motivos = Reason.objects.all().order_by('family','reason')
+                return render(request, 'motivo.html', {"motivos":motivos, "family":family})
+        elif 'edit-reason' in request.POST:
+            form = EditReason(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+
+                motivo = Reason.objects.get(id=int(data['reason_id']))
+                motivo.reason = data['reason']
+                motivo.family = data['family']
+                motivo.save()
+
+                motivos = Reason.objects.all().order_by('family','reason')
+                return render(request, 'motivo.html', {"motivos":motivos, "family":family})
+        elif 'delete-reason' in request.POST:
+            form = DeleteReason(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                motivo = Reason.objects.get(id=int(data['reason_id']))
+                motivo.delete()
+
+                motivos = Reason.objects.all().order_by('family','reason')
+                return render(request, 'motivo.html', {"motivos":motivos, "family":family})
+
+    return render (request, 'motivo.html', {"motivos":motivos, "family":family})
 
 def producto (request):
     family = Family.objects.all().order_by('family')

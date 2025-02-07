@@ -19,7 +19,8 @@
                     <h1>Orden de Reparación</h1>
                 </div>
                 <div class="neworder-row-two">F721-01 R1</div>
-                <form action="">
+                <form action="" method="POST">
+                    {% csrf_token %}
                     <div class="neworder-row-three">
                         <input class="neworder-input green-btn" type="submit" value="Enviar" name="order_send">
                         <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save">
@@ -32,7 +33,11 @@
                         <div class="user-field-container">
                             <label for="user-field">Usuario</label>
                             <select class="user-field-value usuario" name="user_name" id="user-field" required>
+                                {% if distributor %}
+                                <option value="{{distributor}}">{{distributor}}</option>
+                                {% else %}
                                 <option value=""></option>
+                                {% endif %}
                                 {% for usuario in usuarios %}
                                 <option value="{{usuario.distributor}}">{{usuario.distributor}}</option>
                                 {% endfor %}
@@ -41,8 +46,10 @@
                         </div>
                         <div class="user-field-container">
                             <label for="order-field">Nro Orden</label>
-                            <div class="user-field-value nro-orden" id="order-field">0000001</div>
+                            <div class="user-field-value nro-orden" id="order-field" name="order_number"></div>
                         </div>
+                        <input type="hidden" name="prov_order_number_hd" value="{{new_order_nr}}">
+                        <input type="hidden" name="order_stage" value="{{order_hd.order_stage}}">
                         <div class="user-field-container centered">
                             <label for="total-product-field">Cant. de productos</label>
                             <div class="user-field-value total-product" id="total-product-field" name="total_products">{{total}}</div>
@@ -51,7 +58,6 @@
                             <label for="tracking-field">Código de seguimiento</label>
                             <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="">
                         </div>
-                        <input type="hidden" name="order_stage" value="Order Stage">
                     </div>
                     <div class="neworder-row-five">
                     </div>
@@ -60,15 +66,15 @@
                             <tbody>
                                 <tr>
                                     <td>Fecha de Envio</td>
-                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td class="table-date-field"><input type="date" name="send_date" disabled></td>
                                     <td>Fecha de Recepción</td>
-                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td class="table-date-field"><input type="date" name="reception_date" disabled></td>
                                     <td>Fecha de revisión</td>
-                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td class="table-date-field"><input type="date" name="start_date" disabled></td>
                                     <td>Fecha de Finalización</td>
-                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td class="table-date-field"><input type="date" name="finish_date" disabled></td>
                                     <td>Fecha de devolución</td>
-                                    <td class="table-date-field"><input type="date" name=""></td>
+                                    <td class="table-date-field"><input type="date" name="return_date" disabled></td>
                                 </tr>
                             </tbody>
                         </table>

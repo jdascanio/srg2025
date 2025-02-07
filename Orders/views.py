@@ -101,10 +101,50 @@ def neworder (request):
                         "products": products,
                         "usuario":usuario,
                         "usuarios":usuarios,
-                        "total":total
+                        "total":total,
+                        "order_hd":order_hd
+                   })
+            else:        
+                print('Form no valido')
+        elif 'order_save' in request.POST:
+            form = SaveOrder(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
+                datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number_hd'])
+                total = datos.count()
+                order_hd.user_name = data['user_name']
+                order_hd.total_products = total
+                order_hd.save()
+
+                new_order_nr = data['prov_order_number_hd']
+                products = add_line_number(datos)
+                distributor = order_hd.user_name             
+
+                print("Success!")
+                return render (request, 'neworder.html',
+                   {
+                       "alm_products":alm_products,
+                        "audio_products":audio_products,
+                        "taco_products":taco_products,
+                        "alm_reason":alm_reason,
+                        "audio_reason":audio_reason,
+                        "taco_reason":taco_reason,
+                        "alm_status":alm_status,
+                        "audio_status":audio_status,
+                        "taco_status":taco_status,
+                        "cig":cig,
+                        "new_order_nr":new_order_nr,
+                        "products": products,
+                        "distributor":distributor,
+                        "usuario":usuario,
+                        "usuarios":usuarios,
+                        "total":total,
+                        "order_hd":order_hd
                    })
             else:
-                print('Form no valido')
+                print(form)
+            
     new_order_nr = nro_orden()
     new_order_hd = OrderHeader(
         user = request.user,
@@ -128,7 +168,8 @@ def neworder (request):
                         "new_order_nr":new_order_nr,
                         "usuarios":usuarios,
                         "usuario":usuario,
-                        "total":total
+                        "total":total,
+                        "order_hd":order_hd
                    })
 
 def test (request):

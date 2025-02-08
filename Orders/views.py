@@ -182,9 +182,9 @@ def neworder (request):
 def orders (request):
     usuario = Profile.objects.get(user=request.user.id)
     if usuario.is_admin == True:
-        orders = OrderHeader.objects.all()
+        orders = OrderHeader.objects.all().order_by('-id')
     else:
-        orders = OrderHeader.objects.filter(user_name=usuario.distributor)
+        orders = OrderHeader.objects.filter(user_name=usuario.distributor).order_by('-id')
     return render(request, 'orders.html',
                   {
                       "orders": orders

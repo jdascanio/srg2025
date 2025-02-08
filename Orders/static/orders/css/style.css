@@ -6,7 +6,7 @@
 :root{
     --incomplete-color: #87011c; /* Red */
     --sent-color: #e1a500; /* Orange */
-    --inprogress-color: #0093bb; /* Blue */
+    --pending-color: #0093bb; /* Blue */
     --notreturned-color: #009113; /* Green */
     --finished-color: #d2d2d2; /* Grey */
     --green-btn: #5dbea3; 
@@ -134,8 +134,8 @@ li, .helptext{
 .envio{
     background-color: var(--incomplete-color);
 }
-.inprogress {
-    background-color: var(--inprogress-color);
+.pendiente {
+    background-color: var(--pending-color);
 
 }
 .recepcion{

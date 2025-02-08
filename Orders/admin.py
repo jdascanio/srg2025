@@ -3,5 +3,5 @@ from Orders.models import *
 
 # Register your models here.
 
-admin.site.register(OrderHeader)
 admin.site.register(OrderContent)
+admin.site.register(OrderHeader)

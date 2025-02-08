@@ -15,7 +15,7 @@
         <section class="orders-section">
             {% for order in orders %}              
             <div class="order-container">
-                <div class="order-top envio"></div>
+                <div class="order-top {{order.order_stage}}"></div>
                 <div class="order-bottom">
                     <table class="table-order">
                         <thead>

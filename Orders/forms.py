@@ -28,4 +28,4 @@ class SaveOrder(forms.Form):
     start_date = forms.DateField(required=False)
     finish_date = forms.DateField(required=False)
     return_date = forms.DateField(required=False)
-    order_stage = forms.IntegerField(required=False)
+    order_stage = forms.CharField(max_length=60, required=False)

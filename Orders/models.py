@@ -18,7 +18,7 @@ class OrderHeader (models.Model):
     start_date = models.DateField(null=True, blank=True)
     finish_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
-    order_stage = models.IntegerField(default=0)
+    order_stage = models.CharField(max_length=60, default="envio")
     order_status = models.BooleanField(default=False)
     
     def __str__(self):

@@ -180,6 +180,8 @@
                                 </div>
                                 <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
                                 <input type="hidden" value="alarma" name="family">
+                                <input type="hidden" value="{{distributor}}" name="user_name" id="input-user-name1">
+                                
 
                                 <div class="offcanvas-btn-container">
                                     <button class="modal-button" type="submit" name="add-product">Agregar</button>
@@ -293,6 +295,7 @@
                                 </div>
                                 <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
                                 <input type="hidden" value="audio" name="family">
+                                <input type="hidden" value="{{distributor}}" name="user_name" id="input-user-name2">
 
                                 <div class="offcanvas-btn-container">
                                     <button class="modal-button" type="submit" name="add-product">Agregar</button>
@@ -407,6 +410,7 @@
                                 </div>
                                 <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
                                 <input type="hidden" value="tacografo" name="family">
+                                <input type="hidden" value="{{distributor}}" name="user_name" id="input-user-name3">
 
                                 <div class="offcanvas-btn-container">
                                     <button class="modal-button" type="submit" name="add-product">Agregar</button>
@@ -460,4 +464,5 @@
         </div>
     </div>
 </section>
+<script src="{% static 'orders/js/script.js' %}"></script>
 {% endblock %}

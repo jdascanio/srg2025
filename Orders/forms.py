@@ -15,6 +15,7 @@ class AddProductLine(forms.Form):
     observations = forms.CharField(max_length=200, required=False)#
     out_sn = forms.CharField(max_length=20, required=False)#
     invoice = forms.CharField(max_length=20, required=False)#
+    user_name = forms.CharField(max_length=20, required=False)
 
 class SaveOrder(forms.Form):
     order_number = forms.CharField(max_length=10, required=False)

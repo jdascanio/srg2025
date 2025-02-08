@@ -7,6 +7,7 @@ from Orders.forms import *
 import datetime
 import random
 import string
+import pandas as pd
 
 # Create your views here.
 def lector ():
@@ -59,7 +60,12 @@ def neworder (request):
             form = AddProductLine(request.POST)            
             if form.is_valid():
                 data = form.cleaned_data
+
                 order_hd = OrderHeader.objects.filter(prov_order_number=data['prov_order_number']).first()
+                order_hd.user_name = data['user_name']
+                order_hd.save()
+                distributor = order_hd.user_name
+
                 new_line = OrderContent(
                     user = request.user,
                     order_header = order_hd,
@@ -102,7 +108,8 @@ def neworder (request):
                         "usuario":usuario,
                         "usuarios":usuarios,
                         "total":total,
-                        "order_hd":order_hd
+                        "order_hd":order_hd,
+                        "distributor":distributor
                    })
             else:        
                 print('Form no valido')
@@ -172,10 +179,47 @@ def neworder (request):
                         "order_hd":order_hd
                    })
 
+def orders (request):
+    usuario = Profile.objects.get(user=request.user.id)
+    if usuario.is_admin == True:
+        orders = OrderHeader.objects.all()
+    else:
+        orders = OrderHeader.objects.filter(user_name=usuario.distributor)
+    return render(request, 'orders.html',
+                  {
+                      "orders": orders
+                  })
+
+
+
+
+
+
 def test (request):
     
-    if request.method == "GET":
-        form = request.GET
-        print(form)
-        
-    return render (request, 'test.html')
+    form = OrderContent.objects.all().values()
+    list_of_dicts = list(form)
+    DB = pd.DataFrame(list_of_dicts)
+
+    new_columns = {
+        'user': 'id_usuario',
+        'order_header': 'id_orden',
+        'user_name': 'Distribuidor',
+        'order_number': 'Nro_Orden',
+        'prov_order_number': 'Nro_Orden_Provisorio',
+        'family': 'Familia',
+        'status': 'Estado',
+        'missing_elem': 'Faltantes',
+        'product': 'Producto',
+        'in_sn': 'Nro Serie',
+        'client': 'Cliente',
+        'seller': 'Vendedor',
+        'reason': 'Motivo',
+        'observations': 'Obs',
+        'out_sn': 'Egresa SN',
+        'invoice': 'Factura'
+    }
+    DB = DB.rename(columns=new_columns)
+
+    DB.to_excel('data.xlsx', index=False)
+    return render(request, 'test.html')

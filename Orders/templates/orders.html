@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>Positron | Garantias</title>
+{% endblock %}
+
+{% block main %}
+<section>
+    <div class="section-header">
+        <h3>ORDENES - F721-03 R2</h3>
+        <a href="{% url 'neworder' %}" target="_blank" rel="noreferrer noopener" class="regular-button">Crear Orden</a>
+    </div>
+    <div class="main-container">
+        <section class="orders-section">
+            {% for order in orders %}              
+            <div class="order-container">
+                <div class="order-top envio"></div>
+                <div class="order-bottom">
+                    <table class="table-order">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%">
+                                    {% if order.order_number %}
+                                    <h3>{{order.order_number}}</h3>
+                                    {% elif order.prov_order_number %}
+                                    <h3>{{order.prov_order_number}}</h3>
+                                    {% endif %}
+                                </th>
+                                <th style="width: 10%">F. Envio</th>
+                                <th style="width: 10%">F. Recepción</th>
+                                <th style="width: 10%">F. Revisión</th>
+                                <th style="width: 10%">F. Finalización</th>
+                                <th style="width: 10%">F. Devolución</th>
+                                <th style="width: 20%">Seguimiento</th>
+                                <th style="width: 10%"></th>
+                            </tr>
+                            </th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{order.user_name}}</td>
+                                {% if order.send_date %}
+                                <td>{{order.send_date}}</td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                                {% if order.reception_date %}
+                                <td>{{order.reception_date}}</td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                                {% if order.start_date %}
+                                <td>{{order.start_date}}</td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                                {% if order.finish_date %}
+                                <td>{{order.finish_date}}</td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                                {% if order.return_date %}
+                                <td>{{order.return_date}}</td>
+                                {% else %}
+                                <td></td>
+                                {% endif %}
+                                {% if order.tracking %}
+                                <td>{{order.tracking}}</td>
+                                {% else %}
+                                <td>Sin Tracking</td>
+                                {% endif %}
+                                <td><i class="bi bi-x-square-fill red"></i></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </section>
+    </div>
+
+</section>
+
+{% endblock %}

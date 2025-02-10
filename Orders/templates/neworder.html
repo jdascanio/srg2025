@@ -52,7 +52,8 @@
                         <input type="hidden" name="order_stage" value="{{order_hd.order_stage}}">
                         <div class="user-field-container centered">
                             <label for="total-product-field">Cant. de productos</label>
-                            <div class="user-field-value total-product" id="total-product-field" name="total_products">{{total}}</div>
+                            <div class="user-field-value total-product" id="total-product-field" name="total_products">
+                                {{total}}</div>
                         </div>
                         <div class="user-field-container">
                             <label for="tracking-field">Código de seguimiento</label>
@@ -181,7 +182,7 @@
                                 <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
                                 <input type="hidden" value="alarma" name="family">
                                 <input type="hidden" value="{{distributor}}" name="user_name" id="input-user-name1">
-                                
+
 
                                 <div class="offcanvas-btn-container">
                                     <button class="modal-button" type="submit" name="add-product">Agregar</button>
@@ -419,7 +420,6 @@
                         </div>
                     </div>
                 </div>
-                <div></div>
             </section>
             <!-- PRODUCT LIST SECTION -->
             {% if products%}
@@ -438,8 +438,11 @@
                         <th scope="col">Egresa S/N</th>
                         <th scope="col">Nro Factura</th>
                         <th scope="col">Obs</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
+                {% if products %}
                 {% for product in products %}
                 <tr>
                     <td scope="row">{{product.line}}</td>
@@ -454,8 +457,234 @@
                     <td>{{product.out_sn}}</td>
                     <td>{{product.invoice}}</td>
                     <td>{{product.observations}}</td>
+                    <td><a href="" data-bs-toggle="modal" data-bs-target="#deleteRow{{product.id}}"><i
+                                class="bi bi-x-square-fill red"></i></a></td>
+                    <td class="edit-icon"><a href="" data-bs-toggle="modal"
+                            data-bs-target="#modalEditRow{{product.id}}"><i class="bi bi-pencil"></i></a></td>
                 </tr>
+                <!-- MODAL DELETE ROW -->
+                <div class="modal fade" id="deleteRow{{product.id}}" tabindex="-1"
+                    aria-labelledby="deleteRow{{product.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="deleteRow{{product.id}}Label">Quitar producto</h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    ¿Quitar {{product.product}}?
+                                    <input type="hidden" value="{{product.id}}" name="row_id">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
+                                        name="delete-row">Borrar</button>
+                                    <button type="button" class="btn btn-primary">Cancelar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <!-- MODAL EDIT ROW -->
+                <div class="modal fade" id="modalEditRow{{product.id}}" tabindex="-1"
+                    aria-labelledby="modalEditRow{{product.id}}Label" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="modalEditRow{{product.id}}Label">Editar producto</h1>
+
+
+
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <form action="" method="POST">
+                                {% csrf_token %}
+                                <div class="modal-body">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="off-canvas-status">Estado</label>
+                                        <select class="form-select" id="off-canvas-status" name="status">
+                                            {% if product.status %}
+                                            <option value="{{product.status}}">{{product.status}}</option>
+                                            {% else %}
+                                            <option value="">Seleccione una opción</option>
+                                            {% endif %}
+                                            {% if product.family == "alarma" %}
+                                            {% for n in alm_status %}
+                                            <option value="{{n.status}}">{{n.status}}</option>
+                                            {% endfor %}
+                                            {% elif product.family == "audio" %}
+                                            {% for n in audio_status %}
+                                            <option value="{{n.status}}">{{n.status}}</option>
+                                            {% endfor %}
+                                            {% elif product.family == "tacografo" %}
+                                            {% for n in taco_status %}
+                                            <option value="{{n.status}}">{{n.status}}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="missing_elem">Faltantes</span>
+                                        {% if product.missing_elem %}
+                                        <input type="text" class="form-control" aria-label="Sizing example input"
+                                            aria-describedby="faltantes" name="missing_elem"
+                                            value="{{product.missing_elem}}">
+                                        {% else %}
+                                        <input type="text" class="form-control" aria-label="Sizing example input"
+                                            aria-describedby="faltantes" name="missing_elem">
+                                        {% endif %}
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="off-canvas-product">Producto</label>
+                                        <select class="form-select" id="off-canvas-product" name="product" required>
+                                            {% if product.product %}
+                                            <option value="{{product.product}}">{{product.product}}</option>
+                                            {% else %}
+                                            <option value="">Seleccione una opción</option>
+                                            {% endif %}
+                                            {% if product.family == "alarma" %}
+                                            {% for n in alm_products %}
+                                            <option value="{{n.name}}">{{n.name}}</option>
+                                            {% endfor %}
+                                            {% elif product.family == "audio" %}
+                                            {% for n in audio_products %}
+                                            <option value="{{n.name}}">{{n.name}}</option>
+                                            {% endfor %}
+                                            {% elif product.family == "tacografo" %}
+                                            {% for n in taco_products %}
+                                            <option value="{{n.name}}">{{n.name}}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="in_sn">Nro Serie</span>
+                                        {% if product.in_sn %}
+                                        <input type="text" class="form-control" aria-label="in_sn input"
+                                            aria-describedby="in_sn" name="in_sn" value="{{product.in_sn}}">
+                                        {% else %}
+                                        <input type="text" class="form-control" aria-label="in_sn input"
+                                            aria-describedby="in_sn" name="in_sn">
+                                        {% endif %}
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="client">Cliente</span>
+                                        {% if product.client %}
+                                        <input type="text" class="form-control" aria-label="client input"
+                                            aria-describedby="client" name="client" value="{{product.client}}">
+                                        {% else %}
+                                        <input type="text" class="form-control" aria-label="client input"
+                                            aria-describedby="client" name="client">
+                                        {% endif %}
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="seller">Vendedor</span>
+                                        {% if product.seller %}
+                                        <input type="text" class="form-control" aria-label="seller input"
+                                            aria-describedby="seller" name="seller" value="{{product.seller}}">
+                                        {% else %}
+                                        <input type="text" class="form-control" aria-label="seller input"
+                                            aria-describedby="seller" name="seller">
+                                        {% endif %}
+                                    </div>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="off-canvas-reason">Motivo</label>
+                                        <select class="form-select" id="off-canvas-reason" name="reason" required>
+                                            {% if product.reason %}
+                                            <option value="{{product.reason}}">{{product.reason}}</option>
+                                            {% else %}
+                                            <option value="">Seleccione una opción</option>
+                                            {% endif %}
+                                            {% if product.family == "alarma" %}
+                                            {% for n in alm_reason %}
+                                            <option value="{{n.reason}}">{{n.reason}}</option>
+                                            {% endfor %}
+                                            {% elif product.family == "audio" %}
+                                            {% for n in audio_reason %}
+                                            <option value="{{n.reason}}">{{n.reason}}</option>
+                                            {% endfor %}
+                                            {% elif product.family == "tacografo" %}
+                                            {% for n in taco_reason %}
+                                            <option value="{{n.reason}}">{{n.reason}}</option>
+                                            {% endfor %}
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    {% if not usuario.is_admin %}
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
+                                        <select class="form-select" id="off-canvas-cig" name="cig" disabled>
+                                            {% if product.cig %}
+                                            <option value="{{product.cig}}">{{product.cig}}</option>
+                                            {% else %}
+                                            <option value="">Seleccione una opción</option>
+                                            {% endif %}
+                                            {% for n in cig %}
+                                            <option value="{{n.cig}}">{{n.cig}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="off-canvas-cig">C.I.G.</label>
+                                        <select class="form-select" id="off-canvas-cig" name="cig">
+                                            {% if product.cig %}
+                                            <option value="{{product.cig}}">{{product.cig}}</option>
+                                            {% else %}
+                                            <option value="">Seleccione una opción</option>
+                                            {% endif %}
+                                            {% for n in cig %}
+                                            <option value="{{n.cig}}">{{n.cig}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                    {% endif%}
+                                    {% if not usuario.is_admin %}
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                        <input type="text" class="form-control" aria-label="out_sn input"
+                                            aria-describedby="out_sn" name="out_sn" disabled>
+                                    </div>
+                                    {% else %}
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                        <input type="text" class="form-control" aria-label="out_sn input"
+                                            aria-describedby="out_sn" name="out_sn">
+                                    </div>
+                                    {% endif%}
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="invoice">Nro Factura</span>
+                                        <input type="text" class="form-control" aria-label="invoice input"
+                                            aria-describedby="invoice" name="invoice">
+                                    </div>
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="observations">Observaciones</span>
+                                        <input type="text" class="form-control" aria-label="observations input"
+                                            aria-describedby="observations" name="observations">
+                                    </div>
+                                    <input type="hidden" value="{{new_order_nr}}" name="prov_order_number">
+                                    {% if product.family == "alarma" %}
+                                    <input type="hidden" value="alarma" name="family">
+                                    {% elif product.family == "audio" %}
+                                    <input type="hidden" value="audio" name="family">
+                                    {% elif product.family == "tacografo" %}
+                                    <input type="hidden" value="tavografo" name="family">
+                                    {% endif %}
+                                    <input type="hidden" value="{{distributor}}" name="user_name" id="input-user-name3">
+
+                                    <div class="offcanvas-btn-container">
+                                        <button class="modal-button" type="submit" name="edit-product">Editar</button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
                 {% endfor %}
+                {% endif %}
             </table>
             {% endif %}
             <section>

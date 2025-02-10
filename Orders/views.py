@@ -3,6 +3,7 @@ from Orders.models import *
 from Products.models import *
 from Users.models import *
 from django.contrib.auth.models import User
+from django.shortcuts import redirect
 from Orders.forms import *
 import datetime
 import random
@@ -151,7 +152,45 @@ def neworder (request):
                    })
             else:
                 print(form)
-            
+        elif 'delete-row' in request.POST:
+            row_id = DeleteRow(request.POST)
+            if row_id.is_valid():
+                dato = row_id.cleaned_data
+                print(dato)
+                row = OrderContent.objects.get(id=dato['row_id'])
+                orden = row.prov_order_number
+                row.delete()
+
+                order_hd = OrderHeader.objects.get(prov_order_number=row.prov_order_number)
+                datos = OrderContent.objects.filter(prov_order_number=row.prov_order_number)
+                total = datos.count()
+
+                new_order_nr = row.prov_order_number
+                products = add_line_number(datos)
+                distributor = order_hd.user_name             
+
+                print("Success!")
+                return render (request, 'neworder.html',
+                   {
+                       "alm_products":alm_products,
+                        "audio_products":audio_products,
+                        "taco_products":taco_products,
+                        "alm_reason":alm_reason,
+                        "audio_reason":audio_reason,
+                        "taco_reason":taco_reason,
+                        "alm_status":alm_status,
+                        "audio_status":audio_status,
+                        "taco_status":taco_status,
+                        "cig":cig,
+                        "new_order_nr":new_order_nr,
+                        "products": products,
+                        "distributor":distributor,
+                        "usuario":usuario,
+                        "usuarios":usuarios,
+                        "total":total,
+                        "order_hd":order_hd
+                   })
+
     new_order_nr = nro_orden()
     new_order_hd = OrderHeader(
         user = request.user,
@@ -189,6 +228,10 @@ def orders (request):
                   {
                       "orders": orders
                   })
+
+
+  
+
 
 
 

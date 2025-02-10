@@ -643,10 +643,25 @@
                                     </div>
                                     {% endif%}
                                     {% if not usuario.is_admin %}
+                                    {% if product.out_sn %}
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                        <input type="text" class="form-control" aria-label="out_sn input"
+                                            aria-describedby="out_sn" name="out_sn" value="{{product.out_sn}}" disabled>
+                                    </div>
+                                    {% else %}
                                     <div class="input-group input-group-sm mb-3">
                                         <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
                                         <input type="text" class="form-control" aria-label="out_sn input"
                                             aria-describedby="out_sn" name="out_sn" disabled>
+                                    </div>
+                                    {% endif %}
+                                    {% else %}
+                                    {% if product.out_sn %}
+                                    <div class="input-group input-group-sm mb-3">
+                                        <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                        <input type="text" class="form-control" aria-label="out_sn input"
+                                            aria-describedby="out_sn" name="out_sn" value="{{product.out_sn}}">
                                     </div>
                                     {% else %}
                                     <div class="input-group input-group-sm mb-3">
@@ -654,6 +669,7 @@
                                         <input type="text" class="form-control" aria-label="out_sn input"
                                             aria-describedby="out_sn" name="out_sn">
                                     </div>
+                                    {% endif %}
                                     {% endif%}
                                     <div class="input-group input-group-sm mb-3">
                                         <span class="input-group-text" id="invoice">Nro Factura</span>

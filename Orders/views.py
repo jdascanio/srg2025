@@ -9,6 +9,9 @@ import datetime
 import random
 import string
 import pandas as pd
+import csv
+import codecs
+import sys
 
 # Create your views here.
 def lector ():
@@ -266,3 +269,16 @@ def test (request):
 
     DB.to_excel('data.xlsx', index=False)
     return render(request, 'test.html')
+
+def loader (request):
+    with codecs.open("C:\\Users\\jdascanio\\OneDrive - Stoneridge Inc\\Documentos\\Python\\Garantias2025\\padrones\\Producto.csv","r",encoding="ANSI") as padron:
+        csv_lector = csv.reader(padron, delimiter=';')
+        for n in csv_lector:
+            new_status = Products(
+                    name = n[0],
+                    family = n[1],
+                    subcat = n[2]
+                )
+            new_status.save()
+
+    return render(request,'test.html')

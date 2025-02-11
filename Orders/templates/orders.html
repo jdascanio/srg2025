@@ -22,16 +22,36 @@
                             <tr>
                                 <th style="width: 10%">
                                     {% if order.order_number %}
-                                    <h3>{{order.order_number}}</h3>
+                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" href=""><h3>{{order.order_number}}</h3></a>
                                     {% elif order.prov_order_number %}
-                                    <h3>{{order.prov_order_number}}</h3>
-                                    {% endif %}
+                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" href=""><h3>{{order.prov_order_number}}</h3></a>
+                                    {% endif %} 
                                 </th>
+                                {% if order.send_date %}
                                 <th style="width: 10%">F. Envio</th>
+                                {% else %}
+                                <th style="width: 10%"></th>
+                                {% endif %}
+                                {% if order.reception_date %}
                                 <th style="width: 10%">F. Recepción</th>
+                                {% else %}
+                                <th style="width: 10%"></th>
+                                {% endif %}
+                                {% if order.start_date %}
                                 <th style="width: 10%">F. Revisión</th>
+                                {% else %}
+                                <th style="width: 10%"></th>
+                                {% endif %}
+                                {% if order.finish_date %}
                                 <th style="width: 10%">F. Finalización</th>
+                                {% else %}
+                                <th style="width: 10%"></th>
+                                {% endif %}
+                                {% if order.return_date %}
                                 <th style="width: 10%">F. Devolución</th>
+                                {% else %}
+                                <th style="width: 10%"></th>
+                                {% endif %}
                                 <th style="width: 20%">Seguimiento</th>
                                 <th style="width: 10%"></th>
                             </tr>
@@ -68,7 +88,7 @@
                                 {% if order.tracking %}
                                 <td>{{order.tracking}}</td>
                                 {% else %}
-                                <td>Sin Tracking</td>
+                                <td></td>
                                 {% endif %}
                                 <td><i class="bi bi-x-square-fill red"></i></td>
                             </tr>

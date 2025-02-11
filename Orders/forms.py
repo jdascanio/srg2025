@@ -34,6 +34,7 @@ class DeleteRow(forms.Form):
     row_id = forms.CharField(max_length=30)
 
 class EditProductLine(forms.Form):
+    line_id = forms.CharField(max_length=20)
     prov_order_number = forms.CharField(max_length=25)#
     family = forms.CharField(max_length=20, required=False)
     status = forms.CharField(max_length=30, required=False)#

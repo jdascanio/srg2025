@@ -19,6 +19,10 @@
 .green-btn{
     background: var(--green-btn);
 }
+.green-btn:disabled{
+    background: var(--finished-color) !important;
+    cursor: not-allowed !important;
+}
 .blue-btn{
     background: var(--blue-btn);
 }
@@ -194,10 +198,18 @@ li, .helptext{
 .table-order thead th{
     font-weight: 600;
 }
-th h3{
+.order-number-main{
+    text-decoration: none;
+}
+.order-number-main h3:hover{
+    color: #f84f00;
+}
+th h3, .order-number-main h3{
     font-size: 16px;
     font-weight: 800;
     margin-bottom: 0;
+    text-decoration: none !important; 
+    color: #0b3970;
 }
 th, td{
     font-size: 12px;

@@ -6,6 +6,9 @@ class Order (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_nr = models.CharField(max_length=10, null=True, blank=True)
 
+    def __str__(self):
+        return f'{self.order_nr}'
+
 class OrderHeader (models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     order_number = models.CharField(max_length=10, null=True, blank=True)
@@ -20,9 +23,10 @@ class OrderHeader (models.Model):
     return_date = models.DateField(null=True, blank=True)
     order_stage = models.CharField(max_length=60, default="envio")
     order_status = models.BooleanField(default=False)
+    visible = models.BooleanField(default=False)
     
     def __str__(self):
-        return f'{self.user} - {self.prov_order_number}'
+        return f'{self.user} - {self.prov_order_number} - {self.order_number}'
         # return f'{self.user_name} - {self.order_number}'
 
 class OrderContent (models.Model):

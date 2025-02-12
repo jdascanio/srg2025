@@ -103,6 +103,9 @@ aside{
     flex-direction: column;
     align-items: center;
 }
+.print{
+    background-color: transparent !important;
+}
 .logo{
     width: 150px;
 }
@@ -130,6 +133,16 @@ li, .helptext{
     align-items: center;
     /* background-color: yellow; */
     /* background-color: yellow; */
+}
+.print-order-container{
+    width: 90%;
+}
+.print-order-header{
+    display: flex;
+}
+.print-order-header p{
+    display: flex;
+    flex-wrap: nowrap;
 }
 .red{
     color: var(--incomplete-color);
@@ -266,6 +279,16 @@ th, td{
     font-style: bold;
     margin-left: 40px;
 }
+.neworder-row-three a{
+    color: black !important;
+    text-decoration: none !important;
+    transition: ease-in-out;
+    transition-duration: 250ms;
+}
+.neworder-row-three a:hover{
+    color: var(--notreturned-color) !important;
+    text-decoration: none !important;
+}
 .neworder-input{
     width: 150px;
     height: 30px;
@@ -349,7 +372,7 @@ th, td{
     padding-left: 0 !important;
 }
 .nro-orden{
-    width: 100px;
+    width: 120px;
     font-weight: 800; 
     
 }
@@ -432,7 +455,7 @@ th, td{
 .table-date-field{
     min-width: 10%;
     max-width: 100%;
-    text-align: center;
+    text-align: center !important;
     /* background: #f6f6f6; */
     color: black;
 }

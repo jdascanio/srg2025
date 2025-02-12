@@ -245,17 +245,17 @@ def neworder (request):
         elif 'order_send' in request.POST:
             form = request.POST
             order_hd = OrderHeader.objects.get(prov_order_number=form['prov_order_number_hd'])
-            orders = Order.objects.all()
-            order_nr = orders.count() + 1
+            order = Order.objects.get(id=1)
+            order_nr = order.order_nr + 1
+            order.order_nr = order_nr
+            order.save()
+            neworder_nr = str(order_nr).zfill(8)
+
+            
             order_hd.status = True
-            order_hd.order_number = str(order_nr).zfill(8)
+            order_hd.order_number = neworder_nr
             order_hd.send_date = datetime.datetime.now().strftime("%Y-%m-%d")
-            order_hd.save()
-            new_order = Order(
-                user = request.user,
-                order_nr = str(order_nr).zfill(8)
-            )
-            new_order.save()            
+            order_hd.save()                       
             return redirect ('/Orders/orders')
         
 
@@ -298,16 +298,49 @@ def orders (request):
                   })
 
 def edit_order (request, id):
+    alm_products = Products.objects.filter(family='alarma').order_by('name')
+    audio_products = Products.objects.filter(family='audio').order_by('name')
+    taco_products = Products.objects.filter(family='tacografo').order_by('name')
+    alm_reason = Reason.objects.filter(family='alarma').order_by('reason')
+    audio_reason = Reason.objects.filter(family='audio').order_by('reason')
+    taco_reason = Reason.objects.filter(family='tacografo').order_by('reason')
+    alm_status = Status.objects.filter(family='alarma').order_by('status')
+    audio_status = Status.objects.filter(family='audio').order_by('status')
+    taco_status = Status.objects.filter(family='tacografo').order_by('status')
+    cig = Cig.objects.all().order_by('cig')
+    usuarios = Profile.objects.all()
+    usuario = Profile.objects.get(user=request.user.id)
+
     order_hd = OrderHeader.objects.get(id=id)
     datos = OrderContent.objects.filter(prov_order_number=order_hd.prov_order_number)
-    total = datos.count()    
+    total = datos.count()
     new_order_nr = order_hd.prov_order_number
     products = add_line_number(datos)
     distributor = order_hd.user_name
 
-    return render (request,'edit-order.html')
-  
 
+    return render (request,'edit-order.html',{
+        "alm_products":alm_products,
+                        "audio_products":audio_products,
+                        "taco_products":taco_products,
+                        "alm_reason":alm_reason,
+                        "audio_reason":audio_reason,
+                        "taco_reason":taco_reason,
+                        "alm_status":alm_status,
+                        "audio_status":audio_status,
+                        "taco_status":taco_status,
+                        "cig":cig,
+                        "new_order_nr":new_order_nr,
+                        "products": products,
+                        "distributor":distributor,
+                        "usuario":usuario,
+                        "usuarios":usuarios,
+                        "total":total,
+                        "order_hd":order_hd
+    })
+  
+def print (request, id):
+    return render (request, 'print.html')
 
 
 

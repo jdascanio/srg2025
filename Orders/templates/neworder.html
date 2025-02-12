@@ -28,9 +28,15 @@
                         <input class="neworder-input green-btn" type="submit" value="Enviar" name="order_send" disabled>
                         {% endif %}
                         <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save">
+                        {% if usuario.is_admin %}
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
                         <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
+                        {% else %}
+                        <input class="neworder-input red-btn" type="hidden" value="Cancelar" name="cancel">
+                        <input class="neworder-input green-btn" type="hidden" value="Cerrar" name="order_close">
+                        <input class="neworder-input blue-btn" type="hidden" value="finalizar" name="order_end">
+                        {% endif %}
                         <i class="bi bi-printer"></i>
                     </div>
                     <div class="neworder-row-four">
@@ -42,9 +48,14 @@
                                 {% else %}
                                 <option value=""></option>
                                 {% endif %}
+                                {% if usuario.is_admin %}
+                                <option value=""></option>
                                 {% for usuario in usuarios %}
                                 <option value="{{usuario.distributor}}">{{usuario.distributor}}</option>
                                 {% endfor %}
+                                {% else %}
+                                <option value="{{usuario.distributor}}" selected>{{usuario.distributor}}</option>
+                                {% endif %}
                             </select>
                             <!-- <div class="user-field-value usuario" id="user-field">Macars</div> -->
                         </div>
@@ -61,7 +72,7 @@
                         </div>
                         <div class="user-field-container">
                             <label for="tracking-field">Código de seguimiento</label>
-                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="">
+                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="" disabled>
                         </div>
                     </div>
                     <div class="neworder-row-five">

@@ -22,9 +22,9 @@
                             <tr>
                                 <th style="width: 10%">
                                     {% if order.order_number %}
-                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" href=""><h3>{{order.order_number}}</h3></a>
+                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" target="_blank" rel="noopener noreferrer"><h3>{{order.order_number}}</h3></a>
                                     {% elif order.prov_order_number %}
-                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" href=""><h3>{{order.prov_order_number}}</h3></a>
+                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" target="_blank" rel="noopener noreferrer"><h3>{{order.prov_order_number}}</h3></a>
                                     {% endif %} 
                                 </th>
                                 {% if order.send_date %}

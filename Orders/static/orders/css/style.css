@@ -27,7 +27,7 @@
 .vio-btn{
     background: var(--send-color);
 }
-.green-btn:disabled{
+.green-btn:disabled, .blue-btn:disabled{
     background: var(--finished-color) !important;
     cursor: not-allowed !important;
 }
@@ -152,6 +152,7 @@ li, .helptext{
 }
 .print-order-container-top h2{
     margin-bottom: 0 !important;
+    font-size: 1.75rem !important;
 }
 .print-order-header{
     display: flex;
@@ -404,6 +405,45 @@ th, td{
     padding-right: 5px;
     text-align: center;
 }
+.tracking-field:disabled{
+    background-color: #f7f7f7;
+    cursor: not-allowed;
+}
+.filter-distributor{
+    display: flex;
+    /* flex-direction: column; */
+    align-items: end;
+}
+.input-distributor{
+    border: 1px solid #1c2539 !important;
+    font-size: 11px;
+    height: 30px;
+}
+.search-btn{
+    padding: 0 6px !important;
+    height: 30px;
+    width: 30px;
+    margin-right: 10px;
+}
+.borrar{
+    margin: 0;
+    margin-bottom: 2px !important;
+  }
+  .borrar a{
+    margin: 0 !important;
+    text-decoration: none !important;
+    color: black !important;
+    font-style: italic !important;
+    font-size: 11px !important;    
+  }
+.alert {
+    margin-top: 10px !important;
+}
+.buscar{
+    max-width: 180px;
+    margin-top: 8px;
+    margin-bottom: 0 !important;
+}
 .centered{
     align-items: center !important;
 }
@@ -525,6 +565,9 @@ th, td{
     }
     .print-order-container{
         width: 98%;
+    }
+    .table{
+        --bs-table-border-color: Grey !important;
     }
     .table th{
         font-size: 9px !important;

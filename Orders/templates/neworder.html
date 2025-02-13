@@ -18,7 +18,7 @@
                 <div>
                     <h1>Orden de Reparación</h1>
                 </div>
-                <div class="neworder-row-two">F721-01 R1</div>
+                <div class="neworder-row-two">F721-02 R3</div>
                 <form action="" method="POST">
                     {% csrf_token %}
                     <div class="neworder-row-three">
@@ -37,7 +37,7 @@
                         <input class="neworder-input green-btn" type="hidden" value="Cerrar" name="order_close">
                         <input class="neworder-input blue-btn" type="hidden" value="finalizar" name="order_end">
                         {% endif %}
-                        <i class="bi bi-printer"></i>
+                        <!-- <i class="bi bi-printer"></i> -->
                     </div>
                     <div class="neworder-row-four">
                         <div class="user-field-container">

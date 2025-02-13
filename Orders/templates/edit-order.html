@@ -22,7 +22,7 @@
                 <div>
                     <h1>Orden de Reparación</h1>
                 </div>
-                <div class="neworder-row-two">F721-01 R1</div>
+                <div class="neworder-row-two">F721-02 R3</div>
                 <form action="" method="POST">
                     {% csrf_token %}
                     <div class="neworder-row-three">
@@ -43,8 +43,12 @@
                         {% if usuario.is_admin %}
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
                         <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
+                        {% if order_hd.finish_date %}
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
-                        <a href="{% url 'print' order_hd.id %}" target="_blank" rel="noopener noreferrer"><i
+                        {% else %}
+                        <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end" disabled>
+                        {% endif %}
+                        <a href="{% url 'print_order' order_hd.id %}" target="_blank" rel="noopener noreferrer"><i
                                 class="bi bi-printer"></i></a>
                         {% else %}
                         <input class="neworder-input red-btn" type="hidden" value="Cancelar" name="cancel">
@@ -86,8 +90,12 @@
                         </div>
                         <div class="user-field-container">
                             <label for="tracking-field">Código de seguimiento</label>
+                            {% if order_hd.finish_date %}
+                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="">
+                            {% else %}
                             <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value=""
                                 disabled>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="neworder-row-five">
@@ -104,14 +112,26 @@
                                     <td class="table-date-field"><input type="date" name="reception_date"
                                             value="{{order_hd.reception_date|date:'Y-m-d' }}" disabled></td>
                                     <td>Fecha de revisión</td>
+                                    {% if usuario.is_admin %}
+                                    {% if order_hd.start_date %}
+                                    <td class="table-date-field"><input type="date" name="start_date" value="{{order_hd.start_date|date:'Y-m-d' }}" disabled></td>
+                                    {% else %}
                                     <td class="table-date-field"><input type="date" name="start_date"></td>
+                                    {% endif %}
+                                    {% else %}
+                                    <td class="table-date-field"><input type="date" name="start_date" disabled></td>
+                                    {% endif %}
                                     {% else %}
                                     <td class="table-date-field"><input type="date" name="reception_date" disabled></td>
                                     <td>Fecha de revisión</td>
                                     <td class="table-date-field"><input type="date" name="start_date" disabled></td>
                                     {% endif %}
                                     <td>Fecha de Finalización</td>
+                                    {% if order_hd.finish_date %}                                    
+                                    <td class="table-date-field"><input type="date" name="finish_date" value="{{order_hd.finish_date|date:'Y-m-d' }}" disabled></td>
+                                    {% else %}
                                     <td class="table-date-field"><input type="date" name="finish_date" disabled></td>
+                                    {% endif %}
                                     <td>Fecha de devolución</td>
                                     <td class="table-date-field"><input type="date" name="return_date" disabled></td>
                                 </tr>

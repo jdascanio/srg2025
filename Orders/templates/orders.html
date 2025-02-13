@@ -9,11 +9,38 @@
 <section>
     <div class="section-header">
         <h3>ORDENES - F721-03 R2</h3>
+        {% if usuario.is_admin %}
+        <form class="filter-distributor" action="/Orders/search-order">
+            <div class="input-group mb-3 buscar">
+                <input type="text" class="form-control input-distributor" placeholder="filtrar Distribuidor"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" id="distri" name="user_name">
+                <button class="btn btn-outline-secondary search-btn" type="submit" id="button-addon2"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="26" fill="currentColor"
+                        class="bi bi-funnel" viewBox="0 -6 16 26" name="search-distri">
+                        <path
+                            d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                    </svg></button>
+            </div>
+            <div class="borrar">
+                <a class="borrarMute" href="{% url 'orders' %}">borrar filtro</a>
+            </div>
+        </form>
+        {% endif %}
         <a href="{% url 'neworder' %}" target="_blank" rel="noreferrer noopener" class="regular-button">Crear Orden</a>
     </div>
     <div class="main-container">
         <section class="orders-section">
-            {% for order in orders %}              
+            {% if alerta %}
+            <div class="alert alert-warning" role="alert" style="text-align: center;">
+                {{alerta}}
+            </div>
+            {% endif %}
+            {% if alerta2 %}
+            <div class="alert alert-danger" role="alert" style="text-align: center;">
+                {{alerta2}}
+            </div>
+            {% endif %}
+            {% for order in orders %}
             <div class="order-container">
                 <div class="order-top {{order.order_stage}}"></div>
                 <div class="order-bottom">
@@ -22,10 +49,16 @@
                             <tr>
                                 <th style="width: 10%">
                                     {% if order.order_number %}
-                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" target="_blank" rel="noopener noreferrer"><h3>{{order.order_number}}</h3></a>
+                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" target="_blank"
+                                        rel="noopener noreferrer">
+                                        <h3>{{order.order_number}}</h3>
+                                    </a>
                                     {% elif order.prov_order_number %}
-                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" target="_blank" rel="noopener noreferrer"><h3>{{order.prov_order_number}}</h3></a>
-                                    {% endif %} 
+                                    <a href="{% url 'edit-order' order.id %}" class="order-number-main" target="_blank"
+                                        rel="noopener noreferrer">
+                                        <h3>{{order.prov_order_number}}</h3>
+                                    </a>
+                                    {% endif %}
                                 </th>
                                 {% if order.send_date %}
                                 <th style="width: 10%">F. Envio</th>

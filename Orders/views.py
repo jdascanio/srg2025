@@ -288,7 +288,7 @@ def neworder (request):
 def orders (request):
     usuario = Profile.objects.get(user=request.user.id)
     if usuario.is_admin == True:
-        orders = OrderHeader.objects.filter(visible=True, order_status=True).order_by('-id')
+        orders = OrderHeader.objects.filter(visible=True, order_status=True).order_by('-order_number')
     else:
         orders = OrderHeader.objects.filter(visible=True, user_name=usuario.distributor).order_by('-id')
     return render(request, 'orders.html',
@@ -296,6 +296,45 @@ def orders (request):
                       "orders": orders,
                       "usuario":usuario
                   })
+def search_order(request):
+
+    if request.GET['user_name']:
+        usuario = Profile.objects.get(user=request.user.id)
+        distri = request.GET['user_name']
+        alerta = f'No se han encontrado órdenes para de distribuidor "{distri}".'
+        orders = OrderHeader.objects.filter(visible=True,order_status=True, user_name__icontains=distri).order_by('-id')
+        if orders: 
+            return render(request, 'orders.html',
+                        {
+                            "orders": orders,
+                            "usuario":usuario,
+                            
+                        })
+        else:
+            if usuario.is_admin == True:
+                orders = OrderHeader.objects.filter(visible=True, order_status=True).order_by('-order_number')
+            else:
+                orders = OrderHeader.objects.filter(visible=True, user_name=usuario.distributor).order_by('-id')
+            return render(request, 'orders.html',
+                  {
+                      "orders": orders,
+                      "usuario":usuario,
+                      "alerta":alerta
+                  })
+    else:
+        alerta2 = f'Debe ingresar un distribuidor para poder filtar'
+        usuario = Profile.objects.get(user=request.user.id)
+        if usuario.is_admin == True:
+            orders = OrderHeader.objects.filter(visible=True, order_status=True).order_by('-order_number')
+        else:
+            orders = OrderHeader.objects.filter(visible=True, user_name=usuario.distributor).order_by('-id')
+        return render(request, 'orders.html',
+                  {
+                      "orders": orders,
+                      "usuario":usuario,
+                      "alerta2":alerta2
+                  })
+
 
 def edit_order (request, id):
     alm_products = Products.objects.filter(family='alarma').order_by('name')
@@ -383,8 +422,11 @@ def edit_order (request, id):
                 order_hd.user_name = data['user_name']
                 order_hd.total_products = total
                 order_hd.visible = True
+                if data['start_date']:
+                    order_hd.start_date = data['start_date']
                 order_hd.save()
 
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
                 distributor = order_hd.user_name             
@@ -423,6 +465,7 @@ def edit_order (request, id):
                 order_hd.visible = True
                 order_hd.save()
 
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
                 distributor = order_hd.user_name             
@@ -447,6 +490,50 @@ def edit_order (request, id):
                         "total":total,
                         "order_hd":order_hd
                    })
+        elif 'order_close' in request.POST:
+            form = SaveOrder(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
+                datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number_hd'])
+                total = datos.count()
+                order_hd.user_name = data['user_name']
+                order_hd.finish_date = datetime.datetime.now().strftime("%Y-%m-%d")
+                order_hd.total_products = total
+                if datos.filter(cig='P').exists():
+                    order_hd.order_stage = "pendiente"
+                    print('encontrado P')
+                else:
+                    order_hd.order_stage = "finalizado"
+                    print('no encontrado P')
+                order_hd.save()
+
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
+                new_order_nr = data['prov_order_number_hd']
+                products = add_line_number(datos)
+                distributor = order_hd.user_name             
+
+                return render (request, 'edit-order.html',
+                   {
+                       "alm_products":alm_products,
+                        "audio_products":audio_products,
+                        "taco_products":taco_products,
+                        "alm_reason":alm_reason,
+                        "audio_reason":audio_reason,
+                        "taco_reason":taco_reason,
+                        "alm_status":alm_status,
+                        "audio_status":audio_status,
+                        "taco_status":taco_status,
+                        "cig":cig,
+                        "new_order_nr":new_order_nr,
+                        "products": products,
+                        "distributor":distributor,
+                        "usuario":usuario,
+                        "usuarios":usuarios,
+                        "total":total,
+                        "order_hd":order_hd
+                   })
+            
         elif 'delete-row' in request.POST:
             row_id = DeleteRow(request.POST)
             if row_id.is_valid():
@@ -570,7 +657,7 @@ def edit_order (request, id):
                         "order_hd":order_hd
     })
   
-def print (request, id):
+def print_order (request, id):
     order_hd = OrderHeader.objects.get(id=id)
     datos = OrderContent.objects.filter(prov_order_number=order_hd.prov_order_number)
     products = add_line_number(datos)

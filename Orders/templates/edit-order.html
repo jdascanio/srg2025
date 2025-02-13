@@ -91,7 +91,7 @@
                         <div class="user-field-container">
                             <label for="tracking-field">Código de seguimiento</label>
                             {% if order_hd.finish_date %}
-                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="">
+                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="" required>
                             {% else %}
                             <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value=""
                                 disabled>
@@ -119,7 +119,7 @@
                                     <td class="table-date-field"><input type="date" name="start_date"></td>
                                     {% endif %}
                                     {% else %}
-                                    <td class="table-date-field"><input type="date" name="start_date" disabled></td>
+                                    <td class="table-date-field"><input type="date" name="start_date" value="{{order_hd.start_date|date:'Y-m-d' }}" disabled></td>
                                     {% endif %}
                                     {% else %}
                                     <td class="table-date-field"><input type="date" name="reception_date" disabled></td>

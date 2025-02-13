@@ -5,7 +5,8 @@
 }
 :root{
     --incomplete-color: #87011c; /* Red */
-    --sent-color: #e1a500; /* Orange */
+    --send-color: rgb(99, 0, 174);
+    --received-color: #e1a500; /* Orange */
     --pending-color: #0093bb; /* Blue */
     --notreturned-color: #009113; /* Green */
     --finished-color: #d2d2d2; /* Grey */
@@ -16,8 +17,15 @@
     --add-product-button: rgba(70, 129, 244,0.4);
     
 }
+/* hr{
+    width: 100%;
+    border-bottom: 3px black double;
+} */
 .green-btn{
     background: var(--green-btn);
+}
+.vio-btn{
+    background: var(--send-color);
 }
 .green-btn:disabled{
     background: var(--finished-color) !important;
@@ -137,26 +145,59 @@ li, .helptext{
 .print-order-container{
     width: 90%;
 }
+.print-order-container-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.print-order-container-top h2{
+    margin-bottom: 0 !important;
+}
 .print-order-header{
     display: flex;
+    flex-direction: column;
 }
 .print-order-header p{
+    width: 100%;
     display: flex;
     flex-wrap: nowrap;
+    margin-bottom: 10px !important;
+    padding-bottom: 10px;
+    border-bottom: 1px solid black;
+}
+.oh-user-info{
+    margin-right: 20px;
+    font-size: 14px;
+}
+.oh-dates-info{
+    margin-right: 10px;
+    font-size: 12px;
+}
+
+.oh-dates{
+    margin-top: 15px;
+    padding: 10px 0px;
+    display: flex;
+    justify-content: space-between;
+    border-top: 1px solid black;
+    border-bottom: 3px double black;
 }
 .red{
     color: var(--incomplete-color);
     font-size: 12px !important;
 }
+.noenvio{
+    background-color: var(--send-color);
+}
 .envio{
-    background-color: var(--incomplete-color);
+    background-color: var(--incomplete-color)
 }
 .pendiente {
     background-color: var(--pending-color);
 
 }
 .recepcion{
-    background-color: var(--sent-color);
+    background-color: var(--received-color);
 }
 .finalizado{
     background-color: var(--notreturned-color);
@@ -228,6 +269,9 @@ th, td{
     font-size: 12px;
     font-weight: 400;
 }
+.print-thead th{
+    font-weight: 800 !important;
+}
 .copyright p{
     position: fixed;
     bottom: 10px;
@@ -273,19 +317,19 @@ th, td{
     flex-direction: column;
     align-items: end;
 }
-.neworder-row-three i{
+.neworder-row-three i, .print-order-container i{
     vertical-align: middle;
     font-size: 40px;
     font-style: bold;
     margin-left: 40px;
 }
-.neworder-row-three a{
+.neworder-row-three a, .print-order-container a{
     color: black !important;
     text-decoration: none !important;
     transition: ease-in-out;
     transition-duration: 250ms;
 }
-.neworder-row-three a:hover{
+.neworder-row-three a:hover, .print-order-container a:hover{
     color: var(--notreturned-color) !important;
     text-decoration: none !important;
 }
@@ -463,4 +507,33 @@ th, td{
 .offcanvas-top-custom{
     width: 400px !important;
     height: 400px !important;
+}
+
+@media print{
+    
+    aside, .section-header, i{
+        display: none;
+    }
+    .main-container{
+        width: 100vw;
+    }
+    .oh-user-info{
+        font-size: 11px;
+    }
+    .oh-dates-info{
+        font-size: 9px;
+    }
+    .print-order-container{
+        width: 98%;
+    }
+    .table th{
+        font-size: 9px !important;
+    }
+    .table td{
+        font-size: 8px !important;
+    }
+    th {
+        font-weight: 800 !important;
+    }
+    
 }

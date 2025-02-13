@@ -6,19 +6,73 @@
     <div class="section-header">
         <h3>IMPRESIÓN ORDEN</h3>
     </div>
-    <div class="main-container print">
+    <div id="order-prn" class="main-container print">
         <div class="detail-order-container"></div>
         <section class="print-order-container">
-            <div class="print-order-container">
-                <h1>Orden de Reparación #</h1>
-                <p>F721-01 R1</p>
+            <div class="print-order-container-top">
+                <h2>Orden de Reparación #{{order_hd.order_number}}</h2>
+                <a id="prn-btn"><i class="bi bi-printer"></i></a>
             </div>
             <div class="print-order-header">
-                <div><strong>Usuario: </strong>Julian </div>
-                <div><strong>Cantidad de Productos: </strong>1 </div>
-                <div><strong>Código de seguimiento: </strong>ASDFSADFSDAF21234122 </div>
+                <div>
+                    <p>F721-01 R1</p>
+                    <div class="oh-user-info"><strong>Usuario: </strong>{{order_hd.user_name}} </div>
+                    <div class="oh-user-info"><strong>Cantidad de Productos: </strong>{{order_hd.total_products}}</div>
+                    <div class="oh-user-info"><strong>Código de seguimiento: </strong>ASDFSADFSDAF21234122 </div>
+                </div>
+                <div class="oh-dates">
+                    <div class="oh-dates-info"><strong>Fecha Envio: </strong>{{order_hd.send_date|date:'d/m/Y'}}</div>
+                    <div class="oh-dates-info"><strong>Fecha Recepción: </strong>{{order_hd.send_date|date:'d/m/Y'}}
+                    </div>
+                    <div class="oh-dates-info"><strong>Fecha Revisión: </strong>{{order_hd.send_date|date:'d/m/Y'}}
+                    </div>
+                    <div class="oh-dates-info"><strong>Fecha Finalización: </strong>{{order_hd.send_date|date:'d/m/Y'}}
+                    </div>
+                    <div class="oh-dates-info"><strong>Fecha Devolución: </strong>{{order_hd.send_date|date:'d/m/Y'}}
+                    </div>
+                </div>
+            </div>
+            
+            <div>
+                <table class="table">
+                    <thead class="print-thead">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Estado</th>
+                            <th scope="col">Faltantes</th>
+                            <th scope="col">Producto</th>
+                            <th scope="col">S/N</th>
+                            <th scope="col">Cliente</th>
+                            <th scope="col">Vendedor</th>
+                            <th scope="col">Motivo</th>
+                            <th scope="col">C.I.G</th>
+                            <th scope="col">Egresa S/N</th>
+                            <th scope="col">Factura</th>
+                            <th scope="col">Obs</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                        <tr>
+                            <td>{{product.line}}</td>
+                            <td>{{product.status}}</td>
+                            <td>{{product.missing_elem}}</td>
+                            <td>{{product.product}}</td>
+                            <td>{{product.in_sn}}</td>
+                            <td>{{product.client}}</td>
+                            <td>{{product.seller}}</td>
+                            <td>{{product.reason}}</td>
+                            <td>{{product.cig}}</td>
+                            <td>{{product.out_sn}}</td>
+                            <td>{{product.invoice}}</td>
+                            <td>{{product.observations}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>
 </section>
+<script src="{% static 'orders/js/print.js' %}"></script>
 {% endblock %}

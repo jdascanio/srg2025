@@ -1,12 +1,15 @@
 from django.shortcuts import render
 from Products.models import *
 from Products.forms import *
+from Users.models import *
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 def motivo (request):
     family = Family.objects.all().order_by('family')
     motivos = Reason.objects.all().order_by('family','reason')
+    usuario = Profile.objects.get(user=request.user.id)
 
     if request.method == "POST":
         if 'create-reason' in request.POST:
@@ -19,7 +22,7 @@ def motivo (request):
                 )
                 new_reason.save()
                 motivos = Reason.objects.all().order_by('family','reason')
-                return render(request, 'motivo.html', {"motivos":motivos, "family":family})
+                return render(request, 'motivo.html', {"motivos":motivos, "family":family, "usuario":usuario})
         elif 'edit-reason' in request.POST:
             form = EditReason(request.POST)
             if form.is_valid():
@@ -31,7 +34,7 @@ def motivo (request):
                 motivo.save()
 
                 motivos = Reason.objects.all().order_by('family','reason')
-                return render(request, 'motivo.html', {"motivos":motivos, "family":family})
+                return render(request, 'motivo.html', {"motivos":motivos, "family":family, "usuario":usuario})
         elif 'delete-reason' in request.POST:
             form = DeleteReason(request.POST)
             if form.is_valid():
@@ -40,14 +43,15 @@ def motivo (request):
                 motivo.delete()
 
                 motivos = Reason.objects.all().order_by('family','reason')
-                return render(request, 'motivo.html', {"motivos":motivos, "family":family})
+                return render(request, 'motivo.html', {"motivos":motivos, "family":family,"usuario":usuario})
 
-    return render (request, 'motivo.html', {"motivos":motivos, "family":family})
+    return render (request, 'motivo.html', {"motivos":motivos, "family":family,"usuario":usuario})
 
 def producto (request):
     family = Family.objects.all().order_by('family')
     subcat = Subcat.objects.all().order_by('subcat')
     productos = Products.objects.all().order_by('family','subcat','name')
+    usuario = Profile.objects.get(user=request.user.id)
 
     if request.method == "POST":
         if 'create-product' in request.POST:
@@ -61,7 +65,7 @@ def producto (request):
                 )
                 new_product.save()
                 productos = Products.objects.all().order_by('family','subcat','name')
-                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
+                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat,"usuario":usuario})
         elif 'edit-product' in request.POST:
             form = EditProduct(request.POST)
             if form.is_valid():
@@ -74,7 +78,7 @@ def producto (request):
                 producto.save()
 
                 productos = Products.objects.all().order_by('family','subcat','name')
-                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
+                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat,"usuario":usuario})
         elif 'delete-product' in request.POST:
             form = DeleteProduct(request.POST)
             if form.is_valid():
@@ -83,13 +87,14 @@ def producto (request):
                 producto.delete()
 
                 productos = Products.objects.all().order_by('family','subcat','name')
-                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
+                return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat,"usuario":usuario})
 
-    return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat})
+    return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat,"usuario":usuario})
 
 def estado (request):
     family = Family.objects.all().order_by('family')
     estados = Status.objects.all().order_by('family','status')
+    usuario = Profile.objects.get(user=request.user.id)
 
     if request.method == "POST":
         if 'create-status' in request.POST:
@@ -102,7 +107,7 @@ def estado (request):
                 )
                 new_status.save()
                 estados = Status.objects.all().order_by('family','status')
-                return render(request, 'estado.html', {"estados":estados,"family":family})
+                return render(request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})
         
         elif 'edit-status' in request.POST:
             form = EditStatus(request.POST)
@@ -116,7 +121,7 @@ def estado (request):
                 estado.save()
 
                 estados = Status.objects.all().order_by('family','status')
-                return render(request, 'estado.html', {"estados":estados,"family":family})
+                return render(request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})
         
         elif 'delete-status' in request.POST:
             form = DeleteStatus(request.POST)
@@ -126,6 +131,6 @@ def estado (request):
                 estado.delete()
 
                 estados = Status.objects.all().order_by('family','status')
-                return render(request, 'estado.html', {"estados":estados,"family":family})
+                return render(request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})
 
-    return render (request, 'estado.html', {"estados":estados,"family":family})
+    return render (request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})

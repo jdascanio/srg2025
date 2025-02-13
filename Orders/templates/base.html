@@ -27,17 +27,21 @@
                 </div>
                 <div>
                     <div class="welcome">
-                        Hola Usuario
+                        Hola {{user}}
                     </div>
                     <nav class="navbar">
                         <ul>
+                            {% if usuario.is_admin %}
                             <li>Dashboard</li>
+                            {% endif %}
                             <li><a href="{% url 'orders' %}">Ordenes</a></li>
+                            {% if usuario.is_admin %}
                             <li><a href="{% url 'users' %}">Usuarios</a></li>
                             <li><a href="{% url 'producto' %}">Producto</a></li>
                             <li><a href="{% url 'motivo' %}">Motivo</a></li>
                             <li><a href="{% url 'estado' %}">Estado</a></li>
                             <li>Exportar</li>
+                            {% endif %}
                             <li><a href="{% url 'logout' %}">Logout</a></li>
                         </ul>
                     </nav>

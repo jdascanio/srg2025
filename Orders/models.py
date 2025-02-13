@@ -21,7 +21,7 @@ class OrderHeader (models.Model):
     start_date = models.DateField(null=True, blank=True)
     finish_date = models.DateField(null=True, blank=True)
     return_date = models.DateField(null=True, blank=True)
-    order_stage = models.CharField(max_length=60, default="envio")
+    order_stage = models.CharField(max_length=60, default="noenvio")
     order_status = models.BooleanField(default=False)
     visible = models.BooleanField(default=False)
     

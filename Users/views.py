@@ -15,7 +15,8 @@ from . import views
 def login_request(request):
     
     if request.user.is_authenticated:
-            return render(request, 'index.html')
+            return redirect('/Orders/orders')
+            # return render(request, 'orders.html')
     else:
         if request.method == "POST":
 
@@ -35,8 +36,8 @@ def login_request(request):
                     else:
                         #accion si el usuario NO es admin (cargar perfil)
                         print('no es staff')
-                    
-                    return render(request, 'index.html')
+                    return redirect('/Orders/orders')
+                    # return render(request, 'orders.html')
                 else:
                     print('etapa3')
                     return render(

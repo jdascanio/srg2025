@@ -28,9 +28,15 @@
                     <div class="neworder-row-three">
                         {% if usuario.is_admin %}
                         <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save">
+                        {% if not order_hd.order_status %}
+                        <input class="neworder-input green-btn" type="submit" value="Enviar" name="order_send">
+                        {% endif %}
+                        {% if order_hd.order_stage == "envio" %}
+                        <input class="neworder-input vio-btn" type="submit" value="Recibido" name="order_recieved">
+                        {% endif %}
                         {% else %}
                         {% if not order_hd.order_status %}
-                        <input class="neworder-input green-btn" type="hidden" value="Enviar" name="order_send">
+                        <input class="neworder-input green-btn" type="submit" value="Enviar" name="order_send">
                         <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save">
                         {% endif %}
                         {% endif %}
@@ -38,12 +44,13 @@
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
                         <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
+                        <a href="{% url 'print' order_hd.id %}" target="_blank" rel="noopener noreferrer"><i
+                                class="bi bi-printer"></i></a>
                         {% else %}
                         <input class="neworder-input red-btn" type="hidden" value="Cancelar" name="cancel">
                         <input class="neworder-input green-btn" type="hidden" value="Cerrar" name="order_close">
                         <input class="neworder-input blue-btn" type="hidden" value="finalizar" name="order_end">
                         {% endif %}
-                        <a href="{% url 'print' order_hd.id %}"><i class="bi bi-printer"></i></a>
                     </div>
                     <div class="neworder-row-four">
                         <div class="user-field-container">
@@ -53,10 +60,10 @@
                                 <option value="{{distributor}}">{{distributor}}</option>
                                 {% else %}
                                 <option value=""></option>
-                                {% endif %}
                                 {% for usuario in usuarios %}
                                 <option value="{{usuario.distributor}}">{{usuario.distributor}}</option>
                                 {% endfor %}
+                                {% endif %}
                             </select>
                             <!-- <div class="user-field-value usuario" id="user-field">Macars</div> -->
                         </div>
@@ -93,9 +100,16 @@
                                     <td class="table-date-field"><input type="date" name="send_date"
                                             value="{{order_hd.send_date|date:'Y-m-d' }}" disabled></td>
                                     <td>Fecha de Recepción</td>
+                                    {% if order_hd.reception_date %}
+                                    <td class="table-date-field"><input type="date" name="reception_date"
+                                            value="{{order_hd.reception_date|date:'Y-m-d' }}" disabled></td>
+                                    <td>Fecha de revisión</td>
+                                    <td class="table-date-field"><input type="date" name="start_date"></td>
+                                    {% else %}
                                     <td class="table-date-field"><input type="date" name="reception_date" disabled></td>
                                     <td>Fecha de revisión</td>
                                     <td class="table-date-field"><input type="date" name="start_date" disabled></td>
+                                    {% endif %}
                                     <td>Fecha de Finalización</td>
                                     <td class="table-date-field"><input type="date" name="finish_date" disabled></td>
                                     <td>Fecha de devolución</td>

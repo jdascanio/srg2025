@@ -49,7 +49,6 @@
                                 <option value=""></option>
                                 {% endif %}
                                 {% if usuario.is_admin %}
-                                <option value=""></option>
                                 {% for usuario in usuarios %}
                                 <option value="{{usuario.distributor}}">{{usuario.distributor}}</option>
                                 {% endfor %}
@@ -179,11 +178,19 @@
                                     </select>
                                 </div>
                                 {% endif%}
+                                {% if not usuario.is_admin %}
+                                <div class="input-group input-group-sm mb-3">
+                                    <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
+                                    <input type="text" class="form-control" aria-label="out_sn input"
+                                        aria-describedby="out_sn" name="out_sn" disabled>
+                                </div>
+                                {% else %}
                                 <div class="input-group input-group-sm mb-3">
                                     <span class="input-group-text" id="out_sn">Egresa Nro Serie</span>
                                     <input type="text" class="form-control" aria-label="out_sn input"
                                         aria-describedby="out_sn" name="out_sn">
                                 </div>
+                                {% endif %}
                                 <div class="input-group input-group-sm mb-3">
                                     <span class="input-group-text" id="invoice">Nro Factura</span>
                                     <input type="text" class="form-control" aria-label="invoice input"

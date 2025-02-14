@@ -134,3 +134,40 @@ def estado (request):
                 return render(request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})
 
     return render (request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})
+
+def search_family (request):
+    usuario = Profile.objects.get(user=request.user.id)
+    family = Family.objects.all().order_by('family')
+    subcat = Subcat.objects.all().order_by('subcat')
+    if 'src-family' in request.GET:
+        familia = request.GET['src-family']
+        productos = Products.objects.filter(family__icontains=familia).order_by('subcat','name')
+        alerta = f'No se encontró familia con el nombre "{familia}"'
+
+        if productos:            
+            return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat,"usuario":usuario})
+        else:
+            productos = Products.objects.all().order_by('family','subcat','name')
+            return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat,"usuario":usuario,"alerta":alerta})
+    elif 'src-family-mot' in request.GET:
+        familia = request.GET['src-family-mot']
+        motivos = Reason.objects.filter(family__icontains=familia).order_by('reason')
+        alerta = f'No se encontró familia con el nombre "{familia}"'
+
+        if motivos:            
+            return render(request, 'motivo.html', {"motivos":motivos,"family":family,"usuario":usuario})
+        else:
+            motivos = Reason.objects.all().order_by('family','reason')
+            return render(request, 'motivo.html', {"motivos":motivos,"family":family,"usuario":usuario,"alerta":alerta})
+        
+    elif 'src-family-est' in request.GET:
+        familia = request.GET['src-family-est']
+        estados = Status.objects.filter(family__icontains=familia).order_by('status')
+        alerta = f'No se encontró familia con el nombre "{familia}"'
+
+        if estados:            
+            return render(request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})
+        else:
+            estados = Status.objects.all().order_by('family','status')
+            return render(request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario,"alerta":alerta})
+    

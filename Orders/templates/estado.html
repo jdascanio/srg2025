@@ -9,10 +9,36 @@
 <section>
     <div class="section-header">
         <h3>ESTADOS</h3>
+        <form class="filter-distributor" action="/Products/search-family">
+            <div class="input-group mb-3 buscar">
+                <input type="text" class="form-control input-distributor" placeholder="filtrar x familia"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" id="distri" name="src-family-est"
+                    required>
+                <button class="btn btn-outline-secondary search-btn" type="submit" id="button-addon2"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="26" fill="currentColor"
+                        class="bi bi-funnel" viewBox="0 -6 16 26" name="search-family">
+                        <path
+                            d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                    </svg></button>
+            </div>
+            <div class="borrar">
+                <a class="borrarMute" href="{% url 'estado' %}">borrar filtro</a>
+            </div>
+        </form>
         <button class="regular-button" type="button" data-bs-toggle="modal" data-bs-target="#AddStatusModal">Crear
             estado</button>
     </div>
     <div class="main-container">
+        {% if alerta %}
+        <div class="alert alert-warning" role="alert" style="text-align: center;">
+            {{alerta}}
+        </div>
+        {% endif %}
+        {% if alerta2 %}
+        <div class="alert alert-danger" role="alert" style="text-align: center;">
+            {{alerta2}}
+        </div>
+        {% endif %}
         <!-- Modal -->
         <div class="modal fade" id="AddStatusModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="AddStatusModalLabel" aria-hidden="true">
@@ -63,8 +89,8 @@
                     <tr>
                         <td scope="row">{{estado.status}}</td>
                         <td>{{estado.family}}</td>
-                        <td><a href="" data-bs-toggle="modal"
-                            data-bs-target="#DeleteModal{{estado.id}}"><i class="bi bi-x-square-fill red"></i></a></td>
+                        <td><a href="" data-bs-toggle="modal" data-bs-target="#DeleteModal{{estado.id}}"><i
+                                    class="bi bi-x-square-fill red"></i></a></td>
                         <td class="edit-icon"><a href="" data-bs-toggle="modal"
                                 data-bs-target="#staticBackdrop{{estado.id}}"><i class="bi bi-pencil"></i></a></td>
                     </tr>
@@ -87,7 +113,8 @@
                                         <div class="input-group input-group-sm mb-3">
                                             <span class="input-group-text" id="status">Estado</span>
                                             <input type="text" class="form-control" aria-label="status input"
-                                                aria-describedby="status" name="status" value="{{estado.status}}" required>
+                                                aria-describedby="status" name="status" value="{{estado.status}}"
+                                                required>
                                         </div>
                                         <div class="input-group mb-3">
                                             <label class="input-group-text" for="modal-family">Familia</label>
@@ -98,8 +125,7 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <button type="submit" class="modal-button"
-                                            name="edit-status">Guardar</button>
+                                        <button type="submit" class="modal-button" name="edit-status">Guardar</button>
                                         <button type="button" class="modal-button red-btn"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </form>
@@ -126,8 +152,7 @@
                                         <div class="input-group input-group-sm mb-3">
                                             <p>¿Seguro desea borrar estado {{estado.status}}?</p>
                                         </div>
-                                        <button type="submit" class="modal-button"
-                                            name="delete-status">Borrar</button>
+                                        <button type="submit" class="modal-button" name="delete-status">Borrar</button>
                                         <button type="button" class="modal-button red-btn"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </form>

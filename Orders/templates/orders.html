@@ -13,7 +13,7 @@
         <form class="filter-distributor" action="/Orders/search-order">
             <div class="input-group mb-3 buscar">
                 <input type="text" class="form-control input-distributor" placeholder="filtrar Distribuidor"
-                    aria-label="Recipient's username" aria-describedby="button-addon2" id="distri" name="user_name">
+                    aria-label="Recipient's username" aria-describedby="button-addon2" id="distri" name="user_name" required>
                 <button class="btn btn-outline-secondary search-btn" type="submit" id="button-addon2"><svg
                         xmlns="http://www.w3.org/2000/svg" width="16" height="26" fill="currentColor"
                         class="bi bi-funnel" viewBox="0 -6 16 26" name="search-distri">
@@ -82,11 +82,12 @@
                                 {% endif %}
                                 {% if order.return_date %}
                                 <th style="width: 10%">F. Devolución</th>
+                                <th style="width: 20%">Seguimiento</th>
                                 {% else %}
                                 <th style="width: 10%"></th>
+                                <th style="width: 20%"></th>
                                 {% endif %}
-                                <th style="width: 20%">Seguimiento</th>
-                                <th style="width: 10%; font-size: 8px">Productos: {{order.total_products}}</th>
+                                <th style="width: 10%; font-size: 10px">Productos: {{order.total_products}}</th>
                             </tr>
                             </th>
                         </thead>

@@ -9,10 +9,36 @@
 <section>
     <div class="section-header">
         <h3>PRODUCTOS</h3>
+        <form class="filter-distributor" action="/Products/search-family">
+            <div class="input-group mb-3 buscar">
+                <input type="text" class="form-control input-distributor" placeholder="filtrar x familia"
+                    aria-label="Recipient's username" aria-describedby="button-addon2" id="distri" name="src-family"
+                    required>
+                <button class="btn btn-outline-secondary search-btn" type="submit" id="button-addon2"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="16" height="26" fill="currentColor"
+                        class="bi bi-funnel" viewBox="0 -6 16 26" name="search-distri">
+                        <path
+                            d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
+                    </svg></button>
+            </div>
+            <div class="borrar">
+                <a class="borrarMute" href="{% url 'producto' %}">borrar filtro</a>
+            </div>
+        </form>
         <button class="regular-button" type="button" data-bs-toggle="modal" data-bs-target="#AddProductModal">Agregar
             Producto</button>
     </div>
     <div class="main-container">
+        {% if alerta %}
+        <div class="alert alert-warning" role="alert" style="text-align: center;">
+            {{alerta}}
+        </div>
+        {% endif %}
+        {% if alerta2 %}
+        <div class="alert alert-danger" role="alert" style="text-align: center;">
+            {{alerta2}}
+        </div>
+        {% endif %}
         <!-- Modal -->
         <div class="modal fade" id="AddProductModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
             aria-labelledby="AddProductModalLabel" aria-hidden="true">
@@ -74,8 +100,8 @@
                         <td scope="row">{{producto.name}}</td>
                         <td>{{producto.family}}</td>
                         <td>{{producto.subcat}}</td>
-                        <td><a href="" data-bs-toggle="modal"
-                            data-bs-target="#DeleteModal{{producto.id}}"><i class="bi bi-x-square-fill red"></i></a></td>
+                        <td><a href="" data-bs-toggle="modal" data-bs-target="#DeleteModal{{producto.id}}"><i
+                                    class="bi bi-x-square-fill red"></i></a></td>
                         <td class="edit-icon"><a href="" data-bs-toggle="modal"
                                 data-bs-target="#staticBackdrop{{producto.id}}"><i class="bi bi-pencil"></i></a></td>
                     </tr>
@@ -118,8 +144,7 @@
                                                 {% endfor %}
                                             </select>
                                         </div>
-                                        <button type="submit" class="modal-button"
-                                            name="edit-product">Guardar</button>
+                                        <button type="submit" class="modal-button" name="edit-product">Guardar</button>
                                         <button type="button" class="modal-button red-btn"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </form>
@@ -146,8 +171,7 @@
                                         <div class="input-group input-group-sm mb-3">
                                             <p>¿Seguro desea borrar producto {{producto.name}}?</p>
                                         </div>
-                                        <button type="submit" class="modal-button"
-                                            name="delete-product">Borrar</button>
+                                        <button type="submit" class="modal-button" name="delete-product">Borrar</button>
                                         <button type="button" class="modal-button red-btn"
                                             data-bs-dismiss="modal">Cancelar</button>
                                     </form>

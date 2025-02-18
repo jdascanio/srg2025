@@ -5,3 +5,4 @@ from Orders.models import *
 admin.site.register(Order)
 admin.site.register(OrderContent)
 admin.site.register(OrderHeader)
+admin.site.register(CompleteOrder)

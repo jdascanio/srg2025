@@ -1,17 +1,21 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from Orders.models import *
+from django.db.models import Count, Sum, Q
 from Products.models import *
 from Users.models import *
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from Orders.forms import *
 import datetime
+from datetime import date
 import random
 import string
 import pandas as pd
 import csv
 import codecs
 import sys
+import json
 
 # Create your views here.
 def lector ():
@@ -19,6 +23,11 @@ def lector ():
     total = str(lineas.count()).zfill(8)
     letras = ''.join(random.choices(string.ascii_uppercase, k=2))
     return letras+total
+
+def filename ():
+    prefijo = 'garantias_'
+    sufijo = datetime.datetime.now().strftime('%d-%m-%Y')
+    return prefijo+sufijo
 
 def add_line_number(queryset):
     result = []
@@ -64,7 +73,7 @@ def neworder (request):
             form = AddProductLine(request.POST)            
             if form.is_valid():
                 data = form.cleaned_data
-
+                subcat_product = Products.objects.get(name = data['product'])
                 order_hd = OrderHeader.objects.filter(prov_order_number=data['prov_order_number']).first()
                 order_hd.user_name = data['user_name']
                 order_hd.save()
@@ -77,6 +86,7 @@ def neworder (request):
                     prov_order_number = data['prov_order_number'],
                     family = data['family'],
                     status = data['status'],
+                    subcat = subcat_product.subcat,
                     missing_elem = data['missing_elem'],
                     product = data['product'],
                     in_sn = data['in_sn'],
@@ -508,7 +518,7 @@ def edit_order (request, id):
                     print('no encontrado P')
                 order_hd.save()
 
-                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
+
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
                 distributor = order_hd.user_name             
@@ -533,7 +543,67 @@ def edit_order (request, id):
                         "total":total,
                         "order_hd":order_hd
                    })
-            
+        elif 'order_end' in request.POST:
+            form = SaveOrder(request.POST)
+            if form.is_valid():
+                data = form.cleaned_data
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
+                datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number_hd'])
+                total = datos.count()
+                order_hd.user_name = data['user_name']
+                order_hd.return_date = datetime.datetime.now().strftime("%Y-%m-%d")
+                order_hd.total_products = total
+                order_hd.tracking = data['tracking']
+                order_hd.blocked = True
+                if datos.filter(cig='P').exists():
+                    order_hd.order_stage = "pendiente"
+                else:
+                    order_hd.order_stage = "devuelto"
+                order_hd.save()
+
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
+                datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number_hd'])
+                for line in datos:
+                    new_complete_order = CompleteOrder(
+                        order_header = order_hd,
+                        order_number = order_hd.order_number,
+                        prov_order_number = order_hd.prov_order_number,
+                        user_name = order_hd.user_name,
+                        total_products = 1,
+                        tracking = order_hd.tracking,
+                        send_date = order_hd.send_date,
+                        reception_date = order_hd.reception_date,
+                        start_date = order_hd.start_date,
+                        finish_date = order_hd.finish_date,
+                        return_date = order_hd.return_date,
+                        order_stage = order_hd.order_stage,
+                        order_status = order_hd.order_status,
+                        blocked = order_hd.blocked,
+                        family = line.family,
+                        subcat = line.subcat,
+                        status = line.status,
+                        missing_elem = line.missing_elem,
+                        product = line.product,
+                        in_sn = line.in_sn,
+                        client = line.client,
+                        seller = line.seller,
+                        reason = line.reason,
+                        cig = line.cig,
+                        observations = line.observations,
+                        out_sn = line.out_sn,
+                        invoice = line.invoice
+                    )
+                    new_complete_order.save()
+
+
+
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
+                new_order_nr = data['prov_order_number_hd']
+                products = add_line_number(datos)
+                distributor = order_hd.user_name             
+
+                return redirect ('/Orders/orders')
+
         elif 'delete-row' in request.POST:
             row_id = DeleteRow(request.POST)
             if row_id.is_valid():
@@ -658,10 +728,11 @@ def edit_order (request, id):
     })
   
 def print_order (request, id):
+    usuario = Profile.objects.get(user=request.user.id)
     order_hd = OrderHeader.objects.get(id=id)
     datos = OrderContent.objects.filter(prov_order_number=order_hd.prov_order_number)
     products = add_line_number(datos)
-    return render (request, 'print.html', {"order_hd":order_hd, "products":products})
+    return render (request, 'print.html', {"order_hd":order_hd, "products":products,"usuario":usuario})
 
 
 
@@ -670,17 +741,21 @@ def print_order (request, id):
 
 def test (request):
     
-    form = OrderContent.objects.all().values()
+    form = CompleteOrder.objects.all().values()
+    # form = OrderContent.objects.filter(Q(order_number__isnull=True), Q(order_number='')).values()
     list_of_dicts = list(form)
     DB = pd.DataFrame(list_of_dicts)
 
+    columns_to_drop = ['id','order_header_id', 'prov_order_number','total_products','tracking','send_date','start_date','finish_date','order_stage','order_status','blocked',]  # List of columns to remove
+    DB = DB.drop(columns=columns_to_drop, errors='ignore') 
+
     new_columns = {
-        'user': 'id_usuario',
-        'order_header': 'id_orden',
         'user_name': 'Distribuidor',
         'order_number': 'Nro_Orden',
-        'prov_order_number': 'Nro_Orden_Provisorio',
+        'reception_date': 'F. Recepcion',
+        'return_date':'F. Devolucion',
         'family': 'Familia',
+        'subcat': 'Subcategoria',
         'status': 'Estado',
         'missing_elem': 'Faltantes',
         'product': 'Producto',
@@ -693,19 +768,45 @@ def test (request):
         'invoice': 'Factura'
     }
     DB = DB.rename(columns=new_columns)
+    name = filename()
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = f'attachment; filename="{name}.xlsx"'
+    DB.to_excel(response, index=False)
+    # DB.to_excel(response, index=False)
+    # DB.to_excel('data.xlsx', index=False)
+    return response
+    # return render (request, 'test.html')
+    
 
-    DB.to_excel('data.xlsx', index=False)
-    return render(request, 'test.html')
+# def loader (request):
+#     with codecs.open("C:\\Users\\jdascanio\\OneDrive - Stoneridge Inc\\Documentos\\Python\\Garantias2025\\padrones\\Producto.csv","r",encoding="ANSI") as padron:
+#         csv_lector = csv.reader(padron, delimiter=';')
+#         for n in csv_lector:
+#             new_status = Products(
+#                     name = n[0],
+#                     family = n[1],
+#                     subcat = n[2]
+#                 )
+#             # new_status.save()
 
-def loader (request):
-    with codecs.open("C:\\Users\\jdascanio\\OneDrive - Stoneridge Inc\\Documentos\\Python\\Garantias2025\\padrones\\Producto.csv","r",encoding="ANSI") as padron:
-        csv_lector = csv.reader(padron, delimiter=';')
-        for n in csv_lector:
-            new_status = Products(
-                    name = n[0],
-                    family = n[1],
-                    subcat = n[2]
-                )
-            # new_status.save()
+#     return render(request,'test.html')
 
-    return render(request,'test.html')
+def dashboard_stats (request):
+    usuario = Profile.objects.get(user=request.user.id)
+    today = date.today()
+    start_date = date(today.year,today.month,1)
+    end_date = today
+
+    order_content_stats = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date) #Filter by date in the OrderHeader
+    ).values('subcat').annotate(
+        product_count=Count('product')
+    ).order_by('subcat')
+    valores = []
+    for item in order_content_stats:
+        valores.append({"subcategory":item['subcat'], "quantity":item['product_count']})
+    with open('Orders\static\orders\json\categorias.json', 'w') as f:  # 'w' for write mode
+        json.dump(valores, f)
+        # print(f"Cig: {item['subcat']}, Product Count: {item['product_count']}")
+    
+    return render(request, 'dashboard.html', {"usuario":usuario})

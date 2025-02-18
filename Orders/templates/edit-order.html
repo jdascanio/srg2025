@@ -46,11 +46,12 @@
                         {% if order_hd.finish_date %}
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
                         {% else %}
-                        <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end" disabled>
+                        <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end"
+                            disabled>
                         {% endif %}
                         <a href="{% url 'print_order' order_hd.id %}" target="_blank" rel="noopener noreferrer"><i
                                 class="bi bi-printer"></i></a>
-                        
+
                         {% endif %}
                     </div>
                     <div class="neworder-row-four">
@@ -88,7 +89,13 @@
                         <div class="user-field-container">
                             <label for="tracking-field">Código de seguimiento</label>
                             {% if order_hd.finish_date %}
-                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="" required>
+                            {% if order_hd.tracking %}
+                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking"
+                                value="{{order_hd.tracking}}" required>
+                            {% else %}
+                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value=""
+                                required>
+                            {% endif %}
                             {% else %}
                             <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value=""
                                 disabled>
@@ -111,12 +118,14 @@
                                     <td>Fecha de revisión</td>
                                     {% if usuario.is_admin %}
                                     {% if order_hd.start_date %}
-                                    <td class="table-date-field"><input type="date" name="start_date" value="{{order_hd.start_date|date:'Y-m-d' }}" disabled></td>
+                                    <td class="table-date-field"><input type="date" name="start_date"
+                                            value="{{order_hd.start_date|date:'Y-m-d' }}" disabled></td>
                                     {% else %}
                                     <td class="table-date-field"><input type="date" name="start_date"></td>
                                     {% endif %}
                                     {% else %}
-                                    <td class="table-date-field"><input type="date" name="start_date" value="{{order_hd.start_date|date:'Y-m-d' }}" disabled></td>
+                                    <td class="table-date-field"><input type="date" name="start_date"
+                                            value="{{order_hd.start_date|date:'Y-m-d' }}" disabled></td>
                                     {% endif %}
                                     {% else %}
                                     <td class="table-date-field"><input type="date" name="reception_date" disabled></td>
@@ -124,13 +133,15 @@
                                     <td class="table-date-field"><input type="date" name="start_date" disabled></td>
                                     {% endif %}
                                     <td>Fecha de Finalización</td>
-                                    {% if order_hd.finish_date %}                                    
-                                    <td class="table-date-field"><input type="date" name="finish_date" value="{{order_hd.finish_date|date:'Y-m-d' }}" disabled></td>
+                                    {% if order_hd.finish_date %}
+                                    <td class="table-date-field"><input type="date" name="finish_date"
+                                            value="{{order_hd.finish_date|date:'Y-m-d' }}" disabled></td>
                                     {% else %}
                                     <td class="table-date-field"><input type="date" name="finish_date" disabled></td>
                                     {% endif %}
                                     <td>Fecha de devolución</td>
-                                    <td class="table-date-field"><input type="date" name="return_date" disabled></td>
+                                    <td class="table-date-field"><input type="date" name="return_date"
+                                            value="{{order_hd.return_date|date:'Y-m-d' }}" disabled></td>
                                 </tr>
                             </tbody>
                         </table>

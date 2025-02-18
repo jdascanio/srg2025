@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block main %}
+
+<div id="subcat">
+
+</div>
+
+<script>
+    const categoriasUrl = "{% static 'orders/json/categorias.json' %}"; // Correct way!
+</script>
+<script src="{% static 'orders/js/graph.js' %}"></script>
+{% endblock %}

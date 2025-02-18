@@ -9,5 +9,6 @@ urlpatterns = [
     path('print_order/<int:id>', views.print_order, name='print_order'),
     path('search-order', views.search_order, name='search-order'),
     path('test', views.test, name='test'),
-    path('loader', views.loader, name='loader')  
+    # path('loader', views.loader, name='loader'),
+    path('dashboard', views.dashboard_stats, name='dashboard_stats')
     ]

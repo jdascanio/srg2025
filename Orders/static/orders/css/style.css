@@ -21,6 +21,14 @@
     width: 100%;
     border-bottom: 3px black double;
 } */
+
+.svg-container {
+    border-radius: 8px !important;
+    background: white !important;
+}
+.main-svg{
+    background: rgba(255,255,255,0) !important;
+}
 .green-btn{
     background: var(--green-btn);
 }
@@ -102,6 +110,17 @@ aside{
 .regular-button:hover{
     background: #0d5983;
 }
+.main-container-dashboard{
+    background-color:#b2f800;
+    /* background-color:#F0F6FB; */
+    width: calc(100vw - 200px);
+    /* height: 1500px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
 .main-container{
     /* background-color:#f3f3f3; */
     background-color:#e8e8e8;
@@ -549,12 +568,88 @@ th, td{
     height: 400px !important;
 }
 
+/* DASBOARD */
+.main-container-dashboard{
+    background-color:#eff0f6;
+    /* background-color:#F0F6FB; */
+    width: calc(100vw - 200px);
+    /* height: 1500px; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.dashboard-section{
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    /* background-color: #5783db; */
+}
+
+.graph-container1{
+    width: 35%;
+    /* background-color: #009113; */
+}
+.graph-container2{
+    width: 65%;
+    text-align: center;
+    margin-right: 10px;
+    /* background-color: #13ff32; */
+}
+.graph-sub-container{
+    display: flex;
+    justify-content: space-evenly;
+}
+.info-container{
+    margin: 10px 0px;
+    width: 100%;
+    border-radius: 10px;
+    height: 140px;
+}
+.info-container-sm{
+    padding-left: 15px;
+    width: 45%;
+    height: 140px;
+    border-radius: 10px;
+    background: #ffffff;
+    box-shadow:  5px 5px 10px #f0f0f0,
+                -5px -5px 10px #fafafa;
+    margin: 10px 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+}
+.info-container-sm p{
+    color: grey;
+    font-size: 12px;
+    margin-bottom: 2px;
+}
+.info-container-sm h5{
+    font-size: 30px;
+    font-weight: 800;
+    color: #596588 !important;
+}
+.perc-container{
+    display: flex;
+    font-size: 10px;
+    color: grey;
+}
+.perc-container p{
+    margin-left: 5px;
+}
+.percent-green{
+    color: #0acf97 !important
+}
+.percent-red{
+    color: #fa5c7c !important
+}
+/* DASHBOARD END */
+
 @media print{
     
     aside, .section-header, i{
         display: none;
     }
-    .main-container{
+    .main-container,.main-container-dashboard{
         width: 100vw;
     }
     .oh-user-info{

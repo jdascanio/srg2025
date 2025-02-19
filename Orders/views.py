@@ -797,16 +797,31 @@ def dashboard_stats (request):
     start_date = date(today.year,today.month,1)
     end_date = today
 
-    order_content_stats = OrderContent.objects.filter(
+    subcat_stats = OrderContent.objects.filter(
         order_header__send_date__range = (start_date, end_date) #Filter by date in the OrderHeader
     ).values('subcat').annotate(
         product_count=Count('product')
+
     ).order_by('subcat')
     valores = []
-    for item in order_content_stats:
+
+    order_stats = OrderHeader.objects.filter(
+        send_date__range = (start_date, end_date), finish_date__isnull=False 
+    ).count()
+    valores = []
+
+    product_stats = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date) #Filter by date in the OrderHeader
+    ).count()
+    valores = []
+
+    for item in subcat_stats:
         valores.append({"subcategory":item['subcat'], "quantity":item['product_count']})
     with open('Orders\static\orders\json\categorias.json', 'w') as f:  # 'w' for write mode
         json.dump(valores, f)
-        # print(f"Cig: {item['subcat']}, Product Count: {item['product_count']}")
+        print(f"Cig: {item['subcat']}, Product Count: {item['product_count']}")
+    
+    print (f'Total products: {product_stats}')
+    print (f'Orders:{order_stats}')
     
     return render(request, 'dashboard.html', {"usuario":usuario})

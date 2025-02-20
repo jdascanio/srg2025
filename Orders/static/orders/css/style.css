@@ -578,11 +578,17 @@ th, td{
     flex-direction: column;
     align-items: center;
 }
-.dashboard-section{
+.dashboard-section, .dashboard-section2{
     width: 100%;
     display: flex;
-    justify-content: space-between;
+    
     /* background-color: #5783db; */
+}
+.dashboard-section{
+    justify-content: space-between;
+}
+.dashboard-section2{
+    justify-content: space-around;
 }
 
 .graph-container1{
@@ -595,6 +601,12 @@ th, td{
     margin-right: 10px;
     /* background-color: #13ff32; */
 }
+.graph-container3{
+    width: 47%;
+    text-align: center;
+    /* margin: 5px; */
+    /* background-color: #13ff32; */
+}
 .graph-sub-container{
     display: flex;
     justify-content: space-evenly;
@@ -603,7 +615,7 @@ th, td{
     margin: 10px 0px;
     width: 100%;
     border-radius: 10px;
-    height: 140px;
+    height: 320px;
 }
 .info-container-sm{
     padding-left: 15px;

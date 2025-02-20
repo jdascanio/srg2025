@@ -791,37 +791,124 @@ def test (request):
 
 #     return render(request,'test.html')
 
+def sortList(e):
+    return e['quantity']
+def subcat (start_date, end_date):
+    subcat_stats = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date) #Filter by date in the OrderHeader
+    ).values('subcat').annotate(
+        product_count=Count('product')
+    ).order_by('subcat')
+    valores = []
+    subcat = []
+
+    for item in subcat_stats:
+        valores.append({"subcategory":item['subcat'], "quantity":item['product_count']})
+
+    sorted_valores = sorted(valores, key=sortList, reverse=True)
+    line = 0
+    otros = 0
+    for item in sorted_valores:
+        if line < 4:
+            subcat.append(item)
+            line += 1
+        else:
+            otros += item['quantity']
+    subcat.append({"subcategory":'otros',"quantity":otros})
+    return subcat
+
+def cig_stats (start_date, end_date):
+    cig = []
+    cig_stats = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
+    ).values('cig').annotate(
+        product_count=Count('product')
+
+    ).order_by('cig')
+
+    for item in cig_stats:
+        cig.append({"cig":item['cig'], "quantity":item['product_count']})
+    return (cig, cig_stats)
+
+
+def prod_stats (start_date, end_date):
+    product_count = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
+    ).count()
+
+    prod_stats = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
+    ).values('product').annotate(
+        product_count=Count('product')
+    )
+
+    unsorted_products = []
+    productsA = []
+    
+
+    for item in prod_stats:
+        unsorted_products.append({"product":item['product'], "quantity":item['product_count']})
+
+    sorted_products = sorted(unsorted_products, key=sortList, reverse=True)
+    line = 0
+    otros = 0
+    for item in sorted_products:
+        if line < 10:
+            productsA.append(item)
+            line += 1
+        else:
+            otros += item['quantity']
+    # products.append({"product":'otros',"quantity":otros})
+    products = sorted(productsA, key=sortList, reverse=False)
+
+    return (products, product_count)
+
 def dashboard_stats (request):
     usuario = Profile.objects.get(user=request.user.id)
     today = date.today()
     start_date = date(today.year,today.month,1)
     end_date = today
 
-    subcat_stats = OrderContent.objects.filter(
-        order_header__send_date__range = (start_date, end_date) #Filter by date in the OrderHeader
-    ).values('subcat').annotate(
-        product_count=Count('product')
-
-    ).order_by('subcat')
-    valores = []
+    
+    info = []
+    datos_cig = cig_stats(start_date,end_date)
+    datos_products = prod_stats(start_date,end_date)
+    info.append({"subcat": subcat(start_date,end_date)})
+    info.append({"cig_stats": datos_cig[0]})
+    info.append({"prod_stats": datos_products[0]})
+    print(datos_products)
 
     order_stats = OrderHeader.objects.filter(
         send_date__range = (start_date, end_date), finish_date__isnull=False 
     ).count()
-    valores = []
+    
 
-    product_stats = OrderContent.objects.filter(
-        order_header__send_date__range = (start_date, end_date) #Filter by date in the OrderHeader
-    ).count()
-    valores = []
+    # product_stats = OrderContent.objects.filter(
+    #     order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
+    # ).count()
 
-    for item in subcat_stats:
-        valores.append({"subcategory":item['subcat'], "quantity":item['product_count']})
+    
+    graph1 = {}
+    graph1['orders'] = order_stats
+    graph1['products'] = datos_products[1]
+    for item in datos_cig[1]:
+        if item['cig'] == '1-A':
+            graph1['sin_falla'] = item['product_count']
+        elif item['cig'] == '2-B' or item['cig'] == '1-E':
+            graph1['scrap'] = item['product_count']
+
+
+    # for item in subcat_stats:
+    #     valores.append({"subcategory":item['subcat'], "quantity":item['product_count']})
+    
+    
+    
     with open('Orders\static\orders\json\categorias.json', 'w') as f:  # 'w' for write mode
-        json.dump(valores, f)
-        print(f"Cig: {item['subcat']}, Product Count: {item['product_count']}")
+        json.dump(info, f)  # 'w' for write mode
+        # json.dump(cig, f)
+        # print(f"Cig: {item['subcat']}, Product Count: {item['product_count']}")
     
-    print (f'Total products: {product_stats}')
-    print (f'Orders:{order_stats}')
+    # print (f'Total products: {product_stats}')
+    # print (f'Orders:{order_stats}')
     
-    return render(request, 'dashboard.html', {"usuario":usuario})
+    return render(request, 'dashboard.html', {"usuario":usuario, "graph1":graph1})

@@ -4,27 +4,28 @@
 {% block main %}
 <section>
     <div class="section-header">
-        <h3>ESTADOS</h3>
-        <form class="filter-distributor" action="/Products/search-family">
-            <div class="input-group mb-3 buscar">
-                <input type="text" class="form-control input-distributor" placeholder="filtrar x familia"
-                    aria-label="Recipient's username" aria-describedby="button-addon2" id="distri" name="src-family-est"
-                    required>
-                <button class="btn btn-outline-secondary search-btn" type="submit" id="button-addon2"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="16" height="26" fill="currentColor"
-                        class="bi bi-funnel" viewBox="0 -6 16 26" name="search-family">
-                        <path
-                            d="M1.5 1.5A.5.5 0 0 1 2 1h12a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-.128.334L10 8.692V13.5a.5.5 0 0 1-.342.474l-3 1A.5.5 0 0 1 6 14.5V8.692L1.628 3.834A.5.5 0 0 1 1.5 3.5zm1 .5v1.308l4.372 4.858A.5.5 0 0 1 7 8.5v5.306l2-.666V8.5a.5.5 0 0 1 .128-.334L13.5 3.308V2z" />
-                    </svg></button>
-            </div>
-            <div class="borrar">
-                <a class="borrarMute" href="{% url 'estado' %}">borrar filtro</a>
-            </div>
-        </form>
-        <button class="regular-button" type="button" data-bs-toggle="modal" data-bs-target="#AddStatusModal">Crear
-            estado</button>
+        <h3>DASHBOARD</h3>
+        <div class="date-period">Periodo mostrado: {{fecha.start|date:'d-m-Y'}} - {{fecha.finish|date:'d-m-Y'}}</div>
+        <a class="dwn-excel" href=""><i class="bi bi-filetype-xlsx"></i></a>
     </div>
     <div class="main-container-dashboard">
+        <section class="dashboard-section3">
+            <section class="graph-container4">
+                <div class="graph-sub-container">
+                    <div class="info-container-range" id="ordersTotal">
+                        <form class="form-range" action="">
+                            <label for="startDate">Desde:</label>
+                            <input type="date" id="startDate">
+                            <label for="endDate">Hasta:</label>
+                            <input type="date" id="endDate">
+                            <button class="range-filter"><i class="bi bi-funnel-fill"></i></button>
+                            <button class="range-erase"><i class="bi bi-ban"></i></button>
+
+                        </form>
+                    </div>
+                </div>
+            </section>
+        </section>
         <section class="dashboard-section">
             <section class="graph-container1">
                 <div class="graph-sub-container">
@@ -71,7 +72,7 @@
                 </div>
             </section>
             <section class="graph-container2">
-                <div class="info-container" id="top10prod">
+                <div class="info-container" id="top10reason">
 
                 </div>
             </section>
@@ -79,22 +80,40 @@
         <section class="dashboard-section2">
             <section class="graph-container3">
                 <div class="info-container" id="subcat">
-                    
+
                 </div>
             </section>
             <section class="graph-container3">
                 <div class="info-container" id="cig">
-                    
+
                 </div>
             </section>
         </section>
+        <section class="dashboard-section3">
+            <section class="graph-container4">
+                <div class="info-container-md" id="top10prod">
 
+                </div>
+            </section>
+        </section>
+        <section class="dashboard-section2">
+            <section class="graph-container3">
+                <div class="info-container" id="scrapFamily">
+
+                </div>
+            </section>
+            <section class="graph-container3">
+                <div class="info-container" id="repairFamily">
+
+                </div>
+            </section>
+        </section>
     </div>
 
 
 </section>
 <script>
-    const categoriasUrl = "{% static 'orders/json/categorias.json' %}"; // Correct way!
+    const categoriasUrl = "{% static 'orders/json/categorias.json' %}"; 
 </script>
 <script src="{% static 'orders/js/graph.js' %}"></script>
 {% endblock %}

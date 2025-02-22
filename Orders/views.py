@@ -828,7 +828,32 @@ def cig_stats (start_date, end_date):
 
     for item in cig_stats:
         cig.append({"cig":item['cig'], "quantity":item['product_count']})
-    return (cig, cig_stats)
+
+    scrap_family_list = []
+    repair_family_list =[]
+    cig_family = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
+    ).values('cig','subcat').annotate(
+        product_count=Count('subcat')
+    )
+    fam = []
+    for item in cig_family:
+        fam.append(item['subcat'])
+    familias = set(fam)
+    fam = list(familias)
+
+    for item in cig_family:
+        for cat in fam:
+            if item['cig'] == '2-B' or item['cig'] == '1-E':
+                if item['subcat'] == cat:
+                    scrap_family_list.append({'family':item['subcat'], "quantity":item['product_count']})
+    for item in cig_family:
+        for cat in fam:
+            if item['cig'] == '2-A':
+                if item['subcat'] == cat:
+                    repair_family_list.append({'family':item['subcat'], "quantity":item['product_count']})
+    
+    return (cig, cig_stats,scrap_family_list,repair_family_list)
 
 
 def prod_stats (start_date, end_date):
@@ -863,6 +888,25 @@ def prod_stats (start_date, end_date):
 
     return (products, product_count)
 
+def reason_stats (start_date, end_date):
+    reason_stats = OrderContent.objects.filter(
+        order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
+    ).values('reason').annotate(
+        product_count=Count('product')
+    )
+    unsorted_reason = []
+    reason = []
+    for item in reason_stats:
+        unsorted_reason.append({"reason":item['reason'], "quantity":item['product_count']})
+
+    sorted_reason = sorted(unsorted_reason, key=sortList, reverse=True)
+    line = 0
+    for item in sorted_reason:
+        if line < 5:
+            reason.append(item)
+            line += 1
+    return reason
+
 def dashboard_stats (request):
     usuario = Profile.objects.get(user=request.user.id)
     today = date.today()
@@ -873,20 +917,20 @@ def dashboard_stats (request):
     info = []
     datos_cig = cig_stats(start_date,end_date)
     datos_products = prod_stats(start_date,end_date)
+
     info.append({"subcat": subcat(start_date,end_date)})
     info.append({"cig_stats": datos_cig[0]})
     info.append({"prod_stats": datos_products[0]})
-    print(datos_products)
+    info.append({"reason_stats": reason_stats(start_date,end_date)})
+    info.append({"family_scrap": datos_cig[2]})
+    info.append({"family_repair": datos_cig[3]})
+
 
     order_stats = OrderHeader.objects.filter(
         send_date__range = (start_date, end_date), finish_date__isnull=False 
     ).count()
+
     
-
-    # product_stats = OrderContent.objects.filter(
-    #     order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
-    # ).count()
-
     
     graph1 = {}
     graph1['orders'] = order_stats
@@ -897,18 +941,11 @@ def dashboard_stats (request):
         elif item['cig'] == '2-B' or item['cig'] == '1-E':
             graph1['scrap'] = item['product_count']
 
+    
 
-    # for item in subcat_stats:
-    #     valores.append({"subcategory":item['subcat'], "quantity":item['product_count']})
+
+    with open('Orders\static\orders\json\categorias.json', 'w') as f: 
+        json.dump(info, f)  
+        
     
-    
-    
-    with open('Orders\static\orders\json\categorias.json', 'w') as f:  # 'w' for write mode
-        json.dump(info, f)  # 'w' for write mode
-        # json.dump(cig, f)
-        # print(f"Cig: {item['subcat']}, Product Count: {item['product_count']}")
-    
-    # print (f'Total products: {product_stats}')
-    # print (f'Orders:{order_stats}')
-    
-    return render(request, 'dashboard.html', {"usuario":usuario, "graph1":graph1})
+    return render(request, 'dashboard.html', {"usuario":usuario, "graph1":graph1, "fecha":{"start":start_date, "finish":end_date}})

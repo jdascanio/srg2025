@@ -59,24 +59,9 @@ fetch(categoriasUrl)
       }
     })
 
-    // var ultimateColors = [
-    //     '#4B5359', '#DFEBF0', '#9BB7C2', '#F2322C','#F58C8D','#c0d8d0']
-
-
-    // var data = [{
-    //   y: valores,
-    //   x: etiquetas,
-    //   textinfo: "label+percent",
-    //   showlegend: false,
-    //   textposition: "outside",
-    //   marker: {
-    //     color: [
-    //       '#d9ed92', '#b5e48c', '#99d98c', '#76c893', '#52b69a', '#34a0a4', '#1a759f', '#1a759f', '#1e6091', '#184e77']
-    //   },
-    //   type: 'bar'
-    // }];
+    
     var ultimateColors2 = [
-      ['#9AC1D0', '#4F729A', '#9CA1CC', '#2F591C', '#89A666', '#DDE0D9']]
+      ['#233d4d', '#5A614C', '#90844A', '#FCCA46', '#CFC664', '#A1C181','#619B8A']]
 
 
     var data2 = [{
@@ -126,25 +111,152 @@ fetch(categoriasUrl)
         color: 'rgb(10, 61, 217)'
       },
       showlegend: false,
-      textposition: "rotate",
       marker: {
-        color: ['#FFEA00', '#FFDD00', '#FFD000', '#FFC300', '#FFB700', '#FFAA00', '#FFA200', '#FF9500', '#FF8800', '#FF7B00']
+        color: ['#8ecae6', '#73bfdc', '#58B4D1', '#219EBC', '#1E91AE', '#1A839F', '#167591', '#126782', '#0A4C65', '#023047']
       },
-      xaxis: {
-        text: labels.map(String),
-        },
+      // xaxis: {
+      //   text: labels.map(String),
+      //   },
       type: 'bar',
       orientation: "h",
     }];
 
     var layout3 = {
       title: {
-        text: 'TOP 6 PRODUCTOS'
+        text: 'TOP 10 PRODUCTOS'
       },
-      height: 300,
-      // width: "10% !important",
+      height: 400,
+      // width: 'auto',
       margin: { "t": 50, "b": 20, "l": 200, "r": 0 }
     };
     Plotly.newPlot('top10prod', data3, layout3);
+
+    // PRODUCT BAR CHART
+    let cantidades = []
+    let rotulos = []
+    data.forEach(item => {  
+      if (item.reason_stats) { 
+        item.reason_stats.forEach(x => {
+          cantidades.push(x.quantity);
+          rotulos.push(x.reason);
+        });
+      }
+    })
+    var data4 = [{
+      x: rotulos,
+      y: cantidades,
+      // textinfo: "label+percent+value",
+      text: cantidades.map(String),
+      hoverinfo: 'rotulos',
+      font: {
+        family: 'Arial',
+        size: 8,
+        color: 'rgb(10, 61, 217)'
+      },
+      showlegend: false,
+      textposition: "rotate",
+      marker: {
+        color: ['#8ecae6', '#73bfdc', '#58B4D1', '#219EBC', '#1E91AE', '#1A839F', '#167591', '#126782', '#0A4C65', '#023047']
+      },
+      xaxis: {
+        text: rotulos.map(String),
+        },
+      type: 'bar',
+      // orientation: "h",
+    }];
+
+    var layout4 = {
+      title: {
+        text: 'TOP 5 MOTIVOS'
+      },
+      height: 300,
+      // width: 900,
+      margin: { "t": 50, "b": 40, "l": 0, "r": 20 }
+    };
+    Plotly.newPlot('top10reason', data4, layout4);
+
+    // SCRAP FAMILY PIE
+    // data.sort((a, b) => b.quantity - a.quantity);
+    let scrap_val = []
+    let scrap_label = []
+    data.forEach(item => {  
+      if (item.family_scrap) { 
+        item.family_scrap.forEach(x => {
+          scrap_val.push(x.quantity);
+          scrap_label.push(x.family);
+        });
+      }
+    })
+
+    
+    var ultimateColors2 = [
+      ['#233d4d', '#5A614C', '#90844A', '#FCCA46', '#CFC664', '#A1C181','#619B8A']]
+
+
+    var data5 = [{
+      values: scrap_val,
+      labels: scrap_label,
+      textinfo: "label+percent+value",
+      showlegend: false,
+      textposition: "outside",
+      marker: {
+        colors: ultimateColors2[0]
+      },
+      hole: .4,
+      type: 'pie'
+    }];
+
+
+    var layout5 = {
+      title: {
+        text: 'SCRAP X FAMILIA'
+      },
+      height: 300,
+      // width: "10% !important",
+      margin: { "t": 50, "b": 40, "l": 0, "r": 0 }
+    };
+    Plotly.newPlot('scrapFamily', data5, layout5);
+
+    // REPAIR  FAMILY PIE
+    // data.sort((a, b) => b.quantity - a.quantity);
+    let repair_val = []
+    let repair_label = []
+    data.forEach(item => {  
+      if (item.family_repair) { 
+        item.family_repair.forEach(x => {
+          repair_val.push(x.quantity);
+          repair_label.push(x.family);
+        });
+      }
+    })
+
+    
+    var ultimateColors2 = [
+      ['#233d4d', '#5A614C', '#90844A', '#FCCA46', '#CFC664', '#A1C181','#619B8A']]
+
+
+    var data6 = [{
+      values: repair_val,
+      labels: repair_label,
+      textinfo: "label+percent+value",
+      showlegend: false,
+      textposition: "outside",
+      marker: {
+        colors: ultimateColors2[0]
+      },
+      hole: .4,
+      type: 'pie'
+    }];
+
+
+    var layout6 = {
+      title: {
+        text: 'REPARADAS X FAMILIA'
+      },
+      height: 300,
+      // width: "10% !important",
+      margin: { "t": 50, "b": 40, "l": 0, "r": 0 }
+    };
+    Plotly.newPlot('repairFamily', data6, layout6);
 
   })

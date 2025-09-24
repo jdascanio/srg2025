@@ -6,7 +6,7 @@
     <div class="section-header">
         <h3>DASHBOARD</h3>
         <div class="date-period">Periodo mostrado: {{fecha.start|date:'d-m-Y'}} - {{fecha.finish|date:'d-m-Y'}}</div>
-        <a class="dwn-excel" href=""><i class="bi bi-filetype-xlsx"></i></a>
+        <a class="dwn-excel" href="{% url 'data_download' %}"><i class="bi bi-filetype-xlsx"></i></a>
     </div>
     <div class="main-container-dashboard">
         <section class="dashboard-section3">
@@ -14,12 +14,12 @@
                 <div class="graph-sub-container">
                     <div class="info-container-range" id="ordersTotal">
                         <form class="form-range" action="">
-                            <label for="startDate">Desde:</label>
-                            <input type="date" id="startDate">
-                            <label for="endDate">Hasta:</label>
-                            <input type="date" id="endDate">
-                            <button class="range-filter"><i class="bi bi-funnel-fill"></i></button>
-                            <button class="range-erase"><i class="bi bi-ban"></i></button>
+                            <label for="startDate"><strong>Desde:</strong></label>
+                            <input type="date" id="startDate" name="startDate">
+                            <label for="endDate"><strong>Hasta:</strong></label>
+                            <input type="date" id="endDate" name="endDate">
+                            <button class="range-filter" name="dateRange"><i class="bi bi-funnel-fill"></i></button>
+                            <a href="{% url 'dashboard_stats' %}" class="range-erase"><i class="bi bi-ban"></i></a> 
 
                         </form>
                     </div>

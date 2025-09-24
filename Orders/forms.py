@@ -49,3 +49,8 @@ class EditProductLine(forms.Form):
     out_sn = forms.CharField(max_length=20, required=False)#
     invoice = forms.CharField(max_length=20, required=False)#
     user_name = forms.CharField(max_length=20, required=False)
+
+class CancelOrder(forms.Form):
+    order_number = forms.CharField(max_length=10, required=False)
+    prov_order_number_hd = forms.CharField(max_length=25)
+    user_name = forms.CharField(max_length=20, required=False)

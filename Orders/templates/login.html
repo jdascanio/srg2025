@@ -1,15 +1,25 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block title %}
+<title>Positron | Sistema registral de Garantías
+</title>
+{% endblock %}
 
 
 {% block main %}
-<form method="POST">
-    {% csrf_token %}
-    {{formulario.as_p}}
-    {% if mensaje %}
-    <p>{{mensaje.mensaje}}</p>
-    {% endif %}
-    <input type="submit">
-</form>
+<section class="login_container">
+    <div class="login-element-container">
+        <img class="logo-login" src="{% static 'orders/img/logo-blanco.png' %}" alt="Logo Positron">
+        <h2>Sistema Registral de Garantías</h2>
+        <form class="login-form" method="POST">
+            {% csrf_token %}
+            {{formulario.as_p}}
+            {% if mensaje %}
+            <p>{{mensaje.mensaje}}</p>
+            {% endif %}
+            <input class="btn-send" type="submit">
+        </form>
+    </div>
+</section>
+
 {% endblock %}

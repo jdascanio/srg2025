@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} 
 {% load static %}
 
 {% block title %}
-<title>Positron | Garantias</title>
+<title>Positron | Usuarios</title>
 {% endblock %}
 
 {% block main %}
@@ -27,14 +27,14 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% if usuario %}
-                    {% for usuario in usuario %}
+                    {% if usuarios %}
+                    {% for usuarios in usuarios %}
                     <tr>
-                        <td scope="row">{{usuario.user_name}}</td>
-                        <td>{{usuario.email}}</td>
-                        <td>{{usuario.passwrd}}</td>
-                        <td>{{usuario.distributor}}</td>
-                        {% if usuario.is_admin %}
+                        <td scope="row">{{usuarios.user_name}}</td>
+                        <td>{{usuarios.email}}</td>
+                        <td>{{usuarios.passwrd}}</td>
+                        <td>{{usuarios.distributor}}</td>
+                        {% if usuarios.is_admin %}
                         <td>Administrador</td>
                         {% else %}
                         <td>Usuario</td>

@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.conf import settings
 from Orders.models import *
 from django.db.models import Count, Sum, Q
 from Products.models import *
 from Users.models import *
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.core.mail import EmailMessage
+from email.utils import formataddr
 from django.shortcuts import redirect
 from Orders.forms import *
-import datetime
-from datetime import date
+import datetime as dt
+from datetime import date, datetime
 import random
 import string
 import pandas as pd
@@ -16,6 +20,7 @@ import csv
 import codecs
 import sys
 import json
+
 
 # Create your views here.
 def lector ():
@@ -26,7 +31,7 @@ def lector ():
 
 def filename ():
     prefijo = 'garantias_'
-    sufijo = datetime.datetime.now().strftime('%d-%m-%Y')
+    sufijo = dt.datetime.now().strftime('%d-%m-%Y')
     return prefijo+sufijo
 
 def add_line_number(queryset):
@@ -40,8 +45,8 @@ def add_line_number(queryset):
 
 def nro_orden ():
     
-    dia = datetime.datetime.now().strftime('%m%d')
-    hora = datetime.datetime.now().strftime('%H%M%S')
+    dia = dt.datetime.now().strftime('%m%d')
+    hora = dt.datetime.now().strftime('%H%M%S')
     letras1 = ''.join(random.choices(string.ascii_uppercase, k=2))
     letras2 = ''.join(random.choices(string.ascii_uppercase, k=3))
     listanros = random.choices(range(0,9), k=5)    
@@ -263,8 +268,10 @@ def neworder (request):
             order_hd.order_stage = "envio"
             order_hd.order_status = True
             order_hd.order_number = neworder_nr
-            order_hd.send_date = datetime.datetime.now().strftime("%Y-%m-%d")
-            order_hd.save()                       
+            order_hd.send_date = dt.datetime.now().strftime("%Y-%m-%d")
+            order_hd.save()
+
+
             return redirect ('/Orders/orders')
         
 
@@ -469,7 +476,7 @@ def edit_order (request, id):
                 datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number_hd'])
                 total = datos.count()
                 order_hd.user_name = data['user_name']
-                order_hd.reception_date = datetime.datetime.now().strftime("%Y-%m-%d")
+                order_hd.reception_date = dt.datetime.now().strftime("%Y-%m-%d")
                 order_hd.order_stage = "recepcion"
                 order_hd.total_products = total
                 order_hd.visible = True
@@ -508,7 +515,7 @@ def edit_order (request, id):
                 datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number_hd'])
                 total = datos.count()
                 order_hd.user_name = data['user_name']
-                order_hd.finish_date = datetime.datetime.now().strftime("%Y-%m-%d")
+                order_hd.finish_date = dt.datetime.now().strftime("%Y-%m-%d")
                 order_hd.total_products = total
                 if datos.filter(cig='P').exists():
                     order_hd.order_stage = "pendiente"
@@ -517,7 +524,7 @@ def edit_order (request, id):
                     order_hd.order_stage = "finalizado"
                     print('no encontrado P')
                 order_hd.save()
-
+                order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])                
 
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
@@ -551,7 +558,7 @@ def edit_order (request, id):
                 datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number_hd'])
                 total = datos.count()
                 order_hd.user_name = data['user_name']
-                order_hd.return_date = datetime.datetime.now().strftime("%Y-%m-%d")
+                order_hd.return_date = dt.datetime.now().strftime("%Y-%m-%d")
                 order_hd.total_products = total
                 order_hd.tracking = data['tracking']
                 order_hd.blocked = True
@@ -703,8 +710,15 @@ def edit_order (request, id):
             order_hd.order_status = True
             order_hd.order_number = neworder_nr
             order_hd.order_stage = "envio"
-            order_hd.send_date = datetime.datetime.now().strftime("%Y-%m-%d")
+            order_hd.send_date = dt.datetime.now().strftime("%Y-%m-%d")
             order_hd.save()                       
+            return redirect ('/Orders/orders')
+        elif 'cancel' in request.POST:
+            form = request.POST
+            order_hd = OrderHeader.objects.get(prov_order_number=form['prov_order_number_hd'])
+            order_hd.blocked = True
+            order_hd.order_stage = "cancelada"
+            order_hd.save()   
             return redirect ('/Orders/orders')
 
     return render (request,'edit-order.html',{
@@ -739,7 +753,7 @@ def print_order (request, id):
 
 
 
-def test (request):
+def data_download (request):
     
     form = CompleteOrder.objects.all().values()
     # form = OrderContent.objects.filter(Q(order_number__isnull=True), Q(order_number='')).values()
@@ -941,6 +955,39 @@ def dashboard_stats (request):
         elif item['cig'] == '2-B' or item['cig'] == '1-E':
             graph1['scrap'] = item['product_count']
 
+    if request.method == "GET":
+        if 'dateRange' in request.GET:
+            sdate = request.GET['startDate']
+            edate = request.GET['endDate']
+            start_date = datetime.strptime(sdate, '%Y-%m-%d').date()
+            end_date = datetime.strptime(edate, '%Y-%m-%d').date()
+
+            info = []
+            datos_cig = cig_stats(start_date,end_date)
+            datos_products = prod_stats(start_date,end_date)
+
+            info.append({"subcat": subcat(start_date,end_date)})
+            info.append({"cig_stats": datos_cig[0]})
+            info.append({"prod_stats": datos_products[0]})
+            info.append({"reason_stats": reason_stats(start_date,end_date)})
+            info.append({"family_scrap": datos_cig[2]})
+            info.append({"family_repair": datos_cig[3]})
+
+
+            order_stats = OrderHeader.objects.filter(
+                send_date__range = (start_date, end_date), finish_date__isnull=False 
+            ).count()
+
+
+
+            graph1 = {}
+            graph1['orders'] = order_stats
+            graph1['products'] = datos_products[1]
+            for item in datos_cig[1]:
+                if item['cig'] == '1-A':
+                    graph1['sin_falla'] = item['product_count']
+                elif item['cig'] == '2-B' or item['cig'] == '1-E':
+                    graph1['scrap'] = item['product_count']
     
 
 
@@ -949,3 +996,19 @@ def dashboard_stats (request):
         
     
     return render(request, 'dashboard.html', {"usuario":usuario, "graph1":graph1, "fecha":{"start":start_date, "finish":end_date}})
+
+def sendmails (request):
+    usuario = Profile.objects.get(id=5)
+
+    subject = f'Orden de reparación'
+    message = f'No responda este mail\n\nLa orden 000001 ha sido enviada usuario {usuario.user_name}'
+    sender_name = "Garantías Positron"
+    sender_email = settings.EMAIL_HOST_USER
+    from_email = formataddr((sender_name, sender_email))
+    to_list = ['julian.dascanio@gmail.com']
+    bcc_list= ['jdascanio@stoneridge.com']
+    email = EmailMessage(subject, message, from_email, to_list, bcc=bcc_list)
+    email.send()
+    return HttpResponse('Email sent successfully!')
+    
+    # return redirect ('/Orders/orders')

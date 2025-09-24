@@ -3,9 +3,9 @@
 
 {% block title %}
 {% if order_hd.order_number %}
-<title>Orden#{{order_hd.order_number}}</title>
+<title>#{{order_hd.order_number}}</title>
 {% else %}
-<title>Orden#{{order_hd.prov_order_number}}</title>
+<title>#{{order_hd.prov_order_number}}</title>
 {% endif %}
 {% endblock %}
 
@@ -27,7 +27,11 @@
                     {% csrf_token %}
                     <div class="neworder-row-three">
                         {% if usuario.is_admin %}
+                        {% if order_hd.order_stage == "cancelada" or order_hd.order_stage == "devuelto" %}
+                        <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save" disabled>
+                        {% else %}
                         <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save">
+                        {% endif %}
                         {% if not order_hd.order_status %}
                         <input class="neworder-input green-btn" type="submit" value="Enviar" name="order_send">
                         {% endif %}
@@ -41,9 +45,19 @@
                         {% endif %}
                         {% endif %}
                         {% if usuario.is_admin %}
+                        {% if order_hd.order_stage == "cancelada" or order_hd.order_stage == "devuelto" %}
+                        <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel" disabled
+                            style="background: var(--finished-color) !important; cursor: not-allowed">
+                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close"
+                            disabled>
+                        {% elif order_hd.order_stage == "envio" or order_hd.order_stage == "finalizado" %}
+                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close"
+                            disabled>
+                        {% else %}
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
                         <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
-                        {% if order_hd.finish_date %}
+                        {% endif %}
+                        {% if order_hd.finish_date and order_hd.order_stage != "devuelto" %}
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
                         {% else %}
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end"
@@ -121,7 +135,7 @@
                                     <td class="table-date-field"><input type="date" name="start_date"
                                             value="{{order_hd.start_date|date:'Y-m-d' }}" disabled></td>
                                     {% else %}
-                                    <td class="table-date-field"><input type="date" name="start_date"></td>
+                                    <td class="table-date-field"><input type="date" name="start_date" required></td>
                                     {% endif %}
                                     {% else %}
                                     <td class="table-date-field"><input type="date" name="start_date"
@@ -148,6 +162,8 @@
                     </div>
                 </form>
                 {% if usuario.is_admin %}
+                {% if order_hd.order_stage == "cancelada" or order_hd.order_stage == "devuelto" %}
+                {% else %}
                 <!-- ADD PRODUCTS BUTTONS -->
                 <div class="add-product-container">
                     <input class="add-product-button" type="button" value="Alarmas y otros" data-bs-toggle="offcanvas"
@@ -487,6 +503,7 @@
                         </div>
                     </div>
                 </div>
+                {% endif %}
                 {% else %}
                 {% if not order_hd.order_status %}
                 <div class="add-product-container">
@@ -882,10 +899,15 @@
                     <td>{{product.invoice}}</td>
                     <td>{{product.observations}}</td>
                     {% if usuario.is_admin %}
+                    {% if order_hd.order_stage == "cancelada"  %}
+                    <td></td>
+                    <td></td>
+                    {% else %}
                     <td><a href="" data-bs-toggle="modal" data-bs-target="#deleteRow{{product.id}}"><i
                                 class="bi bi-x-square-fill red"></i></a></td>
                     <td class="edit-icon"><a href="" data-bs-toggle="modal"
                             data-bs-target="#modalEditRow{{product.id}}"><i class="bi bi-pencil"></i></a></td>
+                    {% endif %}
                     {% else %}
                     {% if not order_hd.order_status %}
                     <td><a href="" data-bs-toggle="modal" data-bs-target="#deleteRow{{product.id}}"><i

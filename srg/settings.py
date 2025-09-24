@@ -125,10 +125,4 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'mail.positron.com.ar'  # Replace with your SMTP server
-EMAIL_PORT = 465  # Or 587
-EMAIL_USE_SSL = True  # Or EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'garantias@positron.com.ar'  # Your email address
-EMAIL_HOST_PASSWORD = '@PB+*Sp&trDhGKQ3'  # Your email password
-DEFAULT_FROM_EMAIL = 'noreply@positron.com.ar' #This is the from address used if not otherwise specified.
+ 

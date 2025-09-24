@@ -6,8 +6,8 @@ from django.db.models import Count, Sum, Q
 from Products.models import *
 from Users.models import *
 from django.contrib.auth.models import User
-from django.core.mail import send_mail
 from django.core.mail import EmailMessage
+from django.core.mail import send_mail
 from email.utils import formataddr
 from django.shortcuts import redirect
 from Orders.forms import *
@@ -607,7 +607,25 @@ def edit_order (request, id):
                 order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
-                distributor = order_hd.user_name             
+                distributor = order_hd.user_name
+
+
+                subject = f'Orden de reparación #{order_hd.order_number}'
+                message = f'NO RESPONDA ESTE MAIL\n\n\nLa orden {order_hd.order_number} ha sido finalizadaha sido finalizada y se encuentra disponible para ser retirada en nuestras oficinas'
+                from_email = 'info@positron.com.ar'
+                to_emails = [usuario.email]
+            
+                bcc_emails = ['pstargentina@gmail.com', 'sat@pstarg.com.ar', 'pstbaires@stoneridge.com'] 
+
+                email = EmailMessage(
+                    subject,
+                    message,
+                    from_email,
+                    to_emails,
+                    bcc=bcc_emails # This is where you add the BCC recipients
+                )
+            
+                email.send()          
 
                 return redirect ('/Orders/orders')
 

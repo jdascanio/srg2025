@@ -1,2 +1,3 @@
 .vscode/time_log.json
 srg/settings.py
+srg/settings_prod.py

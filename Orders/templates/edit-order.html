@@ -57,7 +57,9 @@
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
                         <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
                         {% endif %}
-                        {% if order_hd.finish_date and order_hd.order_stage != "devuelto" %}
+                        {% if order_hd.order_stage == "pendiente" %}
+                        <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end" disabled>
+                        {% elif order_hd.finish_date and order_hd.order_stage != "devuelto"%}
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
                         {% else %}
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end"
@@ -162,7 +164,7 @@
                     </div>
                 </form>
                 {% if usuario.is_admin %}
-                {% if order_hd.order_stage == "cancelada" or order_hd.order_stage == "devuelto" %}
+                {% if order_hd.order_stage == "cancelada" or order_hd.order_stage == "devuelto" or not order_hd.reception_date %}
                 {% else %}
                 <!-- ADD PRODUCTS BUTTONS -->
                 <div class="add-product-container">
@@ -899,7 +901,7 @@
                     <td>{{product.invoice}}</td>
                     <td>{{product.observations}}</td>
                     {% if usuario.is_admin %}
-                    {% if order_hd.order_stage == "cancelada"  %}
+                    {% if order_hd.order_stage == "cancelada" or not order_hd.reception_date %}
                     <td></td>
                     <td></td>
                     {% else %}

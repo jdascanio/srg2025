@@ -53,6 +53,21 @@ def nro_orden ():
     numeros = str("".join(map(str, listanros)))
     return letras1 + hora + dia
 
+def check_status (datos, order_hd):
+    if not order_hd.reception_date:
+        return "dejar"
+    else:
+        if datos.filter(cig='P').exists():
+            return "pendiente"
+        elif order_hd.finish_date:
+            return "finalizado"
+        elif order_hd.start_date:
+            return "recepcion"
+        elif order_hd.reception_date:
+            return "recibido"
+        else:
+            return "dejar"
+
 
 def neworder (request):
     #LOADS CONTENT AND CREATES PROV_ORDER_NR
@@ -271,6 +286,23 @@ def neworder (request):
             order_hd.send_date = dt.datetime.now().strftime("%Y-%m-%d")
             order_hd.save()
 
+            subject = f'Orden de reparación #{order_hd.order_number} - Enviada'
+            message = f'NO RESPONDA ESTE MAIL\n\n\nLa orden {order_hd.order_number} ha sido enviada. Aguardamos la recepción de la misma en nuestras oficinas.\nRecuerde identificar el envoltorio/paquete con el nro de orden de reparación.'
+            from_email = 'info@positron.com.ar'
+            # to_emails = [usuario.email]
+            to_emails = ['jdascanio@stoneridge.com']
+        
+            bcc_emails = ['pstargentina@gmail.com'] 
+            email = EmailMessage(
+                subject,
+                message,
+                from_email,
+                to_emails,
+                bcc=bcc_emails
+            )
+        
+            email.send()       
+
 
             return redirect ('/Orders/orders')
         
@@ -441,12 +473,16 @@ def edit_order (request, id):
                 order_hd.visible = True
                 if data['start_date']:
                     order_hd.start_date = data['start_date']
+                stage = check_status(datos, order_hd)
+                if stage != "dejar":    
+                    order_hd.order_stage = stage
+                print (order_hd.order_stage)      
                 order_hd.save()
 
                 order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
-                distributor = order_hd.user_name             
+                distributor = order_hd.user_name
 
                 return render (request, 'edit-order.html',
                    {
@@ -528,7 +564,25 @@ def edit_order (request, id):
 
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
-                distributor = order_hd.user_name             
+                distributor = order_hd.user_name
+
+                subject = f'Orden de reparación #{order_hd.order_number} - Finalizada'
+                message = f'NO RESPONDA ESTE MAIL\n\n\nLa orden {order_hd.order_number} ha sido finalizada y se encuentra disponible para ser retirada en nuestras oficinas'
+                from_email = 'info@positron.com.ar'
+                # to_emails = [usuario.email]
+                to_emails = ['jdascanio@stoneridge.com']
+            
+                bcc_emails = ['pstargentina@gmail.com'] 
+
+                email = EmailMessage(
+                    subject,
+                    message,
+                    from_email,
+                    to_emails,
+                    bcc=bcc_emails # This is where you add the BCC recipients
+                )
+            
+                email.send()             
 
                 return render (request, 'edit-order.html',
                    {
@@ -608,24 +662,7 @@ def edit_order (request, id):
                 new_order_nr = data['prov_order_number_hd']
                 products = add_line_number(datos)
                 distributor = order_hd.user_name
-
-
-                subject = f'Orden de reparación #{order_hd.order_number}'
-                message = f'NO RESPONDA ESTE MAIL\n\n\nLa orden {order_hd.order_number} ha sido finalizadaha sido finalizada y se encuentra disponible para ser retirada en nuestras oficinas'
-                from_email = 'info@positron.com.ar'
-                to_emails = [usuario.email]
-            
-                bcc_emails = ['pstargentina@gmail.com', 'sat@pstarg.com.ar', 'pstbaires@stoneridge.com'] 
-
-                email = EmailMessage(
-                    subject,
-                    message,
-                    from_email,
-                    to_emails,
-                    bcc=bcc_emails # This is where you add the BCC recipients
-                )
-            
-                email.send()          
+                          
 
                 return redirect ('/Orders/orders')
 
@@ -690,6 +727,8 @@ def edit_order (request, id):
                 order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number'])
                 datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number'])
                 total = datos.count()
+                order_hd.order_stage = check_status(datos, order_hd)
+                print (order_hd.order_stage)
 
                 new_order_nr = data['prov_order_number']
                 products = add_line_number(datos)

@@ -7,9 +7,10 @@
 
 
 {% block main %}
-    <main>
-        <div>
-            <form method="POST">
+    {% if usuario.is_admin %}
+    <section class="login_container">
+        <div class="login-element-container">
+            <form class="login-form" method="POST">
                 {% csrf_token %}
                 {{ form1.as_p }}
                 <label for="distribuidor">Distribuidor</label>
@@ -21,10 +22,13 @@
                     {% endfor %}
                 </div>
                 {% endif %}
-                <label for="distribuidor">Administrador</label>
-                <input type="checkbox" id="administrador" name="administrador">
-                <input type="submit">
+                <div class="form-details">
+                    <label for="distribuidor">Administrador</label>
+                    <input type="checkbox" id="administrador" name="administrador">
+                </div>
+                <input class="btn-send" type="submit">
             </form>
         </div>
-    </main>
+    </section>
+    {% endif %}
 {% endblock %}

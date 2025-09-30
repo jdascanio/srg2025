@@ -5,6 +5,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 from Users.models import *
 from Orders.models import *
 from Users.forms import *
@@ -67,7 +68,10 @@ def logout_user (request):
 
     return redirect("login_request")
 
+@login_required
 def register (request):
+    usuarios = Profile.objects.all().order_by('user_name')
+    usuario = Profile.objects.get(user=request.user.id)
     form1 = Register1()
     form2 = Register2()
     if request.method == 'POST':
@@ -91,10 +95,11 @@ def register (request):
                 is_admin = user_extra['administrador']
             )
             user_profile.save()
+            return redirect('/Users/users')
         else:
-            return render(request, 'register.html', {"form1":form1,"form2":form2})    
+            return render(request, 'register.html', {"form1":form1,"form2":form2,"usuario":usuario,"usuarios":usuarios})    
 
-    return render(request, 'register.html', {"form1":form1,"form2":form2})
+    return render(request, 'register.html', {"form1":form1,"form2":form2,"usuario":usuario,"usuarios":usuarios})
 
 def users (request):
     usuarios = Profile.objects.all().order_by('user_name')

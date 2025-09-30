@@ -7,7 +7,7 @@
     --incomplete-color: #87011c; /* Red */
     --send-color: rgb(99, 0, 174);
     --canceled-color: #252525; /* black */
-    --received-color: #e1a500; /* Orange */
+    --received-color: #f4cf00; /* Orange */
     --pending-color: #0093bb; /* Blue */
     --notreturned-color: #009113; /* Green */
     --finished-color: #d2d2d2; /* Grey */
@@ -98,7 +98,7 @@ aside{
     width: 130px;
     height: 36px;
     border-radius: 3px;
-    background: #0f71a6;
+    background: #C60C30;
     border: transparent;
     font-size: 12.5px;
     color: #fafafa;
@@ -122,7 +122,7 @@ aside{
     color: #02cb1d;
 }
 .regular-button:hover{
-    background: #0d5983;
+    background: #A71930;
 }
 .main-container-dashboard{
     background-color:#b2f800;
@@ -340,8 +340,12 @@ th, td{
     font-size: 24px;
     /* border-bottom: 1px solid #C5D2E0; */
 }
-.login-form{
+.login-form, .form-details{
     width: 100%;
+}
+.form-details{
+    display: flex;
+    align-items: center;
 }
 .login-form label{
     color: #fafafa;
@@ -356,6 +360,12 @@ th, td{
 }
 .login-form input:focus{
     outline: 2px solid #C5D2E0;
+}
+.login-form li{
+    color: #fafafa;
+}
+::marker{
+    color: #fafafa;
 }
 .btn-send{
     height: 35px;

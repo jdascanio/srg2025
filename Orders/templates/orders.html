@@ -27,6 +27,9 @@
         </form>
         {% endif %}
         <a href="{% url 'neworder' %}" target="_blank" rel="noreferrer noopener" class="regular-button">Crear Orden</a>
+        {% if usuario.is_admin %}
+        <a class="dwn-excel" href="{% url 'data_download' %}"><i class="bi bi-filetype-xlsx"></i></a>
+        {% endif %}
     </div>
     <div class="main-container">
         <section class="orders-section">

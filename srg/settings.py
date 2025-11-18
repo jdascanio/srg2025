@@ -125,20 +125,3 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'mail.positron.com.ar'  
-# EMAIL_PORT = 465  
-# EMAIL_USE_SSL = True  
-# EMAIL_HOST_USER = 'info@positron.com.ar'  
-# EMAIL_HOST_PASSWORD = 'SLf6X*CP-DUG'  
-# # EMAIL_HOST_PASSWORD = '@PB+*Sp&trDhGKQ3'  
-# DEFAULT_FROM_EMAIL = 'noreply@positron.com.ar'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  
-EMAIL_PORT = 587  
-EMAIL_USE_SSL = False
-EMAIL_USE_TLS = True   
-EMAIL_HOST_USER = 'pstargentina@gmail.com'  
-EMAIL_HOST_PASSWORD = 'nvlsuszrbyjxxyad'  
-# EMAIL_HOST_PASSWORD = '@PB+*Sp&trDhGKQ3'  
-DEFAULT_FROM_EMAIL = 'noreply@positron.com.ar'

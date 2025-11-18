@@ -101,6 +101,7 @@ def register (request):
 
     return render(request, 'register.html', {"form1":form1,"form2":form2,"usuario":usuario,"usuarios":usuarios})
 
+@login_required
 def users (request):
     usuarios = Profile.objects.all().order_by('user_name')
     usuario = Profile.objects.get(user=request.user.id)

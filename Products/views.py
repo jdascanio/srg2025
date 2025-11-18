@@ -3,9 +3,10 @@ from Products.models import *
 from Products.forms import *
 from Users.models import *
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
-
+@login_required
 def motivo (request):
     family = Family.objects.all().order_by('family')
     motivos = Reason.objects.all().order_by('family','reason')
@@ -47,6 +48,7 @@ def motivo (request):
 
     return render (request, 'motivo.html', {"motivos":motivos, "family":family,"usuario":usuario})
 
+@login_required
 def producto (request):
     family = Family.objects.all().order_by('family')
     subcat = Subcat.objects.all().order_by('subcat')
@@ -91,6 +93,7 @@ def producto (request):
 
     return render(request, 'producto.html', {"productos":productos,"family":family,"subcat":subcat,"usuario":usuario})
 
+@login_required
 def estado (request):
     family = Family.objects.all().order_by('family')
     estados = Status.objects.all().order_by('family','status')
@@ -135,6 +138,7 @@ def estado (request):
 
     return render (request, 'estado.html', {"estados":estados,"family":family,"usuario":usuario})
 
+@login_required
 def search_family (request):
     usuario = Profile.objects.get(user=request.user.id)
     family = Family.objects.all().order_by('family')

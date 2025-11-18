@@ -6,6 +6,7 @@ from django.db.models import Count, Sum, Q
 from Products.models import *
 from Users.models import *
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.core.mail import EmailMessage
 from django.core.mail import send_mail
 from email.utils import formataddr
@@ -68,7 +69,7 @@ def check_status (datos, order_hd):
         else:
             return "dejar"
 
-
+@login_required
 def neworder (request):
     #LOADS CONTENT AND CREATES PROV_ORDER_NR
     
@@ -330,7 +331,7 @@ def neworder (request):
                         "total":total,
                         "order_hd":order_hd
                    })
-
+@login_required
 def orders (request):
     usuario = Profile.objects.get(user=request.user.id)
     if usuario.is_admin == True:
@@ -342,6 +343,7 @@ def orders (request):
                       "orders": orders,
                       "usuario":usuario
                   })
+@login_required
 def search_order(request):
 
     if request.GET['user_name']:
@@ -381,7 +383,7 @@ def search_order(request):
                       "alerta2":alerta2
                   })
 
-
+@login_required
 def edit_order (request, id):
     alm_products = Products.objects.filter(family='alarma').order_by('name')
     audio_products = Products.objects.filter(family='audio').order_by('name')
@@ -795,7 +797,8 @@ def edit_order (request, id):
                         "total":total,
                         "order_hd":order_hd
     })
-  
+
+@login_required  
 def print_order (request, id):
     usuario = Profile.objects.get(user=request.user.id)
     order_hd = OrderHeader.objects.get(id=id)
@@ -807,7 +810,7 @@ def print_order (request, id):
 
 
 
-
+@login_required
 def data_download (request):
     
     form = CompleteOrder.objects.all().values()
@@ -863,6 +866,8 @@ def data_download (request):
 
 def sortList(e):
     return e['quantity']
+
+@login_required
 def subcat (start_date, end_date):
     subcat_stats = OrderContent.objects.filter(
         order_header__send_date__range = (start_date, end_date) #Filter by date in the OrderHeader
@@ -887,6 +892,7 @@ def subcat (start_date, end_date):
     subcat.append({"subcategory":'otros',"quantity":otros})
     return subcat
 
+@login_required
 def cig_stats (start_date, end_date):
     cig = []
     cig_stats = OrderContent.objects.filter(
@@ -925,7 +931,7 @@ def cig_stats (start_date, end_date):
     
     return (cig, cig_stats,scrap_family_list,repair_family_list)
 
-
+@login_required
 def prod_stats (start_date, end_date):
     product_count = OrderContent.objects.filter(
         order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
@@ -958,6 +964,7 @@ def prod_stats (start_date, end_date):
 
     return (products, product_count)
 
+@login_required
 def reason_stats (start_date, end_date):
     reason_stats = OrderContent.objects.filter(
         order_header__send_date__range = (start_date, end_date), order_header__finish_date__isnull=False #Filter by date in the OrderHeader
@@ -977,6 +984,7 @@ def reason_stats (start_date, end_date):
             line += 1
     return reason
 
+@login_required
 def dashboard_stats (request):
     usuario = Profile.objects.get(user=request.user.id)
     today = date.today()
@@ -1052,7 +1060,7 @@ def dashboard_stats (request):
         
     
     return render(request, 'dashboard.html', {"usuario":usuario, "graph1":graph1, "fecha":{"start":start_date, "finish":end_date}})
-
+@login_required
 def sendmails (request):
     usuario = Profile.objects.get(id=5)
 

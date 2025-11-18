@@ -29,12 +29,14 @@
                         {% endif %}
                         <input class="neworder-input blue-btn" type="submit" value="Guardar" name="order_save">
                         {% if usuario.is_admin %}
+                        {% if order_hd.order_status == 'envio' %}
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
-                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
+                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close" id="closeOrder">
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
+                        {% endif %}
                         {% else %}
                         <input class="neworder-input red-btn" type="hidden" value="Cancelar" name="cancel">
-                        <input class="neworder-input green-btn" type="hidden" value="Cerrar" name="order_close">
+                        <input class="neworder-input green-btn" type="hidden" value="Cerrar" name="order_close" id="closeOrder">
                         <input class="neworder-input blue-btn" type="hidden" value="finalizar" name="order_end">
                         {% endif %}
                         <!-- <i class="bi bi-printer"></i> -->
@@ -71,7 +73,8 @@
                         </div>
                         <div class="user-field-container">
                             <label for="tracking-field">Código de seguimiento</label>
-                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value="" disabled>
+                            <input class="user-field-value tracking-field" id="tracking-field" name="tracking" value=""
+                                disabled>
                         </div>
                     </div>
                     <div class="neworder-row-five">
@@ -710,7 +713,8 @@
                                     <div class="input-group input-group-sm mb-3">
                                         <span class="input-group-text" id="observations">Observaciones</span>
                                         <input type="text" class="form-control" aria-label="observations input"
-                                            aria-describedby="observations" name="observations" value="{{product.observations}}">
+                                            aria-describedby="observations" name="observations"
+                                            value="{{product.observations}}">
                                     </div>
                                     {% else %}
                                     <div class="input-group input-group-sm mb-3">

@@ -105,4 +105,38 @@ def users (request):
     usuarios = Profile.objects.all().order_by('user_name')
     usuario = Profile.objects.get(user=request.user.id)
     
-    return render (request, 'users.html', {"usuario":usuario,"usuarios":usuarios}) 
+
+    if request.method == "POST":
+        # print ("paso 1")
+        if 'delete-user' in request.POST:
+            user_id = DeleteUser(request.POST)
+            if user_id.is_valid():
+                dato = user_id.cleaned_data
+                usuario_buscado = Profile.objects.get(id=dato['user_id'])
+                user_search = User.objects.get(username=usuario_buscado.user)                
+                user_search.delete()
+        elif 'edit-user' in request.POST:
+            new_data = EditUser(request.POST)
+            if new_data.is_valid():
+                new_data_cleared = new_data.cleaned_data
+
+                usuario_buscado = Profile.objects.get(id=new_data_cleared['user_id'])
+                user_search = User.objects.get(username=usuario_buscado.user)
+
+                is_admin_value = new_data_cleared.get('user_is_admin', False)
+
+                usuario_buscado.passwrd = new_data_cleared['user_psw']
+                usuario_buscado.user_name = new_data_cleared['user_name']
+                usuario_buscado.email = new_data_cleared['user_mail']
+                usuario_buscado.distributor = new_data_cleared['user_distributor']
+                usuario_buscado.is_admin = is_admin_value                
+
+                user_search.set_password(new_data_cleared['user_psw'])
+                user_search.username = new_data_cleared['user_name']
+                user_search.email = new_data_cleared['user_mail']
+                
+                usuario_buscado.save()
+                user_search.save()
+
+    
+    return render (request, 'users.html', {"usuario":usuario,"usuarios":usuarios})

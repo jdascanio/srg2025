@@ -48,17 +48,18 @@
                         {% if order_hd.order_stage == "cancelada" or order_hd.order_stage == "devuelto" %}
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel" disabled
                             style="background: var(--finished-color) !important; cursor: not-allowed">
-                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close"
+                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close" id="closeOrder"
                             disabled>
-                        {% elif order_hd.order_stage == "envio" or order_hd.order_stage == "finalizado" %}
-                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close"
+                        {% elif order_hd.order_stage == "envio" or order_hd.order_stage == "finalizado" or order_hd.order_stage == "pendiente" or not order_hd.start_date%}
+                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close" id="closeOrder"
                             disabled>
                         {% else %}
                         <input class="neworder-input red-btn" type="submit" value="Cancelar" name="cancel">
-                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close">
+                        <input class="neworder-input green-btn" type="submit" value="Cerrar" name="order_close" id="closeOrder">
                         {% endif %}
-                        {% if order_hd.order_stage == "pendiente" %}
-                        <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end" disabled>
+                        {% if order_hd.finish_date and order_hd.order_stage == "pendiente"%}
+                        <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end"
+                            disabled>             
                         {% elif order_hd.finish_date and order_hd.order_stage != "devuelto"%}
                         <input class="neworder-input blue-btn" type="submit" value="finalizar" name="order_end">
                         {% else %}
@@ -901,7 +902,7 @@
                     <td>{{product.invoice}}</td>
                     <td>{{product.observations}}</td>
                     {% if usuario.is_admin %}
-                    {% if order_hd.order_stage == "cancelada" or not order_hd.reception_date %}
+                    {% if order_hd.order_stage == "cancelada" or not order_hd.reception_date or order_hd.order_stage == "devuelto" %}
                     <td></td>
                     <td></td>
                     {% else %}
@@ -939,7 +940,7 @@
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
                                         name="delete-row">Borrar</button>
-                                    <button type="button" class="btn btn-primary">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Cancelar</button>
                                 </div>
                             </form>
                         </div>

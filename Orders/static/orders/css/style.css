@@ -223,6 +223,33 @@ li, .helptext{
     color: var(--incomplete-color);
     font-size: 12px !important;
 }
+.edit-user-form label{
+    font-size: 9px;
+    margin-bottom: 3px;
+}
+.es_admin label{
+    font-size: 12px !important;
+    text-align: center !important;
+}
+.edit-user-form input{
+    height: 40px;
+    border-radius: 5px;
+    border: solid 1px #cecece;
+    padding-left: 10px;
+}
+.edit-user-form input:focus{
+    border: none;
+    outline: #87011c 2px solid;
+}
+.edit-user-field{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+.black{
+    color: var(--canceled-color);
+    font-size: 12px !important;
+}
 .noenvio{
     background-color: var(--send-color);
 }
@@ -347,6 +374,12 @@ th, td{
     display: flex;
     align-items: center;
 }
+.form-details input{
+    margin-left: 5px;
+}
+.requerido, .errorlist li{
+    color: orange !important;
+}
 .login-form label{
     color: #fafafa;
     font-size: 12px;
@@ -362,6 +395,9 @@ th, td{
     outline: 2px solid #C5D2E0;
 }
 .login-form li{
+    color: #fafafa;
+}
+.login-element-container h3{
     color: #fafafa;
 }
 ::marker{

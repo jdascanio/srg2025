@@ -145,8 +145,7 @@ def neworder (request):
                         "order_hd":order_hd,
                         "distributor":distributor
                    })
-            else:        
-                print('Form no valido')
+            
         elif 'order_save' in request.POST:
             form = SaveOrder(request.POST)
             if form.is_valid():
@@ -183,13 +182,11 @@ def neworder (request):
                         "total":total,
                         "order_hd":order_hd
                    })
-            else:
-                print(form)
+            
         elif 'delete-row' in request.POST:
             row_id = DeleteRow(request.POST)
             if row_id.is_valid():
                 dato = row_id.cleaned_data
-                print(dato)
                 row = OrderContent.objects.get(id=dato['row_id'])
                 orden = row.prov_order_number
                 row.delete()
@@ -286,17 +283,17 @@ def neworder (request):
             order_hd.send_date = dt.datetime.now().strftime("%Y-%m-%d")
             order_hd.save()
 
-            subject = f'Orden de reparación #{order_hd.order_number} - Enviada'
-            message = f'NO RESPONDA ESTE MAIL\n\n\nLa orden {order_hd.order_number} ha sido enviada. Aguardamos la recepción de la misma en nuestras oficinas.\nRecuerde identificar el envoltorio/paquete con el nro de orden de reparación.'
-            from_email = 'info@positron.com.ar'
-            # to_emails = [usuario.email]
-            to_emails = ['jdascanio@stoneridge.com']
+            subject = f'Orden de reparación #{order_hd.order_number} - Cargada'
+            message = f'NO RESPONDA ESTE MAIL\n\n\nLa orden {order_hd.order_number} ha sido cargada. Aguardamos la recepción de la misma en nuestras oficinas.\nRecuerde identificar el envoltorio/paquete con el nro de orden de reparación.'
+            # from_email = '"Garantias Positron" <pstargentina@gmail.com>'
+            to_emails = [usuario.email]
+            # to_emails = ['julian.dascanio@gmail.com']
         
-            bcc_emails = ['pstargentina@gmail.com'] 
+            bcc_emails = ['sat@pstarg.com.ar'] 
             email = EmailMessage(
                 subject,
                 message,
-                from_email,
+                '"Garantias Positron" <pstargentina@gmail.com>',
                 to_emails,
                 bcc=bcc_emails
             )
@@ -476,7 +473,6 @@ def edit_order (request, id):
                 stage = check_status(datos, order_hd)
                 if stage != "dejar":    
                     order_hd.order_stage = stage
-                print (order_hd.order_stage)      
                 order_hd.save()
 
                 order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number_hd'])
@@ -568,16 +564,17 @@ def edit_order (request, id):
 
                 subject = f'Orden de reparación #{order_hd.order_number} - Finalizada'
                 message = f'NO RESPONDA ESTE MAIL\n\n\nLa orden {order_hd.order_number} ha sido finalizada y se encuentra disponible para ser retirada en nuestras oficinas'
-                from_email = 'info@positron.com.ar'
-                # to_emails = [usuario.email]
-                to_emails = ['jdascanio@stoneridge.com']
+                # SENDER_EMAIL = 'Positron Argentina <pstargentina@gmail.com>'
+                # from_email = 'pstargentina@gmail.com'
+                to_emails = [usuario.email]
+                # to_emails = ['jdascanio@stoneridge.com']
             
-                bcc_emails = ['pstargentina@gmail.com'] 
+                bcc_emails = ['sat@pstarg.com.ar'] 
 
                 email = EmailMessage(
                     subject,
                     message,
-                    from_email,
+                    '"Garantias Positron" <pstargentina@gmail.com>',
                     to_emails,
                     bcc=bcc_emails # This is where you add the BCC recipients
                 )
@@ -670,7 +667,6 @@ def edit_order (request, id):
             row_id = DeleteRow(request.POST)
             if row_id.is_valid():
                 dato = row_id.cleaned_data
-                print(dato)
                 row = OrderContent.objects.get(id=dato['row_id'])
                 orden = row.prov_order_number
                 row.delete()
@@ -727,8 +723,10 @@ def edit_order (request, id):
                 order_hd = OrderHeader.objects.get(prov_order_number=data['prov_order_number'])
                 datos = OrderContent.objects.filter(prov_order_number=data['prov_order_number'])
                 total = datos.count()
-                order_hd.order_stage = check_status(datos, order_hd)
-                print (order_hd.order_stage)
+                stage = check_status(datos, order_hd)
+                if stage != "dejar":    
+                    order_hd.order_stage = stage
+                order_hd.save()
 
                 new_order_nr = data['prov_order_number']
                 products = add_line_number(datos)
@@ -817,13 +815,14 @@ def data_download (request):
     list_of_dicts = list(form)
     DB = pd.DataFrame(list_of_dicts)
 
-    columns_to_drop = ['id','order_header_id', 'prov_order_number','total_products','tracking','send_date','start_date','finish_date','order_stage','order_status','blocked',]  # List of columns to remove
+    columns_to_drop = ['id','order_header_id', 'prov_order_number','total_products','tracking','send_date','start_date','order_stage','order_status','blocked',]  # List of columns to remove
     DB = DB.drop(columns=columns_to_drop, errors='ignore') 
 
     new_columns = {
         'user_name': 'Distribuidor',
         'order_number': 'Nro_Orden',
         'reception_date': 'F. Recepcion',
+        'finish_date':'F. Finalizacion',
         'return_date':'F. Devolucion',
         'family': 'Familia',
         'subcat': 'Subcategoria',

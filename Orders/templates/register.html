@@ -10,6 +10,7 @@
     {% if usuario.is_admin %}
     <section class="login_container">
         <div class="login-element-container">
+            <h3>CREAR USUARIO</h3>
             <form class="login-form" method="POST">
                 {% csrf_token %}
                 {{ form1.as_p }}

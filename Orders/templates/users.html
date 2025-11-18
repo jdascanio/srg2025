@@ -1,4 +1,4 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 {% load static %}
 
 {% block title %}
@@ -10,7 +10,8 @@
 <section>
     <div class="section-header">
         <h3>USUARIOS</h3>
-        <button class="regular-button">Crear Usuario</button>
+        <a href="{% url 'register' %}" class="regular-button">Crear Usuario</a>
+        <!-- <button class="regular-button">Crear Usuario</button> -->
     </div>
     <div class="main-container">
         <div class="table-users">
@@ -39,18 +40,105 @@
                         {% else %}
                         <td>Usuario</td>
                         {% endif %}
-                        <td><i class="bi bi-x-square-fill red"></i></td>
-                        <td><i class="bi bi-pencil"></i></td>
+                        <td><a href="" data-bs-toggle="modal" data-bs-target="#deleteUser{{usuarios.id}}"><i
+                                    class="bi bi-x-square-fill red"></i></a></td>
+                        <td><a href="" data-bs-toggle="modal" data-bs-target="#editUser{{usuarios.id}}"><i
+                                    class="bi bi-pencil black"></i></a></td>
                     </tr>
+                    <!-- MODAL DELETE USER -->
+                    <div class="modal fade" id="editUser{{usuarios.id}}" tabindex="-1"
+                        aria-labelledby="editUser{{usuarios.id}}Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="editUser{{usuarios.id}}Label">Editar Usuario
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        <input type="hidden" value="{{usuarios.id}}" name="user_id">
+                                        <div class="edit-user-form">
+                                            <div class="edit-user-field">
+                                                <label for="editUserName{{usuarios.id}}">Nombre de Usuario</label>
+                                                <input type="text" value="{{usuarios.user_name}}" name="user_name"
+                                                    id="editUserName{{usuarios.id}}">
+                                            </div>
+                                            <div class="edit-user-field">
+                                                <label for="editUserMail{{usuarios.id}}">Mail</label>
+                                                <input type="text" value="{{usuarios.email}}" name="user_mail"
+                                                    id="editUserMail{{usuarios.id}}">
+                                            </div>
+                                            <div class="edit-user-field">
+                                                <label for="editUserPass{{usuarios.id}}">Contraseña</label>
+                                                <input type="text" value="{{usuarios.passwrd}}" name="user_psw"
+                                                    id="editUserPass{{usuarios.id}}">
+                                            </div>
+                                            <div class="edit-user-field">
+                                                <label for="editUserDistributor{{usuarios.id}}">Distribuidor</label>
+                                                <input type="text" value="{{usuarios.distributor}}"
+                                                    name="user_distributor" id="editUserDistributor{{usuarios.id}}">
+                                            </div>
+
+                                            <div class="edit-user-field es_admin">
+                                                <label for="editUserIs_Admin{{usuarios.id}}">¿Es Administrador?</label>
+                                                {% if usuarios.is_admin %}
+                                                <input type="checkbox" name="user_is_admin" value="on"
+                                                    id="editUserIs_Admin{{usuarios.id}}" checked>
+                                                {% else %}
+                                                <input type="checkbox" name="user_is_admin" value="on"
+                                                    id="editUserIs_Admin{{usuarios.id}}">
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            name="edit-user">Actualizar</button>
+                                        <button type="submit" class="btn btn-primary">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- MODAL EDIT USER -->
+                    <div class="modal fade" id="deleteUser{{usuarios.id}}" tabindex="-1"
+                        aria-labelledby="deleteUser{{usuarios.id}}Label" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="deleteUser{{usuarios.id}}Label">Eliminar Usuario
+                                    </h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <form action="" method="POST">
+                                    {% csrf_token %}
+                                    <div class="modal-body">
+                                        ¿Eliminar usuario {{usuarios.user_name}}?
+                                        <input type="hidden" value="{{usuarios.id}}" name="user_id">
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal"
+                                            name="delete-user">Borrar</button>
+                                        <button type="submit" class="btn btn-primary">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                     {% endfor %}
                     {% endif %}
                 </tbody>
+
             </table>
         </div>
     </div>
 </section>
-    <section>
+<section>
 
-    </section>
+</section>
 
-    {% endblock %}
+{% endblock %}
